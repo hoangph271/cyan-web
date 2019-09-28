@@ -2,12 +2,15 @@ import React from 'react'
 import styled from 'styled-components'
 
 import './utils/init-firebase'
-import { useAuth, useUserDetail } from './hooks'
+import { useAuth, useRoles, useUserDetail } from './hooks'
+import { Roles } from './utils/constants'
 import FlatButton from './components/flat-button'
 import UserInfoCard from './components/user-info-card'
+import CreateArtistForm from './components/create-artist-form'
 
 const App = props => {
   const { className } = props
+  const roles = useRoles()
   const userDetail = useUserDetail()
   const [authInfo, signIn, signOut] = useAuth()
 
@@ -28,6 +31,7 @@ const App = props => {
       <header className='App-header'>
         {authInfo.userInfo ? (
           <UserInfoCard
+            className="user-info"
             userInfo={userDetail}
             onSignOut={signOut}
           />
@@ -44,6 +48,11 @@ const App = props => {
           </div>
         )}
       </header>
+      <main>
+        {roles.includes(Roles.UPLOADER) && (
+          <CreateArtistForm />
+        )}
+      </main>
     </div>
   )
 }
@@ -57,8 +66,12 @@ export default styled(App)`
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh;
     display: flex;
     color: white;
+  }
+
+  .user-info {
+    width: 100%;
+    margin: 0.4rem;
   }
 `

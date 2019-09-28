@@ -15,7 +15,7 @@ const userInfoPlaceholder = {
 const UserInfoCard = props => {
   const { userInfo, className, onSignOut } = props
 
-  const { photoURL, displayName, email, phoneNumber, roles } = userInfo !== null
+  const { photoURL, displayName, email, phoneNumber } = userInfo !== null
     ? userInfo
     : userInfoPlaceholder
 
