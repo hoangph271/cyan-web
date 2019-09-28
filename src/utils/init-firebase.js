@@ -1,4 +1,5 @@
 import firebase from 'firebase'
+import 'firebase/firestore'
 
 firebase.initializeApp({
   apiKey: 'AIzaSyDXtazMnwJsEIFxF_5rvh-IO9BkWx-WCdM',
@@ -10,3 +11,5 @@ firebase.initializeApp({
   appId: '1:1081599922736:web:7213329f4cda7159fd93f5',
   measurementId: 'G-4YH9WVCN1S'
 })
+
+firebase.firestore()

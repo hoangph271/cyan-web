@@ -9,9 +9,9 @@ const useAuth = _ => {
   const signIn = useCallback(_ => {
     setIsAuthenticating(true)
 
-    const provider = new firebase.auth.GoogleAuthProvider()
-    firebase.auth()
-      .signInWithPopup(provider)
+    firebase
+      .auth()
+      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .catch(error => {
         setIsAuthenticating(false)
         setSignInError(error)
@@ -36,7 +36,45 @@ const useAuth = _ => {
 
   return [authInfo, signIn, signOut]
 }
+const useUserDetail = _ => {
+  const [authInfo] = useAuth()
+  const [userDetail, setUserDetail] = useState(null)
+
+  const { userInfo } = authInfo
+
+  useEffect(_ => {
+    if (userInfo === null) return
+
+    const docRef = firebase
+      .firestore()
+      .collection('users')
+      .doc(userInfo.uid)
+
+    docRef.get().then(doc => {
+      if (doc.exists) {
+        console.info('user detail OK')
+        setUserDetail(doc.data())
+        return
+      }
+
+      
+      console.info('Bad user detail')
+      const userDetail = {
+        phoneNumber: userInfo.phoneNumber || null,
+        fullName: userInfo.fullName || null,
+        email: userInfo.email || null,
+      }
+
+      docRef
+        .set(userDetail)
+        .then(_ => setUserDetail(userDetail))
+    })
+  }, [userInfo])
+
+  return userDetail
+}
 
 export {
   useAuth,
+  useUserDetail,
 }
