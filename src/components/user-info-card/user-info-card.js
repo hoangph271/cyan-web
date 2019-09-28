@@ -1,15 +1,37 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import more from '../../assets/svg/more.png'
+import more from '../../assets/png/more.png'
+import addphoto from '../../assets/png/add-photo.png'
+
+const userInfoPlaceholder = {
+  photoURL: addphoto,
+  displayName: '...',
+  phoneNumber: '...',
+  email: '...',
+}
 
 const UserInfoCard = props => {
   const { userInfo, className, onSignOut } = props
-  const { photoURL, displayName, email, phoneNumber } = userInfo
+
+  const { photoURL, displayName, email, phoneNumber } = userInfo !== null
+    ? userInfo
+    : userInfoPlaceholder
 
   return (
     <figure className={className}>
-      <img className="profile-image" src={photoURL} alt='User profile' />
+      {photoURL ? (
+        <img
+          className="profile-image"
+          src={photoURL}
+          alt={displayName}
+        />
+      ) : (
+        <div
+          className="add-profile-image"
+          style={{ backgroundImage: `url(${addphoto})` }}
+        />
+      )}
       <div className="user-info">
         <h4 className="full-name">
           {displayName}
@@ -48,10 +70,24 @@ export default styled(UserInfoCard)`
   height: 10rem;
   margin: 0;
 
-  .profile-image {
+  .profile-image, .add-profile-image {
     border-bottom-left-radius: 0.4rem;
     border-top-left-radius: 0.4rem;
     max-height: 100%;
+    min-width: 160px;
+  }
+
+  .add-profile-image {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    max-height: 100%;
+    cursor: pointer;
+  }
+
+  .add-profile-image:hover {
+    background-color: #636e72;
+    transition: background-color 0.4s ease-out;
   }
 
   .user-info {
@@ -59,6 +95,7 @@ export default styled(UserInfoCard)`
     padding-right: 0.6rem;
     padding-left: 0.6rem;
     display: flex;
+    min-width: 0;
 
     .full-name {
       justify-content: center;
@@ -72,6 +109,7 @@ export default styled(UserInfoCard)`
       padding: 0.4rem 0;
       text-align: left;
       display: flex;
+      min-width: 0;
 
       span:first-child {
         justify-content: center;
@@ -79,6 +117,11 @@ export default styled(UserInfoCard)`
         display: flex;
         min-width: 40px;
         width: 2.5rem;
+      }
+
+      span:nth-child(2) {
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
     }
   }

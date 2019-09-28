@@ -24,6 +24,7 @@ const useAuth = _ => {
       .auth()
       .onAuthStateChanged(userInfo => {
         setIsAuthenticating(false)
+        setSignInError(null)
         setUserInfo(userInfo)
       })
   }, [])
@@ -38,12 +39,14 @@ const useAuth = _ => {
 }
 const useUserDetail = _ => {
   const [authInfo] = useAuth()
+  const { userInfo } = authInfo
   const [userDetail, setUserDetail] = useState(null)
 
-  const { userInfo } = authInfo
-
   useEffect(_ => {
-    if (userInfo === null) return
+    if (userInfo === null) {
+      setUserDetail(null)
+      return
+    }
 
     const docRef = firebase
       .firestore()
@@ -52,16 +55,14 @@ const useUserDetail = _ => {
 
     docRef.get().then(doc => {
       if (doc.exists) {
-        console.info('user detail OK')
         setUserDetail(doc.data())
         return
       }
 
-      
-      console.info('Bad user detail')
       const userDetail = {
         phoneNumber: userInfo.phoneNumber || null,
-        fullName: userInfo.fullName || null,
+        displayName: userInfo.displayName || null,
+        photoURL: userInfo.photoURL || null,
         email: userInfo.email || null,
       }
 

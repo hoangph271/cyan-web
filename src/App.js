@@ -2,14 +2,16 @@ import React from 'react'
 import styled from 'styled-components'
 
 import './utils/init-firebase'
-import { useAuth } from './hooks'
+import { useAuth, useUserDetail } from './hooks'
 import FlatButton from './components/flat-button'
 import UserInfoCard from './components/user-info-card'
 
 const App = props => {
   const { className } = props
+  const useDetail = useUserDetail()
   const [authInfo, signIn, signOut] = useAuth()
-  const { userInfo, isAuthenticating, signInError } = authInfo
+
+  const { isAuthenticating, signInError } = authInfo
 
   if (isAuthenticating) {
     return (
@@ -24,9 +26,9 @@ const App = props => {
   return (
     <div className={`App ${className}`}>
       <header className='App-header'>
-        {userInfo ? (
+        {authInfo.userInfo ? (
           <UserInfoCard
-            userInfo={userInfo}
+            userInfo={useDetail}
             onSignOut={signOut}
           />
         ) : (
