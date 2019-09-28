@@ -136,5 +136,6 @@ const useUserDetail = _ => {
 
 export {
   useAuth,
+  useRoles,
   useUserDetail,
 }
