@@ -8,7 +8,7 @@ import UserInfoCard from './components/user-info-card'
 
 const App = props => {
   const { className } = props
-  const useDetail = useUserDetail()
+  const userDetail = useUserDetail()
   const [authInfo, signIn, signOut] = useAuth()
 
   const { isAuthenticating, signInError } = authInfo
@@ -28,7 +28,7 @@ const App = props => {
       <header className='App-header'>
         {authInfo.userInfo ? (
           <UserInfoCard
-            userInfo={useDetail}
+            userInfo={userDetail}
             onSignOut={signOut}
           />
         ) : (
