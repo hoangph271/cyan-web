@@ -75,17 +75,9 @@ const useAuth = _ => {
   return [authInfo, signIn, signOut]
 }
 const useUserDetail = _ => {
-  const roles = useRoles()
   const [authInfo] = useAuth()
   const { userInfo } = authInfo
   const [userDetail, setUserDetail] = useState(null)
-
-  useEffect(_ => {
-    setUserDetail(prevState => ({
-      ...prevState,
-      roles,
-    }))
-  }, [roles])
 
   useEffect(_ => {
     if (userInfo === null) {
@@ -101,12 +93,8 @@ const useUserDetail = _ => {
     docRef
       .get()
       .then(doc => {
-          if (doc.exists) {
-          setUserDetail(prevState => ({
-            roles: prevState.roles,
-            uid: userInfo.uid,
-            ...doc.data(),
-          }))
+        if (doc.exists) {
+          setUserDetail(doc.data())
           return
         }
 
@@ -119,13 +107,7 @@ const useUserDetail = _ => {
 
         docRef
           .set(userDetail)
-          .then(_ => {
-            setUserDetail(prevState => ({
-              roles: prevState.roles,
-              uid: userInfo.uid,
-              ...userDetail,
-            }))
-          })
+          .then(_ => setUserDetail(userDetail))
           .catch(_ => setUserDetail(null))
       })
       .catch(_ => setUserDetail(null))
