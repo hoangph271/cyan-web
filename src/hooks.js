@@ -2,8 +2,7 @@ import { useState, useCallback, useEffect } from 'react'
 import firebase from 'firebase'
 
 const useRoles = _ => {
-  const [authInfo] = useAuth()
-  const { userInfo } = authInfo
+  const [{ userInfo }] = useAuth()
   const [roles, setRoles] = useState([])
 
   useEffect(_ => {
