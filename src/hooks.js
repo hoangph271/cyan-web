@@ -74,6 +74,13 @@ const useAuth = _ => {
 
   return [authInfo, signIn, signOut]
 }
+const useInput = (initValue = '') => {
+  const [value, setValue] = useState(initValue)
+
+  const handleValueChange = useCallback(e => setValue(e.target.value), [])
+
+  return [value, handleValueChange]
+}
 const useUserDetail = _ => {
   const [authInfo] = useAuth()
   const { userInfo } = authInfo
@@ -118,6 +125,7 @@ const useUserDetail = _ => {
 
 export {
   useAuth,
+  useInput,
   useRoles,
   useUserDetail,
 }

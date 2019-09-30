@@ -48,7 +48,7 @@ const App = props => {
           </div>
         )}
       </header>
-      <main>
+      <main style={{ width: '40rem', margin: 'auto' }}>
         {roles.includes(Roles.UPLOADER) && (
           <CreateArtistForm />
         )}
