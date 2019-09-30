@@ -9,7 +9,7 @@ import photo from '../../assets/png/photo.png'
 import cake from '../../assets/png/cake.png'
 
 const CreateArtistForm = props => {
-  const { className } = props
+  const { className, onArtistSubmit, isLoading } = props
 
   const [avatarText, setAvatarText] = useState('No file choosen')
   const [title, handleTitleChange] = useInput('')
@@ -33,11 +33,12 @@ const CreateArtistForm = props => {
       pob,
     }
 
-    const { isValid } = validateArtist(artist)
+    const { isValid, errors } = validateArtist(artist)
 
     if (isValid) {
-
+      onArtistSubmit(artist)
     } else {
+      alert(errors.map(error => `${error.fieldName} - ${error.message}`).join(', '))
       // TODO: Handle invalid input
     }
   }
@@ -68,7 +69,7 @@ const CreateArtistForm = props => {
         <label className="label pob-label" htmlFor="pob" title="Place of birth" />
         <input id="pob" className="input" type="text" value={pob} onChange={handlePoBChange} />
       </div>
-      <button onClick={handleCreateClicked}>
+      <button onClick={handleCreateClicked} disabled={isLoading} >
         {'Create'}
       </button>
     </form>

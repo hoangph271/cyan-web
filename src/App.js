@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
+import firebase from 'firebase'
 
 import './utils/init-firebase'
 import { useAuth, useRoles, useUserDetail } from './hooks'
@@ -11,8 +12,39 @@ import CreateArtistForm from './components/create-artist-form'
 const App = props => {
   const { className } = props
   const roles = useRoles()
+  const [isLoading, setIsLoading] = useState(false)
   const userDetail = useUserDetail()
   const [authInfo, signIn, signOut] = useAuth()
+
+  const onArtistSubmit = useCallback(async artist => {
+    if (isLoading) return
+
+    setIsLoading(true)
+
+    try {
+      const { title, avatar, dob, pob } = artist
+
+      // TODO: Firestore for title...?
+
+      await firebase
+        .firestore()
+        .collection('artists')
+        .add({
+          title,
+          avatarURL: 'N/A', // FIXME: Use REAL URL
+          dob,
+          pob,
+        }).then(result => {
+          console.info(result)
+          alert('DONE')
+        })
+    } catch (error) {
+      console.error(error)
+      // TODO: Handle errors here
+    }
+
+    setIsLoading(false)
+  }, [isLoading])
 
   const { isAuthenticating, signInError } = authInfo
 
@@ -50,7 +82,7 @@ const App = props => {
       </header>
       <main style={{ width: '40rem', margin: 'auto' }}>
         {roles.includes(Roles.UPLOADER) && (
-          <CreateArtistForm />
+          <CreateArtistForm isLoading={isLoading} onArtistSubmit={onArtistSubmit} />
         )}
       </main>
     </div>
