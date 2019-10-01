@@ -1,6 +1,17 @@
 import { useState, useCallback, useEffect } from 'react'
 import firebase from 'firebase'
 
+// FIXME: Move these to Context...?
+firebase
+  .auth()
+  .onAuthStateChanged(userInfo => {
+    if (userInfo !== null) {
+      firebase.functions()
+      .httpsCallable('getRoleClaims')({})
+      .then(_ => userInfo.getIdToken(true))
+    }
+  })
+
 const useRoles = _ => {
   const [{ userInfo }] = useAuth()
   const [roles, setRoles] = useState([])
@@ -41,11 +52,10 @@ const useAuth = _ => {
   const [signInError, setSignInError] = useState(null)
   const [isAuthenticating, setIsAuthenticating] = useState(true)
 
-  const signIn = useCallback(_ => {
+  const signIn = useCallback(async _ => {
     setIsAuthenticating(true)
 
-    firebase
-      .auth()
+    await firebase.auth()
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .catch(error => {
         console.error(error)
@@ -56,12 +66,14 @@ const useAuth = _ => {
   const signOut = useCallback(_ => firebase.auth().signOut(), [])
 
   useEffect(_ => {
-    firebase
-      .auth()
-      .onAuthStateChanged(userInfo => {
+    firebase.auth()
+      .onAuthStateChanged(async userInfo => {
         setIsAuthenticating(false)
-        setSignInError(null)
-        setUserInfo(userInfo)
+
+        if (userInfo !== null) {
+          setSignInError(null)
+          setUserInfo(userInfo)
+        }
       })
   }, [])
 
@@ -91,8 +103,7 @@ const useUserDetail = _ => {
       return
     }
 
-    const docRef = firebase
-      .firestore()
+    const docRef = firebase.firestore()
       .collection('users')
       .doc(userInfo.uid)
 
