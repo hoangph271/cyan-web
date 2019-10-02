@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import firebase from 'firebase'
 
 // FIXME: Move these to Context...?
@@ -132,10 +132,18 @@ const useUserDetail = _ => {
 
   return userDetail
 }
+const useIsMounted = _ => {
+  const componentIsMounted = useRef(true)
+
+  useEffect(_ => _ => componentIsMounted.current = false)
+
+  return componentIsMounted.current
+}
 
 export {
   useAuth,
   useInput,
   useRoles,
+  useIsMounted,
   useUserDetail,
 }

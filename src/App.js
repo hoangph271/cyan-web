@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import firebase from 'firebase'
 
 import './utils/init-firebase'
-import { useAuth, useRoles, useUserDetail } from './hooks'
+import { useAuth, useRoles, useUserDetail, useIsMounted } from './hooks'
 import { Roles } from './utils/constants'
 import FlatButton from './components/flat-button'
 import UserInfoCard from './components/user-info-card'
@@ -17,15 +17,19 @@ const LoadingApp = ({ className }) => (
   </div>
 )
 
-const Auth = props => {
+const AuthInfo = (props = {}) => {
   const { className } = props || {}
   const [authInfo, signIn, signOut] = useAuth()
-  const { signInError } = authInfo
   const userDetail = useUserDetail()
+  const { signInError, isAuthenticating, userInfo } = authInfo
+
+  if (isAuthenticating) {
+    return <LoadingApp className={className} />
+  }
 
   return (
     <main className={className}>
-      {authInfo.userInfo ? (
+      {userInfo ? (
         <UserInfoCard
           className="user-info"
           userInfo={userDetail}
@@ -47,9 +51,10 @@ const Auth = props => {
   )
 }
 
-const CreateArtist = props => {
+const CreateArtist = (props = {}) => {
   const { className } = props
   const roles = useRoles()
+  const isMounted = useIsMounted()
   const [isLoading, setIsLoading] = useState(false)
 
   const onArtistSubmit = useCallback(async artist => {
@@ -78,11 +83,12 @@ const CreateArtist = props => {
       // TODO: Handle errors here
     }
 
-    setIsLoading(false)
-  }, [isLoading])
+    console.info(isMounted)
+    isMounted && setIsLoading(false)
+  }, [isLoading, isMounted])
 
   return (
-  <main className={className} style={{ width: '40rem', margin: 'auto' }}>
+  <main className={className} style={{ width: '40rem', maxWidth: 'calc(100% - 1rem)', margin: 'auto' }}>
     {roles.includes(Roles.UPLOADER) && (
       <CreateArtistForm isLoading={isLoading} onArtistSubmit={onArtistSubmit} />
     )}
@@ -90,8 +96,9 @@ const CreateArtist = props => {
   )
 }
 
-const ListAll = props => {
+const ListAll = (props = {}) => {
   const { className } = props
+  const isMounted = useIsMounted()
   const [artists, setArtists] = useState([])
 
   useEffect(_ => {
@@ -105,9 +112,10 @@ const ListAll = props => {
           id: doc.id,
           ...doc.data(),
         }))
-        setArtists(artists)
+
+        isMounted && setArtists(artists)
       })
-  }, [])
+  }, [isMounted])
   
   return (
     <div className={className}>
@@ -121,31 +129,46 @@ const ListAll = props => {
   )
 }
 
-const Views = {
-  Auth,
-  CreateArtist,
-  ListAll,
+const TabView = (props = {}) => {
+  const { className, headers = [], children = [] } = props
+  const [viewIndex, setViewIndex] = useState(0)
+
+  if (headers.length !== children.length) {
+    throw new Error(`Number of headers and children must be equal...! :'/`)
+  }
+
+  return (
+    <section className={className}>
+      <nav>
+        <ul>
+          {headers.map((header, i) => (
+            <li
+              style={{
+                cursor: i === viewIndex ? 'default' : 'pointer',
+                fontWeight: i === viewIndex && 'bold',
+              }}
+              key={`${header}-${i}`}
+              onClick={_ => setViewIndex(i)}
+            >
+              {header}
+            </li>
+          ))}
+        </ul>
+      </nav>
+      {children.find((_, i) => i === viewIndex)}
+    </section>
+  )
 }
 
 const App = props => {
   const { className } = props
-  const [authInfo] = useAuth()
-  const [CurrentView, setCurrentView] = useState(Views.Auth)
-  const { isAuthenticating } = authInfo
 
-  return isAuthenticating ? (
-    <LoadingApp className={className} />
-  ) : (
-    <div className={`App ${className}`}>
-      <nav>
-        <ul>
-          <li onClick={_ => setCurrentView(Views.Auth)}>{'Auth'}</li>
-          <li onClick={_ => setCurrentView(Views.CreateArtist)}>{'Create'}</li>
-          <li onClick={_ => setCurrentView(Views.ListAll)}>{'List'}</li>
-        </ul>
-      </nav>
-      <CurrentView className="" />
-    </div>
+  return (
+    <TabView headers={['Auth', 'CreateArtist', 'ListAll']} className={`App ${className}`}>
+      <AuthInfo />
+      <CreateArtist />
+      <ListAll />
+    </TabView>
   )
 }
 
