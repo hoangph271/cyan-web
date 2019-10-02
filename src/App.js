@@ -60,7 +60,7 @@ const CreateArtist = (props = {}) => {
   const roles = useRoles()
   const [isLoading, setIsLoading] = useState(false)
 
-  const onArtistSubmit = useCallback(async artist => {
+  const handleArtistSubmit = useCallback(async ({ artist, resetForm }) => {
     if (isLoading) return
 
     setIsLoading(true)
@@ -81,7 +81,8 @@ const CreateArtist = (props = {}) => {
           .then(snapshot => snapshot.ref.getDownloadURL())
         : null
 
-      await docRef.set({ title, keywords, avatarURL, dob, pob })
+      await docRef.set({ title, keywords, avatarURL, dob, pob }).then()
+      resetForm()
     } catch (error) {
       console.error(error)
       // TODO: Handle errors here
@@ -92,16 +93,16 @@ const CreateArtist = (props = {}) => {
 
   return (
     <main className={className} style={{ width: '40rem', maxWidth: 'calc(100% - 1rem)', margin: 'auto' }}>
-    {roles.includes(Roles.UPLOADER) && (
-      <CreateArtistForm isLoading={isLoading} onArtistSubmit={onArtistSubmit} />
-    )}
-  </main>
+      {roles.includes(Roles.UPLOADER) && (
+        <CreateArtistForm isLoading={isLoading} onArtistSubmit={handleArtistSubmit} />
+      )}
+    </main>
   )
 }
 
 const ListAll = styled((props = {}) => {
   const { className } = props
-  const [keyword, onKeywordChange] = useInput('')
+  const [keyword, onKeywordChange] = useInput('', { transformer: keyword => keyword.toLowerCase() })
   const [submitKeyword, setSubmitKeyword] = useState('')
   const [artists, setArtists] = useState([])
 
@@ -114,7 +115,7 @@ const ListAll = styled((props = {}) => {
       .limit(3)
 
     if (submitKeyword) {
-      firestoreQuery = firestoreQuery.where('keywords', 'array-contains', submitKeyword)
+      firestoreQuery = firestoreQuery.where('keywords', 'array-contains', submitKeyword.toLowerCase())
     }
 
     firestoreQuery
@@ -133,7 +134,7 @@ const ListAll = styled((props = {}) => {
     return _ => isMounted = false
   }, [submitKeyword])
 
-  const onSearchClick = e => {
+  const handleSearchClick = e => {
     e.preventDefault()
     setSubmitKeyword(keyword)
   }
@@ -142,7 +143,7 @@ const ListAll = styled((props = {}) => {
     <main className={className}>
       <form>
         <input value={keyword} onChange={onKeywordChange} />
-        <button onClick={onSearchClick}>
+        <button onClick={handleSearchClick}>
           {'Search'}
         </button>
       </form>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useCallback } from 'react'
 import styled from 'styled-components'
 
 import { validateArtist } from '../../utils/validators'
@@ -12,9 +12,10 @@ const CreateArtistForm = props => {
   const { className, onArtistSubmit, isLoading } = props
 
   const [avatarText, setAvatarText] = useState('No file choosen')
-  const [title, handleTitleChange] = useInput('')
-  const [dob, handleDoBChange] = useInput('')
-  const [pob, handlePoBChange] = useInput('')
+  const [title, handleTitleChange, setTitle] = useInput('')
+  const [dob, handleDoBChange, setDoB] = useInput('')
+  const [pob, handlePoBChange, setPoB] = useInput('')
+  const [fileKey, setFileKey] = useState(Date.now())
   const avatar = useRef()
 
   const handleAvatarChange = _ => {
@@ -23,6 +24,14 @@ const CreateArtistForm = props => {
       : 'No file choosen'
     setAvatarText(avatarText);
   }
+  const resetForm = useCallback(_ => {
+    setTitle('')
+    setDoB('')
+    setPoB('')
+    setFileKey(Date.now())
+
+    handleAvatarChange()
+  }, [setTitle, setDoB, setPoB, setFileKey])
   const handleCreateClicked = e => {
     e.preventDefault()
 
@@ -36,7 +45,7 @@ const CreateArtistForm = props => {
     const { isValid, errors } = validateArtist(artist)
 
     if (isValid) {
-      onArtistSubmit(artist)
+      onArtistSubmit({ artist, resetForm })
     } else {
       alert(errors.map(error => `${error.fieldName} - ${error.message}`).join(', '))
       // TODO: Handle invalid input
@@ -54,9 +63,11 @@ const CreateArtistForm = props => {
         <label className="label avatar-label" htmlFor="avatar" title="Avatar"></label>
         <input
           id="avatar"
+          type="file"
           ref={avatar}
+          key={fileKey}
           accept="image/*"
-          className="input" type="file"
+          className="input"
           onChange={handleAvatarChange}
           data-display-text={avatarText}
         />
