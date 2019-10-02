@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import firebase from 'firebase'
 
 import './utils/init-firebase'
-import { useAuth, useRoles, useUserDetail } from './hooks'
+import { useAuth, useRoles, useUserDetail, useInput } from './hooks'
 import { generateKeywords } from './utils/text'
 import { Roles } from './utils/constants'
 import FlatButton from './components/flat-button'
@@ -101,15 +101,23 @@ const CreateArtist = (props = {}) => {
 
 const ListAll = styled((props = {}) => {
   const { className } = props
+  const [keyword, onKeywordChange] = useInput('')
+  const [submitKeyword, setSubmitKeyword] = useState('')
   const [artists, setArtists] = useState([])
 
   useEffect(_ => {
     let isMounted = true
 
-    firebase.firestore()
+    let firestoreQuery = firebase.firestore()
       .collection('artists')
       .orderBy('title')
       .limit(3)
+
+    if (submitKeyword) {
+      firestoreQuery = firestoreQuery.where('keywords', 'array-contains', submitKeyword)
+    }
+
+    firestoreQuery
       .get()
       .then(snapshot => {
         if (isMounted) {
@@ -118,15 +126,28 @@ const ListAll = styled((props = {}) => {
             ...doc.data(),
           }))
 
+          console.info(snapshot)
+
           setArtists(artists)
         }
       })
 
     return _ => isMounted = false
-  }, [])
+  }, [submitKeyword])
+
+  const onSearchClick = e => {
+    e.preventDefault()
+    setSubmitKeyword(keyword)
+  }
 
   return (
     <main className={className}>
+      <form>
+        <input value={keyword} onChange={onKeywordChange} />
+        <button onClick={onSearchClick}>
+          {'Search'}
+        </button>
+      </form>
       {artists.map(({ avatarURL, title, id }) => (
         <div key={id} className="artist-card">
           <div
