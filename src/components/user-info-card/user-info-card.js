@@ -21,7 +21,7 @@ const UserInfoCard = props => {
 
   return (
     <figure className={className}>
-      {photoURL && false ? (
+      {photoURL ? (
         <img
           className="profile-image"
           src={photoURL}

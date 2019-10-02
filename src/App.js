@@ -1,21 +1,25 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import firebase from 'firebase'
 
 import './utils/init-firebase'
-import { useAuth, useRoles, useUserDetail, useIsMounted } from './hooks'
+import { useAuth, useRoles, useUserDetail } from './hooks'
+import { generateKeywords } from './utils/text'
 import { Roles } from './utils/constants'
 import FlatButton from './components/flat-button'
 import UserInfoCard from './components/user-info-card'
 import CreateArtistForm from './components/create-artist-form'
+import noimage from './assets/png/no-image.png'
 
-const LoadingApp = ({ className }) => (
-  <div className={`App ${className}`}>
-    <header className='App-header'>
-      {'...'}
-    </header>
-  </div>
-)
+const LoadingApp = ({ className }) => {
+  return (
+    <div className={`App ${className}`}>
+      <header className='App-header'>
+        {'...'}
+      </header>
+    </div>
+  )
+}
 
 const AuthInfo = (props = {}) => {
   const { className } = props || {}
@@ -54,7 +58,6 @@ const AuthInfo = (props = {}) => {
 const CreateArtist = (props = {}) => {
   const { className } = props
   const roles = useRoles()
-  const isMounted = useIsMounted()
   const [isLoading, setIsLoading] = useState(false)
 
   const onArtistSubmit = useCallback(async artist => {
@@ -64,6 +67,7 @@ const CreateArtist = (props = {}) => {
 
     try {
       const { title, avatar, dob, pob } = artist
+      const keywords = generateKeywords(title)
 
       // TODO: Add keywords here...!
       const docRef = firebase.firestore()
@@ -77,18 +81,17 @@ const CreateArtist = (props = {}) => {
           .then(snapshot => snapshot.ref.getDownloadURL())
         : null
 
-      await docRef.set({ title, avatarURL, dob, pob })
+      await docRef.set({ title, keywords, avatarURL, dob, pob })
     } catch (error) {
       console.error(error)
       // TODO: Handle errors here
     }
 
-    console.info(isMounted)
-    isMounted && setIsLoading(false)
-  }, [isLoading, isMounted])
+    setIsLoading(false)
+  }, [isLoading])
 
   return (
-  <main className={className} style={{ width: '40rem', maxWidth: 'calc(100% - 1rem)', margin: 'auto' }}>
+    <main className={className} style={{ width: '40rem', maxWidth: 'calc(100% - 1rem)', margin: 'auto' }}>
     {roles.includes(Roles.UPLOADER) && (
       <CreateArtistForm isLoading={isLoading} onArtistSubmit={onArtistSubmit} />
     )}
@@ -96,53 +99,94 @@ const CreateArtist = (props = {}) => {
   )
 }
 
-const ListAll = (props = {}) => {
+const ListAll = styled((props = {}) => {
   const { className } = props
-  const isMounted = useIsMounted()
   const [artists, setArtists] = useState([])
 
   useEffect(_ => {
+    let isMounted = true
+
     firebase.firestore()
       .collection('artists')
       .orderBy('title')
       .limit(3)
       .get()
       .then(snapshot => {
-        const artists = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-        }))
+        if (isMounted) {
+          const artists = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
 
-        isMounted && setArtists(artists)
+          setArtists(artists)
+        }
       })
-  }, [isMounted])
-  
+
+    return _ => isMounted = false
+  }, [])
+
   return (
-    <div className={className}>
-      {artists.map(artist => (
-        <div key={artist.id} style={{ height: '60px', display: 'flex' }}>
-          {artist.avatarURL && <img src={artist.avatarURL} alt={artist.title} style={{ height: '100%' }} />}
-          <div>{artist.title}</div>
+    <main className={className}>
+      {artists.map(({ avatarURL, title, id }) => (
+        <div key={id} className="artist-card">
+          <div
+            className={`avatar ${avatarURL ? '' : 'no-avatar'}`}
+            style={{
+              backgroundImage: `url(${avatarURL || noimage})`
+            }}
+          />
+          <div>{title}</div>
         </div>
       ))}
-    </div>
+    </main>
   )
-}
+})`
+  .artist-card {
+    height: 6rem;
+    display: flex;
 
-const TabView = (props = {}) => {
-  const { className, headers = [], children = [] } = props
-  const [viewIndex, setViewIndex] = useState(0)
+    .avatar {
+      min-width: 30%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .no-avatar {
+      background-size: contain;
+    }
+  }
+`
+
+const TabView = styled((props = {}) => {
+  const { className, selected = 0, headers = [], children = [] } = props
+  const [viewIndex, setViewIndex] = useState(selected)
+  const tabView = useRef(null)
 
   if (headers.length !== children.length) {
     throw new Error(`Number of headers and children must be equal...! :'/`)
   }
 
+  const onKeyDown = useCallback(e => {
+    const keyNumber = Number(e.key)
+
+    if (0 < keyNumber && keyNumber < headers.length + 1) {
+      setViewIndex(keyNumber - 1)
+    }
+  }, [headers])
+
+  useEffect(_ => {
+    document.addEventListener('keydown', onKeyDown)
+    return _ => document.removeEventListener('keydown', onKeyDown)
+  }, [onKeyDown])
+
   return (
-    <section className={className}>
+    <section className={className} ref={tabView}>
       <nav>
-        <ul>
+        <ul className="tabview-nav">
           {headers.map((header, i) => (
             <li
+              className="nav-item"
               style={{
                 cursor: i === viewIndex ? 'default' : 'pointer',
                 fontWeight: i === viewIndex && 'bold',
@@ -158,13 +202,26 @@ const TabView = (props = {}) => {
       {children.find((_, i) => i === viewIndex)}
     </section>
   )
-}
+})`
+  .tabview-nav {
+    display: flex;
+    justify-content: space-around;
+
+    .nav-item {
+      list-style: none;
+    }
+  }
+`
 
 const App = props => {
   const { className } = props
 
   return (
-    <TabView headers={['Auth', 'CreateArtist', 'ListAll']} className={`App ${className}`}>
+    <TabView
+      headers={['Auth', 'CreateArtist', 'ListAll']}
+      className={`App ${className}`}
+      selected={2}
+    >
       <AuthInfo />
       <CreateArtist />
       <ListAll />

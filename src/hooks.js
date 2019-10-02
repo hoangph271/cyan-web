@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import firebase from 'firebase'
 
 // FIXME: Move these to Context...?
@@ -11,12 +11,13 @@ firebase
       .then(_ => userInfo.getIdToken(true))
     }
   })
-
 const useRoles = _ => {
   const [{ userInfo }] = useAuth()
   const [roles, setRoles] = useState([])
 
   useEffect(_ => {
+    let isMounted = true
+
     if (userInfo === null) {
       setRoles([])
       return
@@ -30,19 +31,18 @@ const useRoles = _ => {
     docRef
       .get()
       .then(doc => {
-        if (doc.exists) {
-          const { isActive, roles } = doc.data()
+        if (isMounted) {
+          const { isActive, roles } = doc.data() || {}
 
-          isActive ? setRoles(roles) : setRoles([])
-          return
+          setRoles(isActive ? roles : [])
         }
-
-        setRoles([])
       })
       .catch(error => {
         console.error(error)
-        setRoles([])
+        isMounted && setRoles([])
       })
+
+      return _ => isMounted = false
   }, [userInfo])
 
   return roles
@@ -53,28 +53,38 @@ const useAuth = _ => {
   const [isAuthenticating, setIsAuthenticating] = useState(true)
 
   const signIn = useCallback(async _ => {
+    let isMounted = true
+
     setIsAuthenticating(true)
 
     await firebase.auth()
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .catch(error => {
         console.error(error)
-        setIsAuthenticating(false)
-        setSignInError(error)
+        isMounted && setIsAuthenticating(false)
+        isMounted && setSignInError(error)
       })
+
+    return _ => isMounted = false
   }, [])
   const signOut = useCallback(_ => firebase.auth().signOut(), [])
 
   useEffect(_ => {
+    let isMounted = true
+
     firebase.auth()
       .onAuthStateChanged(async userInfo => {
-        setIsAuthenticating(false)
-
-        if (userInfo !== null) {
-          setSignInError(null)
-          setUserInfo(userInfo)
+        if (isMounted) {
+          setIsAuthenticating(false)
+  
+          if (userInfo !== null) {
+            setSignInError(null)
+            setUserInfo(userInfo)
+          }
         }
       })
+
+    return _ => isMounted = false
   }, [])
 
   const authInfo = {
@@ -94,10 +104,12 @@ const useInput = (initValue = '') => {
 }
 const useUserDetail = _ => {
   const [authInfo] = useAuth()
-  const { userInfo } = authInfo
   const [userDetail, setUserDetail] = useState(null)
+  const { userInfo } = authInfo
 
   useEffect(_ => {
+    let isMounted = true
+
     if (userInfo === null) {
       setUserDetail(null)
       return
@@ -111,7 +123,7 @@ const useUserDetail = _ => {
       .get()
       .then(doc => {
         if (doc.exists) {
-          setUserDetail(doc.data())
+          isMounted && setUserDetail(doc.data())
           return
         }
 
@@ -124,26 +136,20 @@ const useUserDetail = _ => {
 
         docRef
           .set(userDetail)
-          .then(_ => setUserDetail(userDetail))
-          .catch(_ => setUserDetail(null))
+          .then(_ => isMounted && setUserDetail(userDetail))
+          .catch(_ => isMounted && setUserDetail(null))
       })
-      .catch(_ => setUserDetail(null))
+      .catch(_ => isMounted && setUserDetail(null))
+
+      return _ => isMounted = false
   }, [userInfo])
 
   return userDetail
-}
-const useIsMounted = _ => {
-  const componentIsMounted = useRef(true)
-
-  useEffect(_ => _ => componentIsMounted.current = false)
-
-  return componentIsMounted.current
 }
 
 export {
   useAuth,
   useInput,
   useRoles,
-  useIsMounted,
   useUserDetail,
 }
