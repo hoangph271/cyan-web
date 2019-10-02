@@ -126,8 +126,6 @@ const ListAll = styled((props = {}) => {
             ...doc.data(),
           }))
 
-          console.info(snapshot)
-
           setArtists(artists)
         }
       })
