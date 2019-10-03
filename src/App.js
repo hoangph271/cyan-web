@@ -39,7 +39,6 @@ const useRoles = _ => {
             }
           }
         })
-        .then()
         .catch(error => {
           console.error(error)
           isMounted && setRoles([])
