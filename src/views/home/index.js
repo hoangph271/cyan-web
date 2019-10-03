@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { MinWidths } from '../../utils/constants'
+
 import TabView from '../../components/tab-view'
 
 import ListAll from './list-all'
@@ -26,5 +28,15 @@ const Home = (props = {}) => {
 }
 
 export default styled(Home)`
-  
+  max-width: calc(100% - 1rem);
+  width: calc(100% - 1rem);
+  margin: 0 auto;
+
+  @media ${MinWidths.SMALL} {
+    width: 40rem;
+  }
+
+  @media ${MinWidths.MEDIUM} {
+    width: 50rem;
+  }
 `

@@ -11,7 +11,7 @@ const TabView = (props = {}) => {
   }
 
   return (
-    <section className={className} ref={tabView}>
+    <div className={className} ref={tabView}>
       <nav className="tabview-nav">
         <ul className="tabview-nav-list">
           {headers.map((header, i) => (
@@ -28,7 +28,7 @@ const TabView = (props = {}) => {
       <div className="tabview-content">
         {children.find((_, i) => i === viewIndex)}
       </div>
-    </section>
+    </div>
   )
 }
 

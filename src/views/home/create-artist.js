@@ -60,7 +60,4 @@ const CreateArtist = (props = {}) => {
 }
 
 export default styled(CreateArtist)`
-  max-width: calc(100% - 1rem);
-  width: 40rem;
-  margin: auto;
 `
