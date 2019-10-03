@@ -33,7 +33,7 @@ const UserInfoCard = props => {
           style={{ backgroundImage: `url(${addphoto})` }}
         />
       )}
-      <div className="user-info">
+      <div className="user-info-text">
         <h4 className="full-name">
           {displayName}
         </h4>
@@ -61,7 +61,7 @@ const UserInfoCard = props => {
 }
 
 export default styled(UserInfoCard)`
-  border: 2px solid #dfe6e9;
+  border: 2px solid #282c34;
   box-sizing: border-box;
   border-radius: 0.4rem;
   position: relative;
@@ -91,7 +91,8 @@ export default styled(UserInfoCard)`
     transition: background-color 0.4s ease-out;
   }
 
-  .user-info {
+  .user-info-text {
+    border-left: 1px solid #282c34;
     flex-direction: column;
     padding-right: 0.6rem;
     padding-left: 0.6rem;
