@@ -57,7 +57,6 @@ const CreateArtistForm = props => {
 
   return (
     <form className={className}>
-      <h3 className="form-title">{'Create artist...?'}</h3>
       <div className="control-group">
         <label className="label title-label" htmlFor="title" title="Title" />
         <input id="title" className="input" type="text" value={title} onChange={handleTitleChange} />
