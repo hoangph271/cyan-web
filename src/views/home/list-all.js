@@ -8,56 +8,55 @@ import LoadingDots from '../../components/loading-dots'
 
 import noimage from '../../assets/png/no-image.png'
 
+const SEARCH_TIMEOUT_MS = 250
+
 const ListAll = (props = {}) => {
   const { className } = props
-  const [keyword, onKeywordChange] = useInput('', { transformer: keyword => keyword.toLowerCase() })
-  const [submitKeyword, setSubmitKeyword] = useState('')
   const [isSearching, setIsSearching] = useState('')
+  const [keyword, onKeywordChange] = useInput('', { transformer: str => str.toLowerCase() })
   const [artists, setArtists] = useState([])
 
   useEffect(_ => {
     let isMounted = true
 
-    setIsSearching(true)
+    const debounceTimeout = setTimeout(_ => {
+      setIsSearching(true)
 
-    let firestoreQuery = firebase.firestore()
-      .collection('artists')
-      .orderBy('title')
-      .limit(3)
+      let firestoreQuery = firebase.firestore()
+        .collection('artists')
+        .orderBy('title')
+        .limit(3)
 
-    if (submitKeyword) {
-      firestoreQuery = firestoreQuery.where('keywords', 'array-contains', submitKeyword.toLowerCase())
+      if (keyword) {
+        firestoreQuery = firestoreQuery.where('keywords', 'array-contains', keyword)
+      }
+
+      firestoreQuery
+        .get()
+        .then(snapshot => {
+          if (isMounted) {
+            const artists = snapshot.docs.map(doc => ({
+              id: doc.id,
+              ...doc.data(),
+            }))
+
+            setArtists(artists)
+            setIsSearching(false)
+          }
+        })
+        .catch(_ => setIsSearching(false))
+    }, SEARCH_TIMEOUT_MS)
+
+    return _ => {
+      clearTimeout(debounceTimeout)
+      isMounted = false
     }
-
-    firestoreQuery
-      .get()
-      .then(snapshot => {
-        if (isMounted) {
-          const artists = snapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data(),
-          }))
-
-          setArtists(artists)
-          setIsSearching(false)
-        }
-      })
-
-    return _ => isMounted = false
-  }, [submitKeyword])
-
-  const handleSearchClick = e => {
-    e.preventDefault()
-    setSubmitKeyword(keyword)
-  }
+  }, [keyword])
 
   return (
     <main className={className}>
       <form>
-        <input value={keyword} onChange={onKeywordChange} />
-        <button onClick={handleSearchClick}>
-          {'Search'}
-        </button>
+        <input value={keyword} onChange={onKeywordChange} placeholder="Keyword" />
       </form>
       {isSearching ? (
         <LoadingDots />
