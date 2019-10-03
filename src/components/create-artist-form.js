@@ -1,12 +1,15 @@
 import React, { useRef, useState, useCallback } from 'react'
 import styled from 'styled-components'
 
-import { validateArtist } from '../../utils/validators'
-import { useInput } from '../../hooks'
-import personid from '../../assets/png/person-id.png'
-import house from '../../assets/png/house.png'
-import photo from '../../assets/png/photo.png'
-import cake from '../../assets/png/cake.png'
+import { validateArtist } from '../utils/validators'
+import { useInput } from '../hooks'
+
+import FlatButton from '../components/flat-button'
+
+import personid from '../assets/png/person-id.png'
+import house from '../assets/png/house.png'
+import photo from '../assets/png/photo.png'
+import cake from '../assets/png/cake.png'
 
 const CreateArtistForm = props => {
   const { className, onArtistSubmit, isLoading } = props
@@ -54,7 +57,7 @@ const CreateArtistForm = props => {
 
   return (
     <form className={className}>
-      <h3>{'Create artist...?'}</h3>
+      <h3 className="form-title">{'Create artist...?'}</h3>
       <div className="control-group">
         <label className="label title-label" htmlFor="title" title="Title" />
         <input id="title" className="input" type="text" value={title} onChange={handleTitleChange} />
@@ -80,14 +83,20 @@ const CreateArtistForm = props => {
         <label className="label pob-label" htmlFor="pob" title="Place of birth" />
         <input id="pob" className="input" type="text" value={pob} onChange={handlePoBChange} />
       </div>
-      <button onClick={handleCreateClicked} disabled={isLoading} >
+      <FlatButton onClick={handleCreateClicked} disabled={isLoading} >
         {'Create'}
-      </button>
+      </FlatButton>
     </form>
   )
 }
 
 export default styled(CreateArtistForm)`
+  color: #000;
+
+  .form-title {
+    color: #fff;
+  }
+
   .control-group {
     background-color: #282c34;
     justify-content: center;
@@ -113,6 +122,8 @@ export default styled(CreateArtistForm)`
     background-color: #fff;
     border: 1px solid gray;
     padding: 0 0.4rem;
+    flex-basis: 0;
+    min-width: 0;
     flex-grow: 1;
   }
 
@@ -122,19 +133,21 @@ export default styled(CreateArtistForm)`
   }
   #avatar::before {
     border-bottom-right-radius: 0.2rem;
+    content: attr(data-display-text);
     border-top-right-radius: 0.2rem;
+    text-overflow: ellipsis;
     background-color: #fff;
     border: 1px solid gray;
     align-items: center;
+    white-space: nowrap;
     position: absolute;
     padding: 0 0.4rem;
     cursor: pointer;
-    content: attr(data-display-text);
     display: flex;
-    left: 0;
-    top: 0;
     bottom: 0;
     right: 0;
+    left: 0;
+    top: 0;
   }
 
   .title-label {

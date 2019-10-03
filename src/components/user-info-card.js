@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import more from '../../assets/png/more.png'
-import addphoto from '../../assets/png/add-photo.png'
+import more from '../assets/png/more.png'
+import addphoto from '../assets/png/add-photo.png'
 
 const userInfoPlaceholder = {
   photoURL: addphoto,
