@@ -4,16 +4,21 @@ import firebase from 'firebase'
 
 import { useInput } from '../../hooks'
 
+import LoadingDots from '../../components/loading-dots'
+
 import noimage from '../../assets/png/no-image.png'
 
 const ListAll = (props = {}) => {
   const { className } = props
   const [keyword, onKeywordChange] = useInput('', { transformer: keyword => keyword.toLowerCase() })
   const [submitKeyword, setSubmitKeyword] = useState('')
+  const [isSearching, setIsSearching] = useState('')
   const [artists, setArtists] = useState([])
 
   useEffect(_ => {
     let isMounted = true
+
+    setIsSearching(true)
 
     let firestoreQuery = firebase.firestore()
       .collection('artists')
@@ -34,6 +39,7 @@ const ListAll = (props = {}) => {
           }))
 
           setArtists(artists)
+          setIsSearching(false)
         }
       })
 
@@ -53,17 +59,24 @@ const ListAll = (props = {}) => {
           {'Search'}
         </button>
       </form>
-      {artists.map(({ avatarURL, title, id }) => (
-        <div key={id} className="artist-card">
-          <div
-            className={`avatar ${avatarURL ? '' : 'no-avatar'}`}
-            style={{
-              backgroundImage: `url(${avatarURL || noimage})`
-            }}
-          />
-          <div>{title}</div>
-        </div>
-      ))}
+      {isSearching ? (
+        <LoadingDots />
+      ) : (
+        <>
+          {artists.length === 0 && <div>{`No result...! :'{`}</div>}
+          {artists.map(({ avatarURL, title, id }) => (
+            <div key={id} className="artist-card">
+              <div
+                className={`avatar ${avatarURL ? '' : 'no-avatar'}`}
+                style={{
+                  backgroundImage: `url(${avatarURL || noimage})`
+                }}
+              />
+              <div>{title}</div>
+            </div>
+          ))}
+        </>
+      )}
     </main>
   )
 }
