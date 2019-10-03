@@ -88,9 +88,9 @@ const App = props => {
 
 export default styled(App)`
   font-size: calc(10px + 2vmin);
-  background-color: #282c34;
+  background-color: #ecf0f1;
   text-align: center;
   min-height: 100vh;
   display: flex;
-  color: white;
+  color: #2c3e50;
 `
