@@ -5,8 +5,10 @@ import firebase from 'firebase'
 import { useInput } from '../../hooks'
 
 import LoadingDots from '../../components/loading-dots'
+import IconedInput from '../../components/iconed-input'
 
 import noimage from '../../assets/png/no-image.png'
+import search_white from '../../assets/png/search_white.png'
 
 const SEARCH_TIMEOUT_MS = 250
 
@@ -55,9 +57,13 @@ const ListAll = (props = {}) => {
 
   return (
     <main className={className}>
-      <form>
-        <input value={keyword} onChange={onKeywordChange} placeholder="Keyword" />
-      </form>
+      <IconedInput
+        value={keyword}
+        placeholder="Keyword"
+        className="search-box"
+        iconUrl={search_white}
+        onChange={onKeywordChange}
+      />
       {isSearching ? (
         <LoadingDots />
       ) : (
@@ -81,6 +87,10 @@ const ListAll = (props = {}) => {
 }
 
 export default styled(ListAll)`
+  .search-box {
+    width: calc(100% - 1rem);
+  }
+
   .artist-card {
     height: 6rem;
     display: flex;
