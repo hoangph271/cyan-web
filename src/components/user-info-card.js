@@ -97,7 +97,7 @@ export default styled(UserInfoCard)`
     padding-right: 0.6rem;
     padding-left: 0.6rem;
     display: flex;
-    min-width: 0;
+    width: 100%;
 
     .full-name {
       justify-content: center;

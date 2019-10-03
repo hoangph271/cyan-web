@@ -4,7 +4,7 @@ import firebase from 'firebase'
 
 import { useInput } from '../../hooks'
 
-import LoadingDots from '../../components/loading-dots'
+import ZenCircle from '../../components/zen-circle'
 import IconedInput from '../../components/iconed-input'
 
 import noimage from '../../assets/png/no-image.png'
@@ -65,7 +65,7 @@ const ListAll = (props = {}) => {
         onChange={onKeywordChange}
       />
       {isSearching ? (
-        <LoadingDots />
+        <ZenCircle />
       ) : (
         <>
           {artists.length === 0 && <div>{`No result...! :'{`}</div>}

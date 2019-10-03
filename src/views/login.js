@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import firebase from 'firebase'
 
-import LoadingDots from '../components/loading-dots'
+import ZenCircle from '../components/zen-circle'
 import FlatButton from '../components/flat-button'
 
 const Login = (props = {}) => {
@@ -28,7 +28,7 @@ const Login = (props = {}) => {
   return (
     <div className={className}>
       {isAuthenticating ? (
-        <LoadingDots />
+        <ZenCircle />
       ) : (
         <>
           <FlatButton primary onClick={signIn}>
