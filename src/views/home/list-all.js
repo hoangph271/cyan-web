@@ -12,7 +12,7 @@ const SEARCH_TIMEOUT_MS = 250
 
 const ListAll = (props = {}) => {
   const { className } = props
-  const [isSearching, setIsSearching] = useState('')
+  const [isSearching, setIsSearching] = useState(true)
   const [keyword, onKeywordChange] = useInput('', { transformer: str => str.toLowerCase() })
   const [artists, setArtists] = useState([])
 
