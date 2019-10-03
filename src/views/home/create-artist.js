@@ -47,7 +47,7 @@ const CreateArtist = (props = {}) => {
   const isUploader = roles.includes(Roles.UPLOADER)
 
   return isUploader ? (
-    <main className={className} style={{ width: '40rem', maxWidth: 'calc(100% - 1rem)', margin: 'auto' }}>
+    <main className={className}>
       {roles.includes(Roles.UPLOADER) && (
         <CreateArtistForm isLoading={isLoading} onArtistSubmit={handleArtistSubmit} />
       )}
@@ -60,4 +60,7 @@ const CreateArtist = (props = {}) => {
 }
 
 export default styled(CreateArtist)`
+  max-width: calc(100% - 1rem);
+  width: 40rem;
+  margin: auto;
 `
