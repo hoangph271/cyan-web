@@ -3,7 +3,7 @@ const admin = require('firebase-admin')
 
 admin.initializeApp()
 
-exports.getRoleClaims = functions.https.onCall(async (_, context) => {
+exports.claimRoles = functions.https.onCall(async (_, context) => {
   const { uid } = context.auth || {}
 
   if (uid === undefined) {

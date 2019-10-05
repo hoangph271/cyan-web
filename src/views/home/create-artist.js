@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import firebase from 'firebase'
 
 import { AuthContext } from '../../context'
+import { artistsCollection } from '../../utils/firestore'
 import { Roles } from '../../utils/constants'
 import { generateKeywords } from '../../utils/text'
 
@@ -22,10 +23,7 @@ const CreateArtist = (props = {}) => {
       const { title, avatar, dob, pob } = artist
       const keywords = generateKeywords(title)
 
-      // TODO: Add keywords here...!
-      const docRef = firebase.firestore()
-        .collection('artists')
-        .doc()
+      const docRef = artistsCollection().doc()
 
       const avatarURL = avatar
         ? await firebase.storage()

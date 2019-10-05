@@ -2,11 +2,22 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import firebase from 'firebase'
 
-import './utils/init-firebase'
 import { AuthContext } from './context'
+import { rolesCollection } from './utils/firestore'
 
 import Home from './views/home'
 import Login from './views/login'
+
+firebase.initializeApp({
+  apiKey: 'AIzaSyDXtazMnwJsEIFxF_5rvh-IO9BkWx-WCdM',
+  authDomain: 'cyan-f2d39.firebaseapp.com',
+  databaseURL: 'https://cyan-f2d39.firebaseio.com',
+  projectId: 'cyan-f2d39',
+  storageBucket: 'cyan-f2d39.appspot.com',
+  messagingSenderId: '1081599922736',
+  appId: '1:1081599922736:web:7213329f4cda7159fd93f5',
+  measurementId: 'G-4YH9WVCN1S'
+})
 
 const useRoles = _ => {
   const [roles, setRoles] = useState([])
@@ -21,9 +32,7 @@ const useRoles = _ => {
         return
       }
 
-      firebase
-        .firestore()
-        .collection('roles')
+      rolesCollection()
         .doc(userInfo.uid)
         .get()
         .then(doc => {
@@ -34,7 +43,7 @@ const useRoles = _ => {
 
             if (Array.isArray(roles)) {
               firebase.functions()
-                .httpsCallable('getRoleClaims')({})
+                .httpsCallable('claimRoles')({})
                 .then(_ => userInfo.getIdToken(true))
             }
           }

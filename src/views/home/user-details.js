@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import firebase from 'firebase'
 
 import { AuthContext } from '../../context'
+import { usersCollection } from '../../utils/firestore'
 
 import UserInfoCard from '../../components/user-info-card'
 
@@ -19,9 +20,7 @@ const UserDetails = (props = {}) => {
       return
     }
 
-    const docRef = firebase.firestore()
-      .collection('users')
-      .doc(userInfo.uid)
+    const docRef = usersCollection().doc(userInfo.uid)
 
     docRef
       .get()

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import firebase from 'firebase'
 
 import { useInput } from '../../hooks'
+import { artistsCollection } from '../../utils/firestore'
 
 import ZenCircle from '../../components/zen-circle'
 import IconedInput from '../../components/iconed-input'
@@ -24,8 +24,7 @@ const ListAll = (props = {}) => {
     const debounceTimeout = setTimeout(_ => {
       setIsSearching(true)
 
-      let firestoreQuery = firebase.firestore()
-        .collection('artists')
+      let firestoreQuery = artistsCollection()
         .orderBy('title')
         .limit(3)
 
