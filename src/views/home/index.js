@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 
 import { MinWidths } from '../../utils/constants'
+import { AuthContext } from '../../context'
 
 import TabView from '../../components/tab-view'
+import ZenCircle from '../../components/zen-circle'
 
 import ListAll from './list-all'
 import UploadSong from './upload-song'
@@ -12,12 +14,21 @@ import CreateArtist from './create-artist'
 
 const Home = (props = {}) => {
   const { className } = props
+  const { roles } = useContext(AuthContext)
+
+  if (roles === null) {
+    return (
+      <main className={className} style={{ alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
+        <ZenCircle text="Authorizing...!" />
+      </main>
+    )
+  }
 
   return (
     <TabView
       headers={['Auth', 'Create Artist', 'List All', 'Upload Song']}
       className={className}
-      selected={1}
+      selected={3}
     >
       <UserDetails />
       <CreateArtist />

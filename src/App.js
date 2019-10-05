@@ -20,7 +20,7 @@ firebase.initializeApp({
 })
 
 const useRoles = _ => {
-  const [roles, setRoles] = useState([])
+  const [roles, setRoles] = useState(null)
 
   useEffect(_ => {
     let isMounted = true

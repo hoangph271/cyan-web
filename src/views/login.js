@@ -28,9 +28,9 @@ const Login = (props = {}) => {
   return (
     <div className={className}>
       {isAuthenticating ? (
-        <ZenCircle />
+        <ZenCircle text="Authenticating...!" />
       ) : (
-        <>
+        <div className="login-zone">
           <FlatButton primary onClick={signIn}>
             {'Google Login'}
           </FlatButton>
@@ -39,7 +39,7 @@ const Login = (props = {}) => {
               {signInError.message}
             </div>
           )}
-        </>
+        </div>
       )}
     </div>
   )
@@ -50,4 +50,11 @@ export default styled(Login)`
   align-items: center;
   display: flex;
   width: 100%;
+
+  .login-zone {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
 `
