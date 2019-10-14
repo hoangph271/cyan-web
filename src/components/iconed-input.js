@@ -1,11 +1,11 @@
-import React, { forwardRef, useState, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import styled from 'styled-components'
 
 const maskableInputTypes = [
   'file',
 ]
 
-const IconedInput = forwardRef((props = {}, forwardedRef) => {
+const IconedInput = React.forwardRef((props = {}, forwardedRef) => {
   const { className, onChange = _ => {}, value, type = 'text', title, id = Math.random(), placeholder } = props
 
   const inputClassName = `iconed-input ${type === 'file' ? 'file-mask' : ''}`

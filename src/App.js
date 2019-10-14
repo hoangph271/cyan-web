@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import styled from 'styled-components'
 import firebase from 'firebase'
 
@@ -76,14 +76,96 @@ const useUserInfo = _ => {
   return userInfo
 }
 
+const BoldDialog = styled(React.forwardRef((props = {}, forwardedRef) => {
+  const {
+    children,
+    className,
+    title = 'Dialog',
+    onClose = _ => {},
+    onConfirm = _ => {}, } = props
+
+  return (
+    <dialog className={className} ref={forwardedRef}>
+      <header className="dialog-header">
+        <span className="dialog-title">
+          {title}
+        </span>
+        <button
+          className="dialog-close"
+          onClick={onClose}
+        >
+          {'✖'}
+        </button>
+      </header>
+      {children}
+    </dialog>
+  )
+}))`
+  padding: 0.2rem;
+
+  &::backdrop {
+    background-color: rgba(45, 52, 54, 0.6);
+  }
+
+  .dialog-header {
+    background-color: #fdcb6e;
+    border: 2px solid #e17055;
+    border-radius: 0.2rem;
+    display: flex;
+
+    .dialog-title {
+      flex-grow: 1;
+      cursor: default;
+      padding-top: 0.1rem;
+      padding-bottom: 0.1rem;
+    }
+    .dialog-close {
+      border: none;
+      cursor: pointer;
+      background: none;
+      border-left: 2px solid #e17055;
+    }
+    .dialog-close:hover {
+      background-color: #e17055;
+    }
+  }
+`
+
 const App = props => {
   const { className } = props
   const roles = useRoles()
   const userInfo = useUserInfo()
+  const dialogRef = useRef(null)
+  const [fullscreenDialog, setFullscreenDialog] = useState(null)
+
+  const handleCloseDialog = useCallback(_ => setFullscreenDialog(null), [setFullscreenDialog])
+
+  useEffect(_ => {
+    setTimeout(_ => {
+      setFullscreenDialog({
+        content: (
+          <div>
+            {'It has something in it...! :"}'}
+          </div>
+        ),
+      })
+
+      dialogRef.current.showModal()
+    }, 1000 * 0)
+  }, [])
 
   return (
     <AuthContext.Provider value={{ userInfo, roles }}>
       <main className={className} >
+        {fullscreenDialog && (
+          <BoldDialog
+            className="fullscreen-dialog"
+            onClose={handleCloseDialog}
+            ref={dialogRef}
+          >
+            {fullscreenDialog.content}
+          </BoldDialog>
+        )}
         {userInfo ? (
           <Home />
         ) : (
@@ -101,4 +183,10 @@ export default styled(App)`
   min-height: 100vh;
   display: flex;
   color: #2c3e50;
+
+  .fullscreen-dialog {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+  }
 `
