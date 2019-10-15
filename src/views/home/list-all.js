@@ -6,8 +6,8 @@ import { artistsCollection } from '../../utils/firestore'
 
 import ZenCircle from '../../components/zen-circle'
 import IconedInput from '../../components/iconed-input'
+import ArtistCard from '../../components/artist-card'
 
-import noimage from '../../assets/png/no-image.png'
 import search_white from '../../assets/png/search_white.png'
 
 const SEARCH_TIMEOUT_MS = 250
@@ -67,18 +67,11 @@ const ListAll = (props = {}) => {
         <ZenCircle />
       ) : (
         <>
-          {artists.length === 0 && <div>{`No result...! :'{`}</div>}
-          {artists.map(({ avatarURL, title, id }) => (
-            <div key={id} className="artist-card">
-              <div
-                className={`avatar ${avatarURL ? '' : 'no-avatar'}`}
-                style={{
-                  backgroundImage: `url(${avatarURL || noimage})`
-                }}
-              />
-              <div>{title}</div>
-            </div>
-          ))}
+          {artists.length === 0 ? (
+            <div>{`No result...! :'{`}</div>
+          ) : (
+            artists.map((artist) => <ArtistCard key={artist.id} artist={artist} />)
+          )}
         </>
       )}
     </main>
@@ -88,21 +81,5 @@ const ListAll = (props = {}) => {
 export default styled(ListAll)`
   .search-box {
     width: calc(100% - 1rem);
-  }
-
-  .artist-card {
-    height: 6rem;
-    display: flex;
-
-    .avatar {
-      min-width: 30%;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-
-    .no-avatar {
-      background-size: contain;
-    }
   }
 `
