@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import RoundedImage from '../../components/rounded-image'
+import RoundedImage from '../components/rounded-image'
 
 const ArtistCard = (props = {}) => {
   const { className, artist } = props
@@ -17,11 +17,16 @@ const ArtistCard = (props = {}) => {
 
 export default styled(ArtistCard)`
   border: 1px solid rgba(0,0,0,0);
-  box-shadow: 0 0 4px #333;
+  box-shadow: 0 0 2px #555;
   border-radius: 0.4rem;
   margin: 1.0rem 0;
   padding: 0.6rem;
   display: flex;
+
+  &:hover {
+    box-shadow: 0 0 4px #333;
+    cursor: pointer;
+  }
 
   .avatar {
     margin-right: 0.4rem;
