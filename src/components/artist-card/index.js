@@ -3,37 +3,32 @@ import styled from 'styled-components'
 
 import RoundedImage from '../../components/rounded-image'
 
-import noimage from '../../assets/png/no-image.png'
-
 const ArtistCard = (props = {}) => {
   const { className, artist } = props
-  const { avatarURL, title } = artist
+  const { title, avatarURL } = artist
 
   return (
     <div className={className}>
-      <RoundedImage
-        width="80px"
-        height="80px"
-        src={avatarURL}
-        className={`avatar ${avatarURL ? '' : 'no-avatar'}`}
-      />
-      <div>{title}</div>
+      <RoundedImage src={avatarURL} className="avatar" />
+      <div className="title">{title}</div>
     </div>
   )
 }
 
 export default styled(ArtistCard)`
-  height: 6rem;
+  border: 1px solid rgba(0,0,0,0);
+  box-shadow: 0 0 4px #333;
+  border-radius: 0.4rem;
+  margin: 1.0rem 0;
+  padding: 0.6rem;
   display: flex;
 
   .avatar {
-    min-width: 30%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    margin-right: 0.4rem;
+    width: 120px;
   }
-
-  .no-avatar {
-    background-size: contain;
+  .title {
+    text-align: center;
+    flex-grow: 1;
   }
 `

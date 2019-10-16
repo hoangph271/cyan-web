@@ -28,7 +28,7 @@ const Home = (props = {}) => {
     <TabView
       headers={['Auth', 'Create Artist', 'List All', 'Upload Song']}
       className={className}
-      selected={3}
+      selected={2}
     >
       <UserDetails />
       <CreateArtist />
