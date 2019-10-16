@@ -70,26 +70,3 @@ const CreateArtistForm = props => {
 export default styled(CreateArtistForm)`
   color: #000;
 `
-
-// #avatar {
-//   position: relative;
-//   border: none;
-// }
-// #avatar::before {
-//   border-bottom-right-radius: 0.2rem;
-//   content: attr(data-display-text);
-//   border-top-right-radius: 0.2rem;
-//   text-overflow: ellipsis;
-//   background-color: #fff;
-//   border: 1px solid #282c34;
-//   align-items: center;
-//   white-space: nowrap;
-//   position: absolute;
-//   padding: 0 0.4rem;
-//   cursor: pointer;
-//   display: flex;
-//   bottom: 0;
-//   right: 0;
-//   left: 0;
-//   top: 0;
-// }

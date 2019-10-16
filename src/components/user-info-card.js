@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import RoundedImage from '../components/rounded-image'
+
 import more from '../assets/png/more.png'
 import addphoto from '../assets/png/add-photo.png'
 
@@ -22,7 +24,7 @@ const UserInfoCard = props => {
   return (
     <figure className={className}>
       {photoURL ? (
-        <img
+        <RoundedImage
           className="profile-image"
           src={photoURL}
           alt={displayName}
@@ -61,14 +63,16 @@ const UserInfoCard = props => {
 }
 
 export default styled(UserInfoCard)`
-  border: 2px solid #282c34;
+  border: 1px solid rgba(0,0,0,0);
+  box-shadow: 0 0 4px #333;
   box-sizing: border-box;
+  border-radius: 0.4rem;
   border-radius: 0.4rem;
   position: relative;
   overflow: hidden;
+  padding: 0.6rem;
   max-width: 100%;
   display: flex;
-  height: 10rem;
   margin: 0;
 
   .profile-image, .add-profile-image {
