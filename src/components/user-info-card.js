@@ -76,9 +76,6 @@ export default styled(UserInfoCard)`
   margin: 0;
 
   .profile-image, .add-profile-image {
-    border-bottom-left-radius: 0.4rem;
-    border-top-left-radius: 0.4rem;
-    max-height: 100%;
     min-width: 160px;
   }
 
@@ -91,12 +88,11 @@ export default styled(UserInfoCard)`
   }
 
   .add-profile-image:hover {
-    background-color: #636e72;
     transition: background-color 0.4s ease-out;
+    background-color: #636e72;
   }
 
   .user-info-text {
-    border-left: 1px solid #282c34;
     flex-direction: column;
     padding-right: 0.6rem;
     padding-left: 0.6rem;
