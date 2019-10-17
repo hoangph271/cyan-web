@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import styled from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 import firebase from 'firebase'
 
 import { AuthContext } from './context'
@@ -7,6 +7,8 @@ import { rolesCollection } from './utils/firestore'
 
 import Home from './views/home'
 import Login from './views/login'
+
+import defaultTheme from './theme'
 
 firebase.initializeApp({
   apiKey: 'AIzaSyDXtazMnwJsEIFxF_5rvh-IO9BkWx-WCdM',
@@ -82,15 +84,17 @@ const App = props => {
   const userInfo = useUserInfo()
 
   return (
-    <AuthContext.Provider value={{ userInfo, roles }}>
-      <main className={className} >
-        {userInfo ? (
-          <Home />
-        ) : (
-          <Login />
-        )}
-      </main>
-    </AuthContext.Provider>
+    <ThemeProvider theme={defaultTheme}>
+      <AuthContext.Provider value={{ userInfo, roles }}>
+        <main className={className} >
+          {userInfo ? (
+            <Home />
+          ) : (
+            <Login />
+          )}
+        </main>
+      </AuthContext.Provider>
+    </ThemeProvider>
   )
 }
 
