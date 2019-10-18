@@ -45,7 +45,8 @@ const IconedInput = React.forwardRef((props = {}, forwardedRef) => {
 })
 
 export default styled(IconedInput)`
-  background-color: #282c34;
+  box-shadow: ${props => props.theme.shallowShadow};
+  background-color: #2d3436;
   justify-content: center;
   border-radius: 0.2rem;
   margin: 0.5rem 0.2rem;
@@ -53,6 +54,10 @@ export default styled(IconedInput)`
   margin-left: auto;
   display: flex;
   height: 2rem;
+
+  &:focus-within {
+    box-shadow: ${props => props.theme.deepShadow};
+  }
 
   .iconed-label {
     background-image: url(${props => props.iconUrl});
@@ -64,14 +69,16 @@ export default styled(IconedInput)`
   }
 
   .iconed-input {
-    border-bottom-right-radius: 0.2rem;
-    border-top-right-radius: 0.2rem;
-    background-color: #fff;
-    border: 1px solid #282c34;
+    border-bottom-right-radius: ${props => props.theme.shalowRadius};
+    border-top-right-radius: ${props => props.theme.shalowRadius};
     padding: 0 0.4rem;
     flex-basis: 0;
     min-width: 0;
     flex-grow: 1;
+    border: none;
+  }
+  .iconed-input:focus {
+    outline: none;
   }
 
   .file-mask {
@@ -79,12 +86,9 @@ export default styled(IconedInput)`
     border: none;
   }
   .file-mask::before {
-    border-bottom-right-radius: 0.2rem;
     content: attr(data-mask-text);
-    border-top-right-radius: 0.2rem;
     text-overflow: ellipsis;
     background-color: #fff;
-    border: 1px solid #282c34;
     align-items: center;
     white-space: nowrap;
     position: absolute;
