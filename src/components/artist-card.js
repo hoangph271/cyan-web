@@ -17,11 +17,13 @@ const ArtistCard = (props = {}) => {
 
 export default styled(ArtistCard)`
   box-shadow: ${props => props.theme.shallowShadow};
+  margin: ${props => props.theme.deepMargin};
   border: 1px solid rgba(0,0,0,0);
+  flex-direction: column;
   border-radius: 0.4rem;
-  margin: 1.0rem 0;
+  display: inline-flex;
   padding: 0.6rem;
-  display: flex;
+  width: 8rem;
 
   &:hover {
     box-shadow: ${props => props.theme.deepShadow};
@@ -29,11 +31,9 @@ export default styled(ArtistCard)`
   }
 
   .avatar {
-    margin-right: 0.4rem;
-    width: 120px;
+    width: 100%;
   }
   .title {
     text-align: center;
-    flex-grow: 1;
   }
 `

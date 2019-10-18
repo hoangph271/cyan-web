@@ -10,6 +10,7 @@ import ArtistCard from '../../components/artist-card'
 
 import search_white from '../../assets/png/search_white.png'
 
+const RESULT_COUNT_LIMIT = 10
 const SEARCH_TIMEOUT_MS = 250
 
 const ListAll = (props = {}) => {
@@ -26,7 +27,7 @@ const ListAll = (props = {}) => {
 
       let firestoreQuery = artistsCollection()
         .orderBy('title')
-        .limit(3)
+        .limit(RESULT_COUNT_LIMIT)
 
       if (keyword) {
         firestoreQuery = firestoreQuery.where('keywords', 'array-contains', keyword)
