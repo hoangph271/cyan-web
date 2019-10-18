@@ -62,7 +62,6 @@ const UserDetails = (props = {}) => {
 
 export default styled(UserDetails)`
   .user-info {
-    width: calc(100% - 1rem);
     margin: auto;
   }
 `

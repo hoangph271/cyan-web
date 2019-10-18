@@ -66,17 +66,19 @@ export default styled(UserInfoCard)`
   border: 1px solid rgba(0,0,0,0);
   box-shadow: 0 0 4px #333;
   box-sizing: border-box;
+  flex-direction: column;
   border-radius: 0.4rem;
   border-radius: 0.4rem;
+  display: inline-flex;
   position: relative;
   overflow: hidden;
   padding: 0.6rem;
-  max-width: 100%;
-  display: flex;
-  margin: 0;
+  width: 18rem;
 
   .profile-image, .add-profile-image {
-    min-width: 160px;
+    max-width: 12rem;
+    width: 100%;
+    margin: auto;
   }
 
   .add-profile-image {
@@ -93,6 +95,7 @@ export default styled(UserInfoCard)`
   }
 
   .user-info-text {
+    box-sizing: border-box;
     flex-direction: column;
     padding-right: 0.6rem;
     padding-left: 0.6rem;
