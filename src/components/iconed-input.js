@@ -1,19 +1,21 @@
 import React, { useState, useRef } from 'react'
 import styled from 'styled-components'
 
+import { generateUUID } from '../utils/helpers'
+
 const maskableInputTypes = [
   'file',
 ]
 
 const IconedInput = React.forwardRef((props = {}, forwardedRef) => {
-  const { className, onChange = _ => {}, value, type = 'text', title, id = Math.random(), placeholder } = props
+  const { type = 'text', id = generateUUID(), onChange = _ => {} } = props
+  const { value, className, title, accept, placeholder } = props
 
-  const inputClassName = `iconed-input ${type === 'file' ? 'file-mask' : ''}`
+  const [maskText, setMaskText] = useState(type === 'file' ? 'No file choosen' : undefined)
   const selfRef = useRef()
 
+  const inputClassName = `iconed-input ${maskableInputTypes.includes(type) ? 'file-mask' : ''}`
   const ref = forwardedRef || selfRef
-
-  const [maskText, setMaskText] = useState('No file choosen')
 
   const handleInputChange = e => {
     onChange(e)
@@ -35,6 +37,7 @@ const IconedInput = React.forwardRef((props = {}, forwardedRef) => {
         type={type}
         ref={ref}
         value={value}
+        accept={accept}
         placeholder={placeholder}
         data-mask-text={maskText}
         className={inputClassName}

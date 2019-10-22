@@ -18,7 +18,7 @@ const UploadSong = (props = {}) => {
   return isUploader ? (
     <div className={className}>
       <form>
-        <IconedInput type="file" onChange={_ => {}} iconUrl={photo} />
+        <IconedInput type="file" iconUrl={photo} accept="audio/*" />
       </form>
     </div>
   ) : (

@@ -49,17 +49,39 @@ const CreateArtistForm = props => {
 
   return (
     <form className={className}>
-      <IconedInput id="dob" type="text" value={title} onChange={handleTitleChange} iconUrl={personid} />
+      <IconedInput
+        id="dob"
+        type="text"
+        value={title}
+        iconUrl={personid}
+        placeholder="Title"
+        onChange={handleTitleChange}
+      />
       <IconedInput
         id="avatar"
         type="file"
         key={fileKey}
         ref={avatarRef}
         iconUrl={photo}
+        placeholder="Avatar"
         className="iconed-input"
       />
-      <IconedInput id="dob" type="text" value={dob} onChange={handleDoBChange} iconUrl={cake} />
-      <IconedInput id="pob" type="text" value={pob} onChange={handlePoBChange} iconUrl={house} />
+      <IconedInput
+        id="dob"
+        type="text"
+        value={dob}
+        iconUrl={cake}
+        onChange={handleDoBChange}
+        placeholder="Date of birth"
+      />
+      <IconedInput
+        id="pob"
+        type="text"
+        value={pob}
+        iconUrl={house}
+        onChange={handlePoBChange}
+        placeholder="Place of birth"
+      />
       <FlatButton onClick={handleCreateClicked} disabled={isLoading} >
         {'Create'}
       </FlatButton>
