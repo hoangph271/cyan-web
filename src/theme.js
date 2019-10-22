@@ -1,3 +1,6 @@
+import React from 'react'
+import { ThemeProvider } from 'styled-components'
+
 const defaultTheme = {
   shallowShadow: '0 0 2px #555',
   shalowRadius: '0.2rem',
@@ -8,3 +11,13 @@ const defaultTheme = {
 }
 
 export default defaultTheme
+
+const withDefaultTheme = children => (
+  <ThemeProvider theme={defaultTheme}>
+    {children}
+  </ThemeProvider>
+)
+
+export {
+  withDefaultTheme,
+}
