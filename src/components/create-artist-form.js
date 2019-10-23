@@ -7,10 +7,10 @@ import { useInput } from '../utils/hooks'
 import FlatButton from '../components/flat-button'
 import IconedInput from '../components/iconed-input'
 
-import personid from '../assets/png/person-id.png'
-import house from '../assets/png/house.png'
-import photo from '../assets/png/photo.png'
-import cake from '../assets/png/cake.png'
+import titleIcon from '../assets/png/title.png'
+import houseIcon from '../assets/png/house.png'
+import photoIcon from '../assets/png/photo.png'
+import cakeIcon from '../assets/png/cake.png'
 
 const CreateArtistForm = props => {
   const { className, onArtistSubmit, isLoading } = props
@@ -53,7 +53,7 @@ const CreateArtistForm = props => {
         id="dob"
         type="text"
         value={title}
-        iconUrl={personid}
+        iconUrl={titleIcon}
         placeholder="Title"
         onChange={handleTitleChange}
       />
@@ -62,7 +62,7 @@ const CreateArtistForm = props => {
         type="file"
         key={fileKey}
         ref={avatarRef}
-        iconUrl={photo}
+        iconUrl={photoIcon}
         placeholder="Avatar"
         className="iconed-input"
       />
@@ -70,7 +70,7 @@ const CreateArtistForm = props => {
         id="dob"
         type="text"
         value={dob}
-        iconUrl={cake}
+        iconUrl={cakeIcon}
         onChange={handleDoBChange}
         placeholder="Date of birth"
       />
@@ -78,7 +78,7 @@ const CreateArtistForm = props => {
         id="pob"
         type="text"
         value={pob}
-        iconUrl={house}
+        iconUrl={houseIcon}
         onChange={handlePoBChange}
         placeholder="Place of birth"
       />
