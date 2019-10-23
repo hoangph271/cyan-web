@@ -3,11 +3,8 @@ import styled from 'styled-components'
 
 import { AuthContext } from '../../utils/context'
 import { Roles } from '../../utils/constants'
-// import { generateKeywords } from '../../utils/text'
 
-import photo from '../../assets/png/photo.png'
-
-import IconedInput from '../../components/iconed-input'
+import UploadSongForm from '../../components/upload-song-form'
 
 const UploadSong = (props = {}) => {
   const { className } = props
@@ -15,15 +12,15 @@ const UploadSong = (props = {}) => {
 
   const isUploader = roles.includes(Roles.UPLOADER)
 
-  return isUploader ? (
-    <div className={className}>
-      <form>
-        <IconedInput type="file" iconUrl={photo} accept="audio/*" />
-      </form>
-    </div>
-  ) : (
-    <main>
-      {'You are NOT an uploader...!'}
+  return (
+    <main className={className}>
+      {isUploader ? (
+        <UploadSongForm />
+      ) : (
+        <div>
+          {'You are NOT an uploader...!'}
+        </div>
+      )}
     </main>
   )
 }
