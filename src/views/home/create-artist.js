@@ -44,15 +44,13 @@ const CreateArtist = (props = {}) => {
 
   const isUploader = roles.includes(Roles.UPLOADER)
 
-  return isUploader ? (
+  return (
     <main className={className}>
-      {roles.includes(Roles.UPLOADER) && (
-        <CreateArtistForm isLoading={isLoading} onArtistSubmit={handleArtistSubmit} />
+      {isUploader ? (
+      <CreateArtistForm isLoading={isLoading} onArtistSubmit={handleArtistSubmit} />
+      ) : (
+        <div>{'You are NOT an uploader...!'}</div>
       )}
-    </main>
-  ) : (
-    <main>
-      {'You are NOT an uploader...!'}
     </main>
   )
 }
