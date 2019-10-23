@@ -5,10 +5,11 @@ import RoundedImage from '../components/rounded-image'
 
 const ArtistCard = (props = {}) => {
   const { className, artist } = props
+  const { onClick = _ => {} } = props
   const { title, avatarURL } = artist
 
   return (
-    <div className={className}>
+    <div className={className} onClick={onClick}>
       <RoundedImage src={avatarURL} className="avatar" />
       <div className="title">{title}</div>
     </div>
