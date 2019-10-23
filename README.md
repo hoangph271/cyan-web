@@ -2,6 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## TODO:
 * [WIP] Allow uploading audios for uploaders
+* NEED - Toast & Dialog components
 * Allow removing audio & artists for uploaders
 * Allow creating playlists for members
 
