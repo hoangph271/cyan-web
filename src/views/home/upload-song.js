@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useCallback } from 'react'
 import styled from 'styled-components'
 
 import { AuthContext } from '../../utils/context'
@@ -12,10 +12,14 @@ const UploadSong = (props = {}) => {
 
   const isUploader = roles.includes(Roles.UPLOADER)
 
+  const handleSongSubmit = useCallback(song => {
+    console.info(song)
+  }, [])
+
   return (
     <main className={className}>
       {isUploader ? (
-        <UploadSongForm />
+        <UploadSongForm onSongSubmit={handleSongSubmit} />
       ) : (
         <div>
           {'You are NOT an uploader...!'}

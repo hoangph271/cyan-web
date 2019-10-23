@@ -1,21 +1,31 @@
 import React, { useRef, useState, useCallback } from 'react'
 import styled from 'styled-components'
 
+import { validateUploadSong } from '../utils/validators'
 import { useInput } from '../utils/hooks'
 
 import audioIcon from '../assets/png/audio.png'
 import titleIcon from '../assets/png/title.png'
 
 import Chip from './chip'
+import FlatButton from './flat-button'
 import IconedInput from './iconed-input'
 import SearchArtistForm from './search-artist-form'
 
 const UploadSongForm = (props = {}) => {
   const { className } = props
+  const { onSongSubmit } = props
 
   const audioRef = useRef(null)
   const [artists, setArtists] = useState([])
+  const [fileKey, setFileKey] = useState(Date.now())
   const [title, handleTitleChange, setTitle] = useInput('')
+
+  const resetForm = useCallback(_ => {
+    setArtists([])
+    setFileKey(Date.now())
+    setTitle('')
+  }, [setArtists, setFileKey, setTitle])
 
   const handleAudioChange = useCallback(_ => {
     if (title === '' && audioRef.current.files[0]) {
@@ -32,6 +42,28 @@ const UploadSongForm = (props = {}) => {
 
   }, [artists, setArtists])
 
+  const handleUploadClick = e => {
+    e.preventDefault()
+
+    const song = {
+      title,
+      audio: audioRef.current.files[0],
+      artists,
+    }
+
+    const { isValid, errors } = validateUploadSong(song)
+
+    if (isValid) {
+      onSongSubmit({
+        song,
+        resetForm,
+      })
+    } else {
+      // TODO: Handle invalid input
+      alert(errors.map(error => `${error.fieldName} - ${error.message}`).join(', '))
+    }
+  }
+
   return (
     <form className={className}>
       <IconedInput
@@ -43,6 +75,7 @@ const UploadSongForm = (props = {}) => {
       />
       <IconedInput
         type="file"
+        key={fileKey}
         ref={audioRef}
         accept="audio/*"
         iconUrl={audioIcon}
@@ -53,17 +86,23 @@ const UploadSongForm = (props = {}) => {
           <div>{'No artist selected...! :"{'}</div>
         ) : artists.map(artist => (
           <Chip
+            className="selected-artist"
             key={artist.id}
             text={artist.title}
             onClick={_ => handleArtistClick(artist)}
           />
         ))}
       </div>
+      <FlatButton onClick={handleUploadClick}>
+        {'Upload'}
+      </FlatButton>
       <SearchArtistForm resultLimit={4} onArtistClick={handleArtistClick}/>
     </form>
   )
 }
 
 export default styled(UploadSongForm)`
-
+  .selected-artist {
+    margin: ${props => props.theme.shallowMargin};
+  }
 `

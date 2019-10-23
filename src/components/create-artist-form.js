@@ -1,7 +1,7 @@
 import React, { useRef, useState, useCallback } from 'react'
 import styled from 'styled-components'
 
-import { validateArtist } from '../utils/validators'
+import { validateUploadArtist } from '../utils/validators'
 import { useInput } from '../utils/hooks'
 
 import FlatButton from '../components/flat-button'
@@ -37,13 +37,13 @@ const CreateArtistForm = props => {
       pob,
     }
 
-    const { isValid, errors } = validateArtist(artist)
+    const { isValid, errors } = validateUploadArtist(artist)
 
     if (isValid) {
       onArtistSubmit({ artist, resetForm })
     } else {
-      alert(errors.map(error => `${error.fieldName} - ${error.message}`).join(', '))
       // TODO: Handle invalid input
+      alert(errors.map(error => `${error.fieldName} - ${error.message}`).join(', '))
     }
   }
 
