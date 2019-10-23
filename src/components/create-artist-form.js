@@ -2,7 +2,7 @@ import React, { useRef, useState, useCallback } from 'react'
 import styled from 'styled-components'
 
 import { validateArtist } from '../utils/validators'
-import { useInput } from '../hooks'
+import { useInput } from '../utils/hooks'
 
 import FlatButton from '../components/flat-button'
 import IconedInput from '../components/iconed-input'

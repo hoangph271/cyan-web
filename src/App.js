@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import firebase from 'firebase'
 
-import { AuthContext } from './context'
+import { AuthContext } from './utils/context'
 import { rolesCollection } from './utils/firestore'
 
 import Home from './views/home'
 import Login from './views/login'
 
-import defaultTheme from './theme'
+import defaultTheme from './utils/theme'
 
 firebase.initializeApp({
   apiKey: 'AIzaSyDXtazMnwJsEIFxF_5rvh-IO9BkWx-WCdM',

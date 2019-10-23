@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 
 import { MinWidths } from '../../utils/constants'
-import { AuthContext } from '../../context'
+import { AuthContext } from '../../utils/context'
 
 import TabView from '../../components/tab-view'
 import ZenCircle from '../../components/zen-circle'

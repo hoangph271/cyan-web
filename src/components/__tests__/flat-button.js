@@ -4,7 +4,7 @@ import sinon from 'sinon'
 import { expect } from 'chai'
 
 import FlatButton from '../flat-button'
-import { withDefaultTheme } from '../../theme'
+import { withDefaultTheme } from '../../utils/theme'
 
 it('renders without crashing', () => {
   shallow(withDefaultTheme(<FlatButton />))

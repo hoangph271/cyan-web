@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
-import { useInput } from '../../hooks'
+import { useInput } from '../../utils/hooks'
 import { artistsCollection } from '../../utils/firestore'
 
 import ZenCircle from '../../components/zen-circle'

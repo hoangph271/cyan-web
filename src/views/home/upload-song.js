@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 
-import { AuthContext } from '../../context'
+import { AuthContext } from '../../utils/context'
 import { Roles } from '../../utils/constants'
 // import { generateKeywords } from '../../utils/text'
 

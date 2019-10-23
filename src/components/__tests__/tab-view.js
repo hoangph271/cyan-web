@@ -3,7 +3,7 @@ import { shallow, mount } from 'enzyme'
 import { expect } from 'chai'
 
 import TabView from '../tab-view'
-import { withDefaultTheme } from '../../theme'
+import { withDefaultTheme } from '../../utils/theme'
 
 it('renders without crashing', () => {
   shallow(withDefaultTheme(<TabView />))

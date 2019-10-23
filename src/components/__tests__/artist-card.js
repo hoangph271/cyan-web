@@ -3,7 +3,7 @@ import { shallow, mount } from 'enzyme'
 import { expect } from 'chai'
 
 import ArtistCard from '../artist-card'
-import { withDefaultTheme } from '../../theme'
+import { withDefaultTheme } from '../../utils/theme'
 
 it('renders without crashing', () => {
   const artist = { title: 'title' }

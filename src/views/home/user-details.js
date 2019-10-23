@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import firebase from 'firebase'
 
-import { AuthContext } from '../../context'
+import { AuthContext } from '../../utils/context'
 import { usersCollection } from '../../utils/firestore'
 
 import UserInfoCard from '../../components/user-info-card'

@@ -2,7 +2,7 @@ import React, { useCallback, useState, useContext } from 'react'
 import styled from 'styled-components'
 import firebase from 'firebase'
 
-import { AuthContext } from '../../context'
+import { AuthContext } from '../../utils/context'
 import { artistsCollection } from '../../utils/firestore'
 import { Roles } from '../../utils/constants'
 import { generateKeywords } from '../../utils/text'
