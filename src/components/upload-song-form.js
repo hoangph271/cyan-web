@@ -88,9 +88,10 @@ const UploadSongForm = (props = {}) => {
           <Chip
             className="selected-artist"
             key={artist.id}
-            text={artist.title}
             onClick={_ => handleArtistClick(artist)}
-          />
+          >
+            {artist.title}
+          </Chip>
         ))}
       </div>
       <FlatButton onClick={handleUploadClick} disabled={isLoading}>

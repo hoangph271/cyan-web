@@ -2,12 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Chip = (props = {}) => {
-  const { className, text } = props
+  const { className, children } = props
   const { onClick = _ => {} } = props
 
   return (
     <div className={className} onClick={onClick}>
-      {text}
+      {children}
     </div>
   )
 }
