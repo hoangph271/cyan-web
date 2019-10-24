@@ -1,7 +1,8 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## TODO:
-* [WIP] Allow uploading audios for uploaders
+* [✔] Allow uploading audios for uploaders
+* List all songs
 * NEED - Toast & Dialog components
 * Allow removing audio & artists for uploaders
 * Allow creating playlists for members

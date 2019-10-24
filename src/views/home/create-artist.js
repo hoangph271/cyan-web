@@ -5,7 +5,7 @@ import firebase from 'firebase'
 import { AuthContext } from '../../utils/context'
 import { artistsCollection } from '../../utils/firestore'
 import { Roles } from '../../utils/constants'
-import { generateKeywords } from '../../utils/text'
+import { generateAllKeywords } from '../../utils/text'
 
 import CreateArtistForm from '../../components/create-artist-form'
 
@@ -21,7 +21,7 @@ const CreateArtist = (props = {}) => {
 
     try {
       const { title, avatar, dob, pob } = artist
-      const keywords = generateKeywords(title)
+      const keywords = generateAllKeywords(title)
 
       const docRef = artistsCollection().doc()
 
@@ -32,7 +32,8 @@ const CreateArtist = (props = {}) => {
           .then(snapshot => snapshot.ref.getDownloadURL())
         : null
 
-      await docRef.set({ title, keywords, avatarURL, dob, pob }).then()
+      await docRef.set({ title, keywords, avatarURL, dob, pob })
+
       resetForm()
     } catch (error) {
       console.error(error)

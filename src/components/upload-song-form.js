@@ -13,7 +13,7 @@ import IconedInput from './iconed-input'
 import SearchArtistForm from './search-artist-form'
 
 const UploadSongForm = (props = {}) => {
-  const { className } = props
+  const { className, isLoading } = props
   const { onSongSubmit } = props
 
   const audioRef = useRef(null)
@@ -93,7 +93,7 @@ const UploadSongForm = (props = {}) => {
           />
         ))}
       </div>
-      <FlatButton onClick={handleUploadClick}>
+      <FlatButton onClick={handleUploadClick} disabled={isLoading}>
         {'Upload'}
       </FlatButton>
       <SearchArtistForm resultLimit={4} onArtistClick={handleArtistClick}/>
