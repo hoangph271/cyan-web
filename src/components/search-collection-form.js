@@ -40,7 +40,7 @@ const SearchCollectionForm = (props = {}) => {
           setIsSearching(false)
         }
       })
-      .catch(_ => setIsSearching(false))
+      .catch(error => console.error(error) || setIsSearching(false))
 
     return _ => isMounted = false
   }, [keyword, resultLimit, firebaseCollection, sortField])
