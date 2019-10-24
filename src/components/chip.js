@@ -15,8 +15,8 @@ const Chip = (props = {}) => {
 export default styled(Chip)`
   cursor: pointer;
   display: inline-block;
+  margin: ${props => props.theme.shallowMargin};
   padding: 0 ${props => props.theme.deepPadding};
-  margin: 0 ${props => props.theme.shallowMargin};
   border-radius: ${props => props.theme.deepRadius};
   box-shadow: ${props => props.theme.shallowShadow};
 

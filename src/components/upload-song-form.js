@@ -103,7 +103,4 @@ const UploadSongForm = (props = {}) => {
 }
 
 export default styled(UploadSongForm)`
-  .selected-artist {
-    margin: ${props => props.theme.shallowMargin};
-  }
 `
