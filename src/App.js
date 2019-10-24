@@ -85,19 +85,21 @@ const App = props => {
   const userInfo = useUserInfo()
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <AuthContext.Provider value={{ userInfo, roles }}>
-        <PlayerContext.Provider value={{...playerActions}}>
-          <main className={className} >
-            {userInfo ? (
-              <Home />
-            ) : (
-              <Login />
-            )}
-          </main>
-        </PlayerContext.Provider>
-      </AuthContext.Provider>
-    </ThemeProvider>
+    <React.StrictMode>
+      <ThemeProvider theme={defaultTheme}>
+        <AuthContext.Provider value={{ userInfo, roles }}>
+          <PlayerContext.Provider value={{...playerActions}}>
+            <main className={className} >
+              {userInfo ? (
+                <Home />
+              ) : (
+                <Login />
+              )}
+            </main>
+          </PlayerContext.Provider>
+        </AuthContext.Provider>
+      </ThemeProvider>
+    </React.StrictMode>
   )
 }
 
