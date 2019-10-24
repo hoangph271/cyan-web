@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import ReactDOM from 'react-dom'
 import styled, { ThemeProvider } from 'styled-components'
 import firebase from 'firebase'
 
@@ -79,6 +80,23 @@ const useUserInfo = _ => {
   return userInfo
 }
 
+const Modal = styled((props = {}) => {
+  const { className } = props
+  const modalChildren = null
+
+  return ReactDOM.createPortal((
+      <dialog className={className}>
+        {modalChildren}
+      </dialog>
+    ), document.getElementById('modal-root'))
+})`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 0;
+`
+
 const App = props => {
   const { className } = props
   const roles = useRoles()
@@ -90,6 +108,7 @@ const App = props => {
         <AuthContext.Provider value={{ userInfo, roles }}>
           <PlayerContext.Provider value={{...playerActions}}>
             <main className={className} >
+              <Modal />
               {userInfo ? (
                 <Home />
               ) : (
@@ -117,24 +136,3 @@ export default styled(App)`
     top: 0;
   }
 `
-
-const Modal = styled((props = {}) => {
-  const { className } = props
-  const modalChildren = null
-
-  return (
-    <dialog className={className}>
-      {modalChildren}
-    </dialog>
-  )
-})`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  top: 0;
-`
-
-export {
-  Modal,
-}
