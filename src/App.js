@@ -117,3 +117,24 @@ export default styled(App)`
     top: 0;
   }
 `
+
+const Modal = styled((props = {}) => {
+  const { className } = props
+  const modalChildren = null
+
+  return (
+    <dialog className={className}>
+      {modalChildren}
+    </dialog>
+  )
+})`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 0;
+`
+
+export {
+  Modal,
+}
