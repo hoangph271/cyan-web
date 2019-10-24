@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import firebase from 'firebase'
 
-import { AuthContext } from './utils/context'
+import { AuthContext, PlayerContext } from './utils/context'
+import * as playerActions from './utils/player'
 import { rolesCollection } from './utils/firestore'
 
 import Home from './views/home'
@@ -86,13 +87,15 @@ const App = props => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <AuthContext.Provider value={{ userInfo, roles }}>
-        <main className={className} >
-          {userInfo ? (
-            <Home />
-          ) : (
-            <Login />
-          )}
-        </main>
+        <PlayerContext.Provider value={{...playerActions}}>
+          <main className={className} >
+            {userInfo ? (
+              <Home />
+            ) : (
+              <Login />
+            )}
+          </main>
+        </PlayerContext.Provider>
       </AuthContext.Provider>
     </ThemeProvider>
   )

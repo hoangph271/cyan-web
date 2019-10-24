@@ -1,13 +1,30 @@
-import React from 'react'
+import React, { useState, useContext, useCallback } from 'react'
 import styled from 'styled-components'
+import firebase from 'firebase'
 
 import { songsCollection } from '../utils/firestore'
+import { PlayerContext } from '../utils/context'
 
 import SearchCollectionForm from './search-collection-form'
 
 const SearchSongForm = (props = {}) => {
   const { className, resultLimit } = props
-  const { onArtistClick = _ => {} } = props
+  const { playAudio, toggleAudio } = useContext(PlayerContext)
+  const [playingSong, setPlayingSong] = useState(null)
+
+  const handleSongClick = useCallback(song => {
+    if (playingSong && playingSong.id === song.id) {
+      toggleAudio()
+    } else {
+      setPlayingSong(song)
+
+      firebase
+        .storage()
+        .ref(`songs/${song.id}`)
+        .getDownloadURL()
+        .then(url => playAudio(url))
+    }
+  }, [playAudio, playingSong, toggleAudio])
 
   return (
     <SearchCollectionForm
@@ -15,7 +32,7 @@ const SearchSongForm = (props = {}) => {
       className={className}
       ResultList={SongList}
       resultLimit={resultLimit}
-      onItemClick={onArtistClick}
+      onItemClick={handleSongClick}
       firebaseCollection={songsCollection}
     />
   )
