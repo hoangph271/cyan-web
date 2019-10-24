@@ -58,22 +58,32 @@ const SearchArtistForm = (props = {}) => {
       {isSearching ? (
         <ZenCircle />
       ) : (
-        <div>
-          {artists.length === 0 ? (
-            <div>{`No result...! :'{`}</div>
-          ) : (
-            artists.map((artist) => (
-              <ArtistCard
-                key={artist.id}
-                artist={artist}
-                onClick={_ => onArtistClick(artist)}
-              />
-          )))}
-        </div>
+        <ArtistList artists={artists} onArtistClick={onArtistClick} />
       )}
     </div>
   )
 }
 
 export default styled(SearchArtistForm)`
+`
+
+const ArtistList = styled((props = {}) => {
+  const { className } = props
+  const { artists = [], onArtistClick = _ => {} } = props
+
+  return (
+    <div className={className}>
+      {artists.length === 0 ? (
+        <div>{`No result...! :'{`}</div>
+      ) : (
+        artists.map((artist) => (
+          <ArtistCard
+            key={artist.id}
+            artist={artist}
+            onClick={_ => onArtistClick(artist)}
+          />
+      )))}
+    </div>
+  )
+})`
 `
