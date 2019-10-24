@@ -14,10 +14,14 @@ const SearchArtistForm = (props = {}) => {
     <SearchCollectionForm
       sortField="title"
       className={className}
-      ResultList={ArtistList}
       resultLimit={resultLimit}
-      onItemClick={onArtistClick}
       firebaseCollection={artistsCollection}
+      buildItems={items => (
+        <ArtistList
+          artists={items}
+          onArtistClick={onArtistClick}
+        />
+      )}
     />
   )
 }
@@ -27,7 +31,7 @@ export default styled(SearchArtistForm)`
 
 const ArtistList = styled((props = {}) => {
   const { className } = props
-  const { items: artists = [], onItemClick = _ => {} } = props
+  const { artists = [], onArtistClick = _ => {} } = props
 
   return (
     <div className={className}>
@@ -38,7 +42,7 @@ const ArtistList = styled((props = {}) => {
           <ArtistCard
             key={artist.id}
             artist={artist}
-            onClick={_ => onItemClick(artist)}
+            onClick={_ => onArtistClick(artist)}
           />
       )))}
     </div>

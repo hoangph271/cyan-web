@@ -5,6 +5,7 @@ import firebase from 'firebase'
 import { songsCollection } from '../utils/firestore'
 import { PlayerContext } from '../utils/context'
 
+import Chip from './chip'
 import SearchCollectionForm from './search-collection-form'
 
 const SearchSongForm = (props = {}) => {
@@ -30,10 +31,15 @@ const SearchSongForm = (props = {}) => {
     <SearchCollectionForm
       sortField="title"
       className={className}
-      ResultList={SongList}
       resultLimit={resultLimit}
-      onItemClick={handleSongClick}
       firebaseCollection={songsCollection}
+      buildItems={items => (
+        <SongList
+          songs={items}
+          onSongClick={handleSongClick}
+          playingSongId={playingSong && playingSong.id}
+        />
+      )}
     />
   )
 }
@@ -43,8 +49,8 @@ export default styled(SearchSongForm)`
 
 // TODO: Style this
 const SongList = styled((props = {}) => {
-  const { className } = props
-  const { items: songs = [], onItemClick = _ => {} } = props
+  const { className, playingSongId } = props
+  const { songs = [], onSongClick = _ => {} } = props
 
   return (
     <div className={className}>
@@ -52,14 +58,18 @@ const SongList = styled((props = {}) => {
         <div>{`No result...! :'{`}</div>
       ) : (
         songs.map((song) => (
-          <div
+          <Chip
+            className={`${playingSongId === song.id ? 'playing-song' : ''}`}
             key={song.id}
-            onClick={_ => onItemClick(song)}
+            onClick={_ => onSongClick(song)}
           >
             {`${song.title} - ${song.artists.map(artist => artist.title).join(', ')}`}
-          </div>
+          </Chip>
       )))}
     </div>
   )
 })`
+  .playing-song {
+    box-shadow: ${props => props.theme.deepSelectedShadow};
+  }
 `

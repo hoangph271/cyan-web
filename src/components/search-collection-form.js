@@ -9,8 +9,8 @@ import ZenCircle from '../components/zen-circle'
 const RESULT_COUNT_LIMIT = 10
 
 const SearchCollectionForm = (props = {}) => {
-  const { className, firebaseCollection, sortField, ResultList } = props
-  const { onItemClick = _ => {}, resultLimit = RESULT_COUNT_LIMIT } = props
+  const { className, firebaseCollection, sortField, buildItems } = props
+  const { resultLimit = RESULT_COUNT_LIMIT } = props
 
   const [isSearching, setIsSearching] = useState(true)
   const [keyword, , setKeyword] = useInput('', { transformer: str => str.toLowerCase() })
@@ -53,7 +53,9 @@ const SearchCollectionForm = (props = {}) => {
       {isSearching ? (
         <ZenCircle />
       ) : (
-        <ResultList items={founds} onItemClick={onItemClick} />
+        <>
+          {buildItems(founds)}
+        </>
       )}
     </div>
   )
