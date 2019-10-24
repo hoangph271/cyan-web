@@ -5,6 +5,9 @@ const AuthContext = createContext({
   roles: [],
 })
 
+const ModalContext = createContext({
+  showToast: _ => {},
+})
 
 const PlayerContext = createContext({
   playAudio: _ => {},
@@ -14,5 +17,6 @@ const PlayerContext = createContext({
 
 export {
   AuthContext,
+  ModalContext,
   PlayerContext,
 }

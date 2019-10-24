@@ -1,7 +1,8 @@
-import React, { useRef, useState, useCallback } from 'react'
+import React, { useRef, useState, useCallback, useContext } from 'react'
 import styled from 'styled-components'
 
 import { validateUploadArtist } from '../utils/validators'
+import { ModalContext } from '../utils/context'
 import { useInput } from '../utils/hooks'
 
 import FlatButton from '../components/flat-button'
@@ -19,6 +20,7 @@ const CreateArtistForm = props => {
   const [dob, handleDoBChange, setDoB] = useInput('')
   const [pob, handlePoBChange, setPoB] = useInput('')
   const [fileKey, setFileKey] = useState(Date.now())
+  const { showToast } = useContext(ModalContext)
   const avatarRef = useRef()
 
   const resetForm = useCallback(_ => {
@@ -43,7 +45,7 @@ const CreateArtistForm = props => {
       onArtistSubmit({ artist, resetForm })
     } else {
       // TODO: Handle invalid input
-      alert(errors.map(error => `${error.fieldName} - ${error.message}`).join(', '))
+      showToast(errors[0].message)
     }
   }
 

@@ -1,7 +1,8 @@
-import React, { useRef, useState, useCallback } from 'react'
+import React, { useRef, useState, useCallback, useContext } from 'react'
 import styled from 'styled-components'
 
 import { validateUploadSong } from '../utils/validators'
+import { ModalContext } from '../utils/context'
 import { useInput } from '../utils/hooks'
 
 import audioIcon from '../assets/png/audio.png'
@@ -18,6 +19,7 @@ const UploadSongForm = (props = {}) => {
 
   const audioRef = useRef(null)
   const [artists, setArtists] = useState([])
+  const { showToast } = useContext(ModalContext)
   const [fileKey, setFileKey] = useState(Date.now())
   const [title, handleTitleChange, setTitle] = useInput('')
 
@@ -60,7 +62,7 @@ const UploadSongForm = (props = {}) => {
       })
     } else {
       // TODO: Handle invalid input
-      alert(errors.map(error => `${error.fieldName} - ${error.message}`).join(', '))
+      showToast(errors[0].message)
     }
   }
 

@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import ReactDOM from 'react-dom'
 import styled, { ThemeProvider } from 'styled-components'
 import firebase from 'firebase'
 
 import { AuthContext, PlayerContext } from './utils/context'
 import * as playerActions from './utils/player'
 import { rolesCollection } from './utils/firestore'
+import defaultTheme from './utils/theme'
 
 import Home from './views/home'
 import Login from './views/login'
 
-import defaultTheme from './utils/theme'
+import Modal from './components/modal'
 
 firebase.initializeApp({
   apiKey: 'AIzaSyDXtazMnwJsEIFxF_5rvh-IO9BkWx-WCdM',
@@ -80,23 +80,6 @@ const useUserInfo = _ => {
   return userInfo
 }
 
-const Modal = styled((props = {}) => {
-  const { className } = props
-  const modalChildren = null
-
-  return ReactDOM.createPortal((
-      <dialog className={className}>
-        {modalChildren}
-      </dialog>
-    ), document.getElementById('modal-root'))
-})`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  top: 0;
-`
-
 const App = props => {
   const { className } = props
   const roles = useRoles()
@@ -107,13 +90,10 @@ const App = props => {
       <ThemeProvider theme={defaultTheme}>
         <AuthContext.Provider value={{ userInfo, roles }}>
           <PlayerContext.Provider value={{...playerActions}}>
-            <main className={className} >
-              <Modal />
-              {userInfo ? (
-                <Home />
-              ) : (
-                <Login />
-              )}
+            <main className={className}>
+              <Modal>
+                {userInfo ? <Home /> : <Login />}
+              </Modal>
             </main>
           </PlayerContext.Provider>
         </AuthContext.Provider>
