@@ -83,7 +83,7 @@ const UploadSongForm = (props = {}) => {
       />
       <div>
         {artists.length === 0 ? (
-          <div>{'No artist selected...! :"{'}</div>
+          <div className="selected-artist">{'No artist selected...! :"{'}</div>
         ) : artists.map(artist => (
           <Chip
             className="selected-artist"
