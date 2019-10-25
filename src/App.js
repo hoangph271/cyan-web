@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import firebase from 'firebase'
 
 import { PlayerProvider } from './providers/player-provider'
-import { rolesCollection } from './utils/firestore'
-import { AuthContext } from './utils/context'
+import { AuthProvider } from './providers/auth-provider'
 import defaultTheme from './utils/theme'
 
-import Home from './views/home'
-import Login from './views/login'
+import ViewRoot from './views'
 
 import Modal from './components/modal'
 
@@ -23,80 +21,19 @@ firebase.initializeApp({
   measurementId: 'G-4YH9WVCN1S'
 })
 
-const useRoles = _ => {
-  const [roles, setRoles] = useState(null)
-
-  useEffect(_ => {
-    let isMounted = true
-
-    firebase.auth()
-      .onAuthStateChanged(userInfo => {
-      if (userInfo === null) {
-        isMounted && setRoles([])
-        return
-      }
-
-      rolesCollection()
-        .doc(userInfo.uid)
-        .get()
-        .then(doc => {
-          if (isMounted) {
-            const { isActive, roles } = doc.data() || {}
-
-            setRoles(isActive ? roles : [])
-
-            if (Array.isArray(roles)) {
-              firebase.functions()
-                .httpsCallable('claimRoles')({})
-                .then(_ => userInfo.getIdToken(true))
-            }
-          }
-        })
-        .catch(error => {
-          console.error(error)
-          isMounted && setRoles([])
-        })
-      })
-
-      return _ => isMounted = false
-  }, [])
-
-  return roles
-}
-const useUserInfo = _ => {
-  const [userInfo, setUserInfo] = useState(firebase.auth().currentUser)
-
-  useEffect(_ => {
-    let isMounted = true
-
-    firebase.auth()
-      .onAuthStateChanged(userInfo => {
-        isMounted && setUserInfo(userInfo)
-      })
-
-    return _ => isMounted = false
-  }, [])
-
-  return userInfo
-}
-
 const App = props => {
   const { className } = props
-  const roles = useRoles()
-  const userInfo = useUserInfo()
 
   return (
     <React.StrictMode>
       <ThemeProvider theme={defaultTheme}>
-        <AuthContext.Provider value={{ userInfo, roles }}>
+        <AuthProvider>
           <PlayerProvider>
-            <main className={className}>
-              <Modal>
-                {userInfo ? <Home /> : <Login />}
-              </Modal>
-            </main>
+            <Modal>
+              <ViewRoot className={className} />
+            </Modal>
           </PlayerProvider>
-        </AuthContext.Provider>
+        </AuthProvider>
       </ThemeProvider>
     </React.StrictMode>
   )

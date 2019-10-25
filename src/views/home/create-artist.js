@@ -1,8 +1,8 @@
-import React, { useCallback, useState, useContext } from 'react'
+import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import firebase from 'firebase'
 
-import { AuthContext } from '../../utils/context'
+import { useAuth } from '../../hooks/auth'
 import { artistsCollection } from '../../utils/firestore'
 import { Roles } from '../../utils/constants'
 import { generateAllKeywords } from '../../utils/text'
@@ -10,8 +10,9 @@ import { generateAllKeywords } from '../../utils/text'
 import CreateArtistForm from '../../components/create-artist-form'
 
 const CreateArtist = (props = {}) => {
-  const { roles } = useContext(AuthContext)
   const { className } = props
+
+  const { roles } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
 
   const handleArtistSubmit = useCallback(async ({ artist, resetForm }) => {

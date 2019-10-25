@@ -1,19 +1,20 @@
-import React, { useState, useContext, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import firebase from 'firebase'
 
 
-import { songsCollection } from '../../utils/firestore'
-import { AuthContext } from '../../utils/context'
 import { Roles } from '../../utils/constants'
+import { useAuth } from '../../hooks/auth'
 import { generateAllKeywords } from '../../utils/text'
+import { songsCollection } from '../../utils/firestore'
 
 import UploadSongForm from '../../components/upload-song-form'
 
 const UploadSong = (props = {}) => {
   const { className } = props
+
+  const { roles } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
-  const { roles } = useContext(AuthContext)
 
   const isUploader = roles.includes(Roles.UPLOADER)
 

@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import styled from 'styled-components'
 import firebase from 'firebase'
 
-import { AuthContext } from '../../utils/context'
+import { useAuth } from '../../hooks/auth'
 import { usersCollection } from '../../utils/firestore'
 
 import UserInfoCard from '../../components/user-info-card'
 
 const UserDetails = (props = {}) => {
   const { className } = props
-  const { userInfo } = useContext(AuthContext)
+  const { userInfo } = useAuth()
   const [userDetail, setUserDetail] = useState(null)
 
   useEffect(_ => {
