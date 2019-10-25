@@ -1,6 +1,5 @@
-import React, { useContext } from 'react'
+import React, { useContext, useCallback } from 'react'
 import styled from 'styled-components'
-import firebase from 'firebase'
 
 import { PlayerContext } from '../../providers/player-provider'
 
@@ -9,17 +8,13 @@ import SearchSongForm from '../../components/search-song-form'
 const ListAll = (props = {}) => {
   const { className } = props
 
-  const { currentSongId, playSong, togglePlay } = useContext(PlayerContext)
+  const { currentSongId, startSong, toggleAudio } = useContext(PlayerContext)
 
-  const handleSongClick = song => {
+  const handleSongClick = useCallback(song => {
     currentSongId === song.id
-      ? togglePlay()
-      : firebase
-        .storage()
-        .ref(`songs/${song.id}`)
-        .getDownloadURL()
-        .then(url => playSong(song.id, url))
-  }
+      ? toggleAudio()
+      : startSong(song.id, song.audioURL)
+  }, [currentSongId, startSong, toggleAudio])
 
   return (
     <main className={className}>

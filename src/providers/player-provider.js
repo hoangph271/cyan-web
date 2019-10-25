@@ -1,13 +1,14 @@
 import React, { createContext, useState, useCallback, useEffect } from 'react'
 import { Howl } from 'howler'
 
-const audioFormats = ['mp3']
+const format = ['mp3']
 const PlayerContext = createContext({
   currentSongId: null,
+  toggleAudio: null,
+  pauseAudio: null,
+  playAudio: null,
   isPlaying: null,
-  playSong: null,
-  pauseSong: null,
-  togglePlay: null,
+  startSong: null,
 })
 
 const PlayerProvider = ({ children }) => {
@@ -16,43 +17,36 @@ const PlayerProvider = ({ children }) => {
   const [currentSongId, setCurrentSongId] = useState(null)
 
   useEffect(_ => {
-    if (audio) {
-      audio.on('play', _ => setIsPlaying(true))
-      audio.on('end', _ => setIsPlaying(false))
-      audio.on('stop', _ => setIsPlaying(false))
-      audio.on('pause', _ => setIsPlaying(false))
-    } else {
-      setCurrentSongId(null)
-    }
+    audio && audio.on('play', _ => setIsPlaying(true))
+    audio && audio.on('end', _ => setIsPlaying(false))
+    audio && audio.on('stop', _ => setIsPlaying(false))
+    audio && audio.on('pause', _ => setIsPlaying(false))
 
-    return _ => audio && audio.off() && audio.unload()
+    return _ => audio && audio.off().unload()
   }, [audio])
 
-  const pauseSong = useCallback(_ => audio && audio.pause(), [audio])
-  const playSong = useCallback((songId, audioURL) => {
-    const audio = new Howl({ src: [audioURL], format: audioFormats, html5: true })
-
-    setAudio(audio)
+  const pauseAudio = useCallback(_ => audio && audio.pause(), [audio])
+  const playAudio = useCallback(_ => audio && audio.play(), [audio])
+  const startSong = useCallback((songId, audioURL) => {
+    setAudio(new Howl({ src: [audioURL], format, html5: true, autoplay: true }))
     setCurrentSongId(songId)
-
-    audio.play()
   }, [setAudio])
-  const togglePlay = useCallback(_ => {
+  const toggleAudio = useCallback(_ => {
     if (audio) {
-      audio.playing()
-        ? pauseSong()
-        : playSong()
+      audio.playing() ? pauseAudio() : playAudio()
     }
-  }, [audio, pauseSong, playSong])
+
+  }, [audio, pauseAudio, playAudio])
 
   return (
     <PlayerContext.Provider
       value={{
         currentSongId,
-        togglePlay,
-        pauseSong,
-        playSong,
+        toggleAudio,
+        pauseAudio,
+        playAudio,
         isPlaying,
+        startSong,
       }}
       children={children}
     />
