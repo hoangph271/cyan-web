@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { validateUploadSong } from '../utils/validators'
 import { ModalContext } from '../utils/context'
-import { useInput } from '../utils/hooks'
+import { useInput } from '../hooks/utils'
 
 import audioIcon from '../assets/png/audio.png'
 import titleIcon from '../assets/png/title.png'

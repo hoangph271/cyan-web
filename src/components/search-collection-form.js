@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import styled from 'styled-components'
 
-import { useInput } from '../utils/hooks'
+import { useInput } from '../hooks/utils'
 
 import SearchBox from '../components/search-box'
 import ZenCircle from '../components/zen-circle'

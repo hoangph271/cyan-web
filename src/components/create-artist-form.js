@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { validateUploadArtist } from '../utils/validators'
 import { ModalContext } from '../utils/context'
-import { useInput } from '../utils/hooks'
+import { useInput } from '../hooks/utils'
 
 import FlatButton from '../components/flat-button'
 import IconedInput from '../components/iconed-input'

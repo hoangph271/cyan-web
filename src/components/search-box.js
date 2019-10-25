@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
-import { useInput } from '../utils/hooks'
+import { useInput } from '../hooks/utils'
 
 import IconedInput from '../components/iconed-input'
 
