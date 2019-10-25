@@ -1,8 +1,8 @@
-import React, { useContext, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
+import { usePlayingSong } from '../hooks/player'
 import { songsCollection } from '../utils/firestore'
-import { PlayerContext } from '../providers/player-provider'
 
 import Chip from './chip'
 import SearchCollectionForm from './search-collection-form'
@@ -35,12 +35,14 @@ const SongList = styled((props = {}) => {
   const { className } = props
   const { songs = [], onSongClick = _ => {} } = props
 
-  const { currentSongId, isPlaying } = useContext(PlayerContext)
+  const { isPlaying, currentSongId } = usePlayingSong()
   const itemClassNames = useCallback(songId => {
     const isCurrentSong = currentSongId === songId
 
-    return (isCurrentSong ? 'current-song' : '')
-      + (isCurrentSong && isPlaying ? '' : ' playing')
+    const currentSongCN = isCurrentSong ? 'current-song' : ''
+    const playingCN = isCurrentSong && isPlaying ? 'playing' : ''
+
+    return [currentSongCN, playingCN].join(' ')
   }, [isPlaying, currentSongId])
 
   return (
@@ -60,7 +62,10 @@ const SongList = styled((props = {}) => {
     </div>
   )
 })`
-  .playing-song {
+  .current-song {
+    box-shadow: ${props => props.theme.deepCurrentShadow};
+  }
+  .current-song.playing {
     box-shadow: ${props => props.theme.deepSelectedShadow};
   }
 `
