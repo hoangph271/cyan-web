@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useCallback } from 'react'
 import styled from 'styled-components'
 
 import { songsCollection } from '../utils/firestore'
@@ -36,6 +36,12 @@ const SongList = styled((props = {}) => {
   const { songs = [], onSongClick = _ => {} } = props
 
   const { currentSongId, isPlaying } = useContext(PlayerContext)
+  const itemClassNames = useCallback(songId => {
+    const isCurrentSong = currentSongId === songId
+
+    return (isCurrentSong ? 'current-song' : '')
+      + (isCurrentSong && isPlaying ? '' : ' playing')
+  }, [isPlaying, currentSongId])
 
   return (
     <div className={className}>
@@ -44,7 +50,7 @@ const SongList = styled((props = {}) => {
       ) : (
         songs.map((song) => (
           <Chip
-            className={`${isPlaying && currentSongId === song.id ? 'playing-song' : ''}`}
+            className={itemClassNames(song.id)}
             key={song.id}
             onClick={_ => onSongClick(song)}
           >
