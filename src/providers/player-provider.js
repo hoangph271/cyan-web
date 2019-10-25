@@ -1,52 +1,57 @@
-import React, { createContext, useState, useCallback } from 'react'
+import React, { createContext, useState, useCallback, useEffect } from 'react'
 import { Howl } from 'howler'
 
 const audioFormats = ['mp3']
 const PlayerContext = createContext({
   currentSongId: null,
   isPlaying: false,
-  playAudio: _ => {},
-  pauseAudio: _ => {},
-  toggleAudio: _ => {},
+  playSong: _ => {},
+  pauseSong: _ => {},
+  togglePlay: _ => {},
 })
 
 const PlayerProvider = ({ children }) => {
   const [audio, setAudio] = useState(null)
-  const [currentSongId, setCurrentSongId] = useState(null)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [currentSongId, setCurrentSongId] = useState(null)
 
-  const pauseAudio = useCallback(_ => {
-    if (isPlaying) {
-      setIsPlaying(false)
-      audio.pause()
+  useEffect(_ => {
+    if (audio) {
+      audio.on('play', _ => setIsPlaying(true))
+      audio.on('end', _ => setIsPlaying(false))
+      audio.on('stop', _ => setIsPlaying(false))
+      audio.on('pause', _ => setIsPlaying(false))
+    } else {
+      setCurrentSongId(null)
     }
-  }, [audio, isPlaying])
-  const playAudio = useCallback((songId, audioURL) => {
-    pauseAudio()
 
+    return _ => audio && audio.off() && audio.unload()
+  }, [audio])
+
+  const pauseSong = useCallback(_ => audio && audio.pause(), [audio])
+  const playSong = useCallback((songId, audioURL) => {
     const audio = new Howl({ src: [audioURL], format: audioFormats, html5: true })
 
     setAudio(audio)
     setCurrentSongId(songId)
 
     audio.play()
-
-  }, [pauseAudio, setAudio])
-  const toggleAudio = useCallback(_ => {
+  }, [setAudio])
+  const togglePlay = useCallback(_ => {
     if (audio) {
       audio.playing()
-      ? pauseAudio()
-      : playAudio()
+        ? pauseSong()
+        : playSong()
     }
-  }, [audio, pauseAudio, playAudio])
+  }, [audio, pauseSong, playSong])
 
   return (
     <PlayerContext.Provider
       value={{
         currentSongId,
-        toggleAudio,
-        pauseAudio,
-        playAudio,
+        togglePlay,
+        pauseSong,
+        playSong,
         isPlaying,
       }}
       children={children}

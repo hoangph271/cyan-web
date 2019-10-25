@@ -1,6 +1,5 @@
-import React, { useState, useContext, useCallback } from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
-import firebase from 'firebase'
 
 import { songsCollection } from '../utils/firestore'
 import { PlayerContext } from '../providers/player-provider'
@@ -10,22 +9,7 @@ import SearchCollectionForm from './search-collection-form'
 
 const SearchSongForm = (props = {}) => {
   const { className, resultLimit } = props
-  const { playAudio, toggleAudio } = useContext(PlayerContext)
-  const [playingSong, setPlayingSong] = useState(null)
-
-  const handleSongClick = useCallback(song => {
-    if (playingSong && playingSong.id === song.id) {
-      toggleAudio()
-    } else {
-      setPlayingSong(song)
-
-      firebase
-        .storage()
-        .ref(`songs/${song.id}`)
-        .getDownloadURL()
-        .then(url => playAudio(song.id, url))
-    }
-  }, [playAudio, playingSong, toggleAudio])
+  const { onSongClick = _ => {} } = props
 
   return (
     <SearchCollectionForm
@@ -36,8 +20,7 @@ const SearchSongForm = (props = {}) => {
       buildItems={items => (
         <SongList
           songs={items}
-          onSongClick={handleSongClick}
-          playingSongId={playingSong && playingSong.id}
+          onSongClick={onSongClick}
         />
       )}
     />
@@ -49,8 +32,10 @@ export default styled(SearchSongForm)`
 
 // TODO: Style this
 const SongList = styled((props = {}) => {
-  const { className, playingSongId } = props
+  const { className } = props
   const { songs = [], onSongClick = _ => {} } = props
+
+  const { currentSongId, isPlaying } = useContext(PlayerContext)
 
   return (
     <div className={className}>
@@ -59,7 +44,7 @@ const SongList = styled((props = {}) => {
       ) : (
         songs.map((song) => (
           <Chip
-            className={`${playingSongId === song.id ? 'playing-song' : ''}`}
+            className={`${isPlaying && currentSongId === song.id ? 'playing-song' : ''}`}
             key={song.id}
             onClick={_ => onSongClick(song)}
           >
