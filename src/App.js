@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import firebase from 'firebase'
 
-import { AuthContext, PlayerContext } from './utils/context'
-import * as playerActions from './utils/player'
+import { PlayerProvider } from './providers/player-provider'
 import { rolesCollection } from './utils/firestore'
+import { AuthContext } from './utils/context'
 import defaultTheme from './utils/theme'
 
 import Home from './views/home'
@@ -89,13 +89,13 @@ const App = props => {
     <React.StrictMode>
       <ThemeProvider theme={defaultTheme}>
         <AuthContext.Provider value={{ userInfo, roles }}>
-          <PlayerContext.Provider value={{...playerActions}}>
+          <PlayerProvider>
             <main className={className}>
               <Modal>
                 {userInfo ? <Home /> : <Login />}
               </Modal>
             </main>
-          </PlayerContext.Provider>
+          </PlayerProvider>
         </AuthContext.Provider>
       </ThemeProvider>
     </React.StrictMode>

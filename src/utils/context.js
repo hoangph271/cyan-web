@@ -9,14 +9,7 @@ const ModalContext = createContext({
   showToast: _ => {},
 })
 
-const PlayerContext = createContext({
-  playAudio: _ => {},
-  pauseAudio: _ => {},
-  toggleAudio: _ => {},
-})
-
 export {
   AuthContext,
   ModalContext,
-  PlayerContext,
 }

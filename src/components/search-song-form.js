@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import firebase from 'firebase'
 
 import { songsCollection } from '../utils/firestore'
-import { PlayerContext } from '../utils/context'
+import { PlayerContext } from '../providers/player-provider'
 
 import Chip from './chip'
 import SearchCollectionForm from './search-collection-form'
@@ -23,7 +23,7 @@ const SearchSongForm = (props = {}) => {
         .storage()
         .ref(`songs/${song.id}`)
         .getDownloadURL()
-        .then(url => playAudio(url))
+        .then(url => playAudio(song.id, url))
     }
   }, [playAudio, playingSong, toggleAudio])
 
