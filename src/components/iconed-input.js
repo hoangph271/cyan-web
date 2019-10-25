@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import styled from 'styled-components'
 
-import { generateUUID } from '../utils/helpers'
+import { generateUUID } from '../utils'
 
 const maskableInputTypes = [
   'file',
