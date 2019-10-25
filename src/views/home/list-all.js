@@ -1,14 +1,15 @@
-import React, { useContext, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
-import { PlayerContext } from '../../providers/player-provider'
+import { usePlayingSong, usePlayerControll } from '../../hooks/player'
 
 import SearchSongForm from '../../components/search-song-form'
 
 const ListAll = (props = {}) => {
   const { className } = props
 
-  const { currentSongId, startSong, toggleAudio } = useContext(PlayerContext)
+  const { currentSongId } = usePlayingSong()
+  const { startSong, toggleAudio } = usePlayerControll()
 
   const handleSongClick = useCallback(song => {
     currentSongId === song.id

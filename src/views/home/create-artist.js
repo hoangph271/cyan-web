@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import firebase from 'firebase'
 
 import { useAuth } from '../../hooks/auth'
-import { artistsCollection } from '../../utils/firestore'
 import { Roles } from '../../utils/constants'
 import { generateAllKeywords } from '../../utils/text'
+import { artistsCollection } from '../../utils/firestore'
 
 import CreateArtistForm from '../../components/create-artist-form'
 

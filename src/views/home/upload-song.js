@@ -2,9 +2,8 @@ import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import firebase from 'firebase'
 
-
-import { Roles } from '../../utils/constants'
 import { useAuth } from '../../hooks/auth'
+import { Roles } from '../../utils/constants'
 import { generateAllKeywords } from '../../utils/text'
 import { songsCollection } from '../../utils/firestore'
 

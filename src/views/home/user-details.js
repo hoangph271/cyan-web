@@ -9,6 +9,7 @@ import UserInfoCard from '../../components/user-info-card'
 
 const UserDetails = (props = {}) => {
   const { className } = props
+
   const { userInfo } = useAuth()
   const [userDetail, setUserDetail] = useState(null)
 
