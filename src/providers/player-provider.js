@@ -4,10 +4,10 @@ import { Howl } from 'howler'
 const audioFormats = ['mp3']
 const PlayerContext = createContext({
   currentSongId: null,
-  isPlaying: false,
-  playSong: _ => {},
-  pauseSong: _ => {},
-  togglePlay: _ => {},
+  isPlaying: null,
+  playSong: null,
+  pauseSong: null,
+  togglePlay: null,
 })
 
 const PlayerProvider = ({ children }) => {
