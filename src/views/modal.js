@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 
 import { ModalContext } from '../utils/context'
 
-import Toast from './toast'
+import Toast from '../components/toast'
 
 const Modal = (props = {}) => {
   const { className, children } = props
