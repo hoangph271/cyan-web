@@ -29,6 +29,7 @@ const PlayerProvider = ({ children }) => {
   const playAudio = useCallback(_ => audio && audio.play(), [audio])
   const startSong = useCallback((songId, audioURL) => {
     setAudio(new Howl({ src: [audioURL], format, html5: true, autoplay: true }))
+    setIsPlaying(false)
     setCurrentSongId(songId)
   }, [setAudio])
   const toggleAudio = useCallback(_ => {
