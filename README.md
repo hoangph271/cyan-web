@@ -3,7 +3,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## TODO:
 * [✔] Allow uploading audios for uploaders
 * [✔] List all songs
-* NEED - Toast & Dialog components
+* [NEED] Routing your app, but keep @reach/router away from it...!
+// Damn @reach/router with those stupid divs...! :"{
+* [1/2] Toast & Dialog components
 * Allow removing audio & artists for uploaders
 * Allow creating playlists for members
 
