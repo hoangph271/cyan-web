@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/jest": "^24.0.20",
+    "@types/node": "^12.11.7",
+    "@types/react": "^16.9.11",
+    "@types/react-dom": "^16.9.3",
+    "@types/styled-components": "^4.1.20",
     "chai": "^4.2.0",
     "firebase": "^7.0.0",
     "howler": "^2.1.2",
@@ -11,7 +16,8 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.1.2",
     "sinon": "^7.5.0",
-    "styled-components": "^4.4.0"
+    "styled-components": "^4.4.0",
+    "typescript": "^3.6.4"
   },
   "scripts": {
     "start": "react-scripts start",
