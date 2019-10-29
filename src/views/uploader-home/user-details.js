@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import firebase from 'firebase'
 
 import { useAuth } from '../../hooks/auth'
-import { usersCollection } from '../../utils/firestore'
+import { usersCollection } from '../../utils/firebase'
 
 import UserInfoCard from '../../components/user-info-card'
 

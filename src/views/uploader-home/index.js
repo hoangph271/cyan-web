@@ -12,8 +12,9 @@ import UploadSong from './upload-song'
 import UserDetails from './user-details'
 import CreateArtist from './create-artist'
 
-const Home = (props = {}) => {
+const UploaderHome = (props = {}) => {
   const { className } = props
+
   const { roles } = useContext(AuthContext)
 
   if (roles === null) {
@@ -38,7 +39,7 @@ const Home = (props = {}) => {
   )
 }
 
-export default styled(Home)`
+export default styled(UploaderHome)`
   max-width: calc(100% - 1rem);
   width: calc(100% - 1rem);
   margin: 0 auto;

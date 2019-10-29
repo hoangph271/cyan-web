@@ -5,7 +5,7 @@ import firebase from 'firebase'
 import { useAuth } from '../../hooks/auth'
 import { Roles } from '../../utils/constants'
 import { generateAllKeywords } from '../../utils/text'
-import { artistsCollection } from '../../utils/firestore'
+import { artistsCollection } from '../../utils/firebase'
 
 import CreateArtistForm from '../../components/create-artist-form'
 

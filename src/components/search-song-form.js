@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
 import { usePlayingSong } from '../hooks/player'
-import { songsCollection } from '../utils/firestore'
+import { songsCollection } from '../utils/firebase'
 
 import Chip from './chip'
 import SearchCollectionForm from './search-collection-form'

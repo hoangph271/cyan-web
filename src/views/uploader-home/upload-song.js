@@ -5,7 +5,7 @@ import firebase from 'firebase'
 import { useAuth } from '../../hooks/auth'
 import { Roles } from '../../utils/constants'
 import { generateAllKeywords } from '../../utils/text'
-import { songsCollection } from '../../utils/firestore'
+import { songsCollection } from '../../utils/firebase'
 
 import UploadSongForm from '../../components/upload-song-form'
 

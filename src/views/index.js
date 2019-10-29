@@ -1,23 +1,46 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Switch, Route, Redirect, useLocation } from 'react-router-dom'
 
 import { useAuth } from '../hooks/auth'
 
-import Home from './home'
+import CenterText from '../components/center-text'
+
+import UploaderHome from './uploader-home'
 import Login from './login'
+
+const AuthRequiredRoute = (props = {}) => {
+  const { userInfo } = useAuth()
+  const location = useLocation()
+
+  return (
+    <Route {...props}>
+      {userInfo ? props.children : (
+        <Redirect to={{
+          pathname: '/login',
+          state: { from: location },
+        }} />
+      )}
+    </Route>
+  )
+}
 
 const ViewRoot = (props = {}) => {
   const { className } = props
 
-  const { userInfo } = useAuth()
-
   return (
     <main className={className}>
-      {userInfo ? (
-        <Home />
-      ) : (
-        <Login />
-      )}
+      <Switch>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <AuthRequiredRoute path="/uploader">
+          <UploaderHome />
+        </AuthRequiredRoute>
+        <Route>
+          <CenterText text="404 | Not Found" />
+        </Route>
+      </Switch>
     </main>
   )
 }

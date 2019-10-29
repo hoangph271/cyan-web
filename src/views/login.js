@@ -1,15 +1,21 @@
 import React, { useCallback, useState, useEffect, useRef } from 'react'
+import { useLocation, Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import firebase from 'firebase'
+
+import { useAuth } from '../hooks/auth'
 
 import ZenCircle from '../components/zen-circle'
 import FlatButton from '../components/flat-button'
 
 const Login = (props = {}) => {
   const { className } = props
+
+  const { userInfo } = useAuth()
   const isMountedRef = useRef(true)
   const [signInError, setSignInError] = useState(null)
   const [isAuthenticating, setIsAuthenticating] = useState(false)
+  const { from } = useLocation().state || { from: { pathname: '/' }}
 
   useEffect(_ => _ => isMountedRef.current = false, [])
 
@@ -25,7 +31,13 @@ const Login = (props = {}) => {
       .then(_ => isMountedRef.current && setIsAuthenticating(false))
   }, [])
 
-  return (
+  if (userInfo) {
+    
+  }
+
+  return userInfo ? (
+    <Redirect to={from.pathname} />
+  ) : (
     <div className={className}>
       {isAuthenticating ? (
         <ZenCircle text="Authenticating...!" />

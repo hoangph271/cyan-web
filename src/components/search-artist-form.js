@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { artistsCollection } from '../utils/firestore'
+import { artistsCollection } from '../utils/firebase'
 
 import ArtistCard from '../components/artist-card'
 import SearchCollectionForm from '../components/search-collection-form'

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, createContext } from 'react'
 import firebase from 'firebase'
 
-import { rolesCollection } from '../utils/firestore'
+import { rolesCollection } from '../utils/firebase'
 
 const AuthContext = createContext({
   userInfo: null,
@@ -49,10 +49,9 @@ const AuthProvider = ({ children }) => {
   useEffect(_ => {
     let isMounted = true
 
-    firebase.auth()
-      .onAuthStateChanged(userInfo => {
-        isMounted && setUserInfo(userInfo)
-      })
+    firebase
+      .auth()
+      .onAuthStateChanged(userInfo => isMounted && setUserInfo(userInfo))
 
     return _ => isMounted = false
   }, [])
