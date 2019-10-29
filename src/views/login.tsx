@@ -8,21 +8,22 @@ import { useAuth } from '../hooks/auth'
 import ZenCircle from '../components/zen-circle'
 import FlatButton from '../components/flat-button'
 
-const Login = (props = {}) => {
+type LoginProps = { className?: string }
+const Login = (props: LoginProps = {}) => {
   const { className } = props
 
   const { userInfo } = useAuth()
   const isMountedRef = useRef(true)
-  const [signInError, setSignInError] = useState(null)
+  const [signInError, setSignInError] = useState<Error | null>(null)
   const [isAuthenticating, setIsAuthenticating] = useState(false)
   const { from } = useLocation().state || { from: { pathname: '/' }}
 
-  useEffect(_ => _ => isMountedRef.current = false, [])
+  useEffect(() => () => { isMountedRef.current = false }, [])
 
-  const signIn = useCallback(async _ => {
+  const signIn = useCallback(() => {
     setIsAuthenticating(true)
 
-    await firebase.auth()
+    firebase.auth()
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .catch(error => {
         console.error(error)

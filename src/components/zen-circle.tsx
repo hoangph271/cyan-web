@@ -3,7 +3,10 @@ import styled from 'styled-components'
 
 import zen from '../assets/png/zen.png'
 
-const ZenCircle = ({ className, text = '' }) => {
+type ZenCircleProps = { className?: string, text?: string }
+const ZenCircle = (props: ZenCircleProps = {}) => {
+  const { className, text = '' } = props
+
   return (
     <span className={className}>
       {text === '' ? (
