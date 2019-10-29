@@ -2,7 +2,7 @@ import { useContext } from 'react'
 
 import { PlayerContext } from '../providers/player-provider'
 
-const usePlayerControll = _ => {
+const usePlayerControll = () => {
   const { playAudio, pauseAudio, startSong, toggleAudio } = useContext(PlayerContext)
 
   return {
@@ -13,7 +13,7 @@ const usePlayerControll = _ => {
   }
 }
 
-const usePlayingSong = _ => {
+const usePlayingSong = () => {
   const { isPlaying, currentSongId } = useContext(PlayerContext)
 
   return {
