@@ -1,4 +1,4 @@
-const keywordFromText = (text = '') => {
+const keywordFromText = (text: string) => {
   const words = text.split(' ')
 
   const firstCharOnly = words
@@ -20,7 +20,7 @@ const keywordFromText = (text = '') => {
 
   return [...new Set(keywords)]
 }
-const generateAllKeywords = (text = '') => {
+const generateAllKeywords = (text: string) => {
   const nonAccentText = toNonAccentVietnamese(text)
 
   return [...new Set([
@@ -28,7 +28,7 @@ const generateAllKeywords = (text = '') => {
     ...keywordFromText(nonAccentText),
   ])]
 }
-const getAllSubstrings = (str = '') => {
+const getAllSubstrings = (str: string) => {
   const result = [];
 
   for (let i = 0; i < str.length; i++) {
@@ -39,7 +39,7 @@ const getAllSubstrings = (str = '') => {
 
   return result
 }
-const toNonAccentVietnamese = str => {
+const toNonAccentVietnamese = (str: string) => {
   return str
     .replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, 'a')
     .replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, 'A')

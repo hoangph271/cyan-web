@@ -1,4 +1,4 @@
-const generateUUID = _ => {
+const generateUUID = () => {
   let time = new Date().getTime()
 
   const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, char => {
