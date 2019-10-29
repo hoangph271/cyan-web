@@ -5,13 +5,17 @@ import ReactDOM from 'react-dom'
 import Toast from '../components/toast'
 
 const modalRoot = document.getElementById('modal-root')
-const ModalContext = createContext({
-  showToast: (text: String) => {},
+
+type ModalContextProps = {
+  showToast: ((text: string) => void) | null
+}
+const ModalContext = createContext<ModalContextProps>({
+  showToast: null,
 })
 
 const ModalProvider = styled(({ children, className }) => {
-  const [toastContent, setToastContent] = useState(null)
-  const showToast = useCallback((text) => setToastContent(text), [setToastContent])
+  const [toastContent, setToastContent] = useState<string | null>(null)
+  const showToast = useCallback((text: string) => { setToastContent(text) }, [setToastContent])
   const onToastDismiss = useCallback(() => setToastContent(null), [setToastContent])
 
   return (

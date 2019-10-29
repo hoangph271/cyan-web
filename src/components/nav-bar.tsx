@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 import { NavLink, useRouteMatch } from 'react-router-dom'
 
-const NavBar = ({ className, links } = {}) => {
-  const { url: matchUrl } = useRouteMatch()
+interface NavBarProps {
+  className?: string,
+  links: Array<{ url: string, text: string }>
+}
+const NavBar = (props: NavBarProps = { links: [] }) => {
+  const { className, links } = props
+  const { url: matchUrl } = useRouteMatch() || { url: '' }
 
   return (
     <nav className={className}>

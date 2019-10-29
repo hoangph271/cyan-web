@@ -21,11 +21,12 @@ const links = [
   { text: 'Upload Song', url: 'upload-song' },
 ]
 
-const UploaderHome = (props = {}) => {
+type UploaderHomeProps = { className?: string }
+const UploaderHome = (props: UploaderHomeProps = {}) => {
   const { className } = props
 
   const { roles } = useAuth()
-  const { url } = useRouteMatch()
+  const { url } = useRouteMatch() || { url: '' }
 
   if (roles === null) {
     return (
