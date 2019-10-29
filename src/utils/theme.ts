@@ -1,6 +1,3 @@
-import React from 'react'
-import { ThemeProvider } from 'styled-components'
-
 const defaultTheme = {
   // * COLOR
   mainColor: '#000',
@@ -23,13 +20,3 @@ const defaultTheme = {
 }
 
 export default defaultTheme
-
-const withDefaultTheme = children => (
-  <ThemeProvider theme={defaultTheme}>
-    {children}
-  </ThemeProvider>
-)
-
-export {
-  withDefaultTheme,
-}

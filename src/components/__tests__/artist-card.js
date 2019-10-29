@@ -3,7 +3,13 @@ import { shallow, mount } from 'enzyme'
 import { expect } from 'chai'
 
 import ArtistCard from '../artist-card'
-import { withDefaultTheme } from '../../utils/theme'
+import { DefaultThemeProvider } from '../../providers/theme-provider'
+
+const withDefaultTheme = (children) => (
+  <DefaultThemeProvider>
+    {children}
+  </DefaultThemeProvider>
+)
 
 it('renders without crashing', () => {
   const artist = { title: 'title' }

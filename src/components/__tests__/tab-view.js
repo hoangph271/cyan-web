@@ -2,8 +2,8 @@ import React from 'react'
 import { shallow, mount } from 'enzyme'
 import { expect } from 'chai'
 
-import TabView from '../tab-view'
-import { withDefaultTheme } from '../../utils/theme'
+import { withDefaultTheme } from './index'
+
 
 it('renders without crashing', () => {
   shallow(withDefaultTheme(<TabView />))

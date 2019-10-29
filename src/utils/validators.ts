@@ -1,4 +1,4 @@
-const validateUploadArtist = ({ title, avatar, dob, pob } = {}) => {
+const validateUploadArtist = ({ title } : { title?: string } = {}) => {
   let isValid = true
   const errors = []
 
@@ -13,7 +13,9 @@ const validateUploadArtist = ({ title, avatar, dob, pob } = {}) => {
   }
 }
 
-const isValidArtist = ({ id, title }) => {
+const isValidArtist = (props : { id?: string, title?: string }) => {
+  const { id, title } = props
+
   if (typeof id !== 'string' || id.length === 0) {
     return false
   }
@@ -25,7 +27,9 @@ const isValidArtist = ({ id, title }) => {
   return true
 }
 
-const validateUploadSong = ({ title, audio, artists } = {}) => {
+const validateUploadSong = (props : { title?: string, audio?: File, artists?: Array<Object> } = {}) => {
+  const { title, audio, artists } = props
+
   let isValid = true
   const errors = []
 
@@ -40,9 +44,7 @@ const validateUploadSong = ({ title, audio, artists } = {}) => {
     errors.push(createFieldError('audio', `Audio file is NOT a valid file`))
   }
 
-  const isArtistsAnArray = Array.isArray(artists)
-
-  if (isArtistsAnArray) {
+  if (Array.isArray(artists)) {
     const invalidArtist = artists.find(artist => !isValidArtist(artist))
 
     if (invalidArtist !== undefined) {
@@ -60,7 +62,7 @@ const validateUploadSong = ({ title, audio, artists } = {}) => {
   }
 }
 
-const createFieldError = (fieldName, message) => ({
+const createFieldError = (fieldName: string, message: string) => ({
   fieldName,
   message,
 })
