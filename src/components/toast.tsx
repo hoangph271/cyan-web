@@ -3,14 +3,19 @@ import styled from 'styled-components'
 
 const TOAST_DURATION_MS = 3 * 1000
 
-const Toast = (props = {}) => {
+type ToastProps = {
+  children?: React.ReactNode,
+  className?: string,
+  onDismiss?: () => void,
+}
+const Toast = (props: ToastProps = {}) => {
   const { className, children } = props
-  const { onDismiss = _ => {} } = props
+  const { onDismiss = () => {} } = props
 
-  useEffect(_ => {
+  useEffect(() => {
     const timeout = setTimeout(onDismiss, TOAST_DURATION_MS)
 
-    return _ => clearTimeout(timeout)
+    return () => clearTimeout(timeout)
   }, [onDismiss, children])
 
   return (

@@ -2,37 +2,56 @@ import React, { createContext, useState, useCallback, useEffect } from 'react'
 import { Howl } from 'howler'
 
 const format = ['mp3']
-const PlayerContext = createContext({
+
+type PlayerContextProps = {
+  currentSongId: string | null,
+  toggleAudio: (() => void) | null,
+  pauseAudio: (() => void) | null,
+  playAudio: (() => void) | null,
+  startSong: ((songId: string, audioURL: string) => void) | null,
+  isPlaying: boolean | null,
+}
+const PlayerContext = createContext<PlayerContextProps>({
   currentSongId: null,
   toggleAudio: null,
   pauseAudio: null,
   playAudio: null,
-  isPlaying: null,
   startSong: null,
+  isPlaying: null,
 })
 
-const PlayerProvider = ({ children }) => {
-  const [audio, setAudio] = useState(null)
+type PlayerProviderProps = { children?: React.ReactNode }
+const PlayerProvider = (props: PlayerProviderProps) => {
+  const { children } = props
+
+  const [audio, setAudio] = useState<Howl | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentSongId, setCurrentSongId] = useState(null)
 
-  useEffect(_ => {
+  useEffect(() => {
     audio && audio.on('play', _ => setIsPlaying(true))
     audio && audio.on('end', _ => setIsPlaying(false))
     audio && audio.on('stop', _ => setIsPlaying(false))
     audio && audio.on('pause', _ => setIsPlaying(false))
 
-    return _ => audio && audio.off().unload()
+    return () => {
+      audio && audio
+        .off('pause')
+        .off('play')
+        .off('stop')
+        .off('end')
+        .unload()
+    }
   }, [audio])
 
-  const pauseAudio = useCallback(_ => audio && audio.pause(), [audio])
-  const playAudio = useCallback(_ => audio && audio.play(), [audio])
+  const pauseAudio = useCallback(() => audio && audio.pause(), [audio])
+  const playAudio = useCallback(() => audio && audio.play(), [audio])
   const startSong = useCallback((songId, audioURL) => {
     setAudio(new Howl({ src: [audioURL], format, html5: true, autoplay: true }))
     setIsPlaying(false)
     setCurrentSongId(songId)
   }, [setAudio])
-  const toggleAudio = useCallback(_ => {
+  const toggleAudio = useCallback(() => {
     if (audio) {
       audio.playing() ? pauseAudio() : playAudio()
     }

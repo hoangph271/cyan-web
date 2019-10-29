@@ -1,10 +1,10 @@
 import firebase from 'firebase'
 
-const rolesCollection = _ => firebase.firestore().collection('roles')
-const usersCollection = _ => firebase.firestore().collection('users')
-const songsCollection = _ => firebase.firestore().collection('songs')
-const artistsCollection = _ => firebase.firestore().collection('artists')
-const initializeFirebase = _ => {
+const rolesCollection = () => firebase.firestore().collection('roles')
+const usersCollection = () => firebase.firestore().collection('users')
+const songsCollection = () => firebase.firestore().collection('songs')
+const artistsCollection = () => firebase.firestore().collection('artists')
+const initializeFirebase = () => {
   firebase.initializeApp({
     apiKey: 'AIzaSyDXtazMnwJsEIFxF_5rvh-IO9BkWx-WCdM',
     authDomain: 'cyan-f2d39.firebaseapp.com',

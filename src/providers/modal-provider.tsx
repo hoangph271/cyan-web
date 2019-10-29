@@ -4,26 +4,24 @@ import ReactDOM from 'react-dom'
 
 import Toast from '../components/toast'
 
+const modalRoot = document.getElementById('modal-root')
 const ModalContext = createContext({
-  showToast: _ => {},
+  showToast: (text: String) => {},
 })
 
 const ModalProvider = styled(({ children, className }) => {
   const [toastContent, setToastContent] = useState(null)
-  const onToastDismiss = useCallback(_ => setToastContent(null), [setToastContent])
+  const showToast = useCallback((text) => setToastContent(text), [setToastContent])
+  const onToastDismiss = useCallback(() => setToastContent(null), [setToastContent])
 
   return (
-    <ModalContext.Provider
-      value={{
-        showToast: setToastContent,
-      }}
-    >
+    <ModalContext.Provider value={{ showToast }}>
       <>
         {ReactDOM.createPortal((
           <div className={className}>
             {toastContent && <Toast children={toastContent} onDismiss={onToastDismiss} />}
           </div>
-        ), document.getElementById('modal-root'))}
+        ), modalRoot as Element)}
         {children}
       </>
     </ModalContext.Provider>

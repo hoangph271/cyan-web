@@ -3,16 +3,20 @@ import firebase from 'firebase'
 
 import { rolesCollection } from '../utils/firebase'
 
-const AuthContext = createContext({
+type AuthContextProps = { userInfo: Object | null, roles: Array<string> | null}
+const AuthContext = createContext<AuthContextProps>({
   userInfo: null,
   roles: null,
 })
 
-const AuthProvider = ({ children }) => {
+type AuthProviderProps = { children?: React.ReactNode }
+const AuthProvider = (props: AuthProviderProps = {}) => {
+  const { children } = props
+
   const [roles, setRoles] = useState([])
   const [userInfo, setUserInfo] = useState(firebase.auth().currentUser)
 
-  useEffect(_ => {
+  useEffect(() => {
     let isMounted = true
 
     firebase.auth()
@@ -44,16 +48,16 @@ const AuthProvider = ({ children }) => {
         })
       })
 
-      return _ => isMounted = false
+      return () => { isMounted = false }
   }, [])
-  useEffect(_ => {
+  useEffect(() => {
     let isMounted = true
 
     firebase
       .auth()
       .onAuthStateChanged(userInfo => isMounted && setUserInfo(userInfo))
 
-    return _ => isMounted = false
+    return () => { isMounted = false }
   }, [])
 
   return (
