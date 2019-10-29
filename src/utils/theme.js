@@ -2,6 +2,8 @@ import React from 'react'
 import { ThemeProvider } from 'styled-components'
 
 const defaultTheme = {
+  // * COLOR
+  mainColor: '#000',
   // * RADIUS
   shalowRadius: '0.2rem',
   deepRadius: '0.4rem',

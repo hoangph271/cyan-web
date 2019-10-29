@@ -83,12 +83,11 @@ const UploadSongForm = (props = {}) => {
         iconUrl={audioIcon}
         onChange={handleAudioChange}
       />
-      <div>
+      <div className="expand-parent-margin">
         {artists.length === 0 ? (
-          <div className="selected-artist">{'No artist selected...! :"{'}</div>
+          <div className="no-artist-selected">{'No artist selected...! :"{'}</div>
         ) : artists.map(artist => (
           <Chip
-            className="selected-artist"
             key={artist.id}
             onClick={_ => handleArtistClick(artist)}
           >
@@ -105,4 +104,11 @@ const UploadSongForm = (props = {}) => {
 }
 
 export default styled(UploadSongForm)`
+  .expand-parent-margin {
+    // FIX collapsing margins
+    overflow: hidden;
+  }
+  .no-artist-selected {
+    margin: ${props => props.theme.shallowMargin};
+  }
 `

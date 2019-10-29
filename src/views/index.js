@@ -7,6 +7,7 @@ import { useAuth } from '../hooks/auth'
 import CenterText from '../components/center-text'
 
 import UploaderHome from './uploader-home'
+import MemberHome from './member-home'
 import Login from './login'
 
 const AuthRequiredRoute = (props = {}) => {
@@ -36,6 +37,9 @@ const ViewRoot = (props = {}) => {
         </Route>
         <AuthRequiredRoute path="/uploader">
           <UploaderHome />
+        </AuthRequiredRoute>
+        <AuthRequiredRoute exact path="/">
+          <MemberHome />
         </AuthRequiredRoute>
         <Route>
           <CenterText text="404 | Not Found" />

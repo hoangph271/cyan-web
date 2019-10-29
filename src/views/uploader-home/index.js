@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
+import { Switch, Route, useRouteMatch } from 'react-router-dom'
 
 import { MinWidths } from '../../utils/constants'
 import { AuthContext } from '../../utils/context'
 
-import TabView from '../../components/tab-view'
+import NavBar from '../../components/nav-bar'
 import ZenCircle from '../../components/zen-circle'
 
 import ListAll from './list-all'
@@ -12,10 +13,18 @@ import UploadSong from './upload-song'
 import UserDetails from './user-details'
 import CreateArtist from './create-artist'
 
+const links = [
+  { text: 'Auth', url: 'auth' },
+  { text: 'Create Artist', url: 'create-artist' },
+  { text: 'List All', url: 'list-all' },
+  { text: 'Upload Song', url: 'upload-song' },
+]
+
 const UploaderHome = (props = {}) => {
   const { className } = props
 
   const { roles } = useContext(AuthContext)
+  const { url } = useRouteMatch()
 
   if (roles === null) {
     return (
@@ -26,16 +35,19 @@ const UploaderHome = (props = {}) => {
   }
 
   return (
-    <TabView
-      headers={['Auth', 'Create Artist', 'List All', 'Upload Song']}
-      className={className}
-      selected={3}
-    >
-      <UserDetails />
-      <CreateArtist />
-      <ListAll />
-      <UploadSong />
-    </TabView>
+    <div className={className}>
+      <NavBar
+        links={links}
+        className={className}
+        selected={3}
+      />
+      <Switch>
+        <Route path={`${url}/auth`} component={UserDetails} />
+        <Route path={`${url}/create-artist`} component={CreateArtist} />
+        <Route path={`${url}/upload-song`}component={UploadSong} />
+        <Route component={ListAll} />
+      </Switch>
+    </div>
   )
 }
 
