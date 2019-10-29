@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const CentetText = (props = {}) => {
+type CentetTextProps = { className?: string, text?: string }
+const CentetText = (props:CentetTextProps = {}) => {
   const { className, text }= props
 
   return (

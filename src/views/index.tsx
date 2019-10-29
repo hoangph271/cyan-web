@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom'
 
@@ -10,7 +10,8 @@ import UploaderHome from './uploader-home'
 import MemberHome from './member-home'
 import Login from './login'
 
-const AuthRequiredRoute = (props = {}) => {
+type AuthRequiredRoute = { children?: ReactElement, path?: string, exact?: boolean }
+const AuthRequiredRoute = (props: AuthRequiredRoute = {}) => {
   const { userInfo } = useAuth()
   const location = useLocation()
 
@@ -26,7 +27,8 @@ const AuthRequiredRoute = (props = {}) => {
   )
 }
 
-const ViewRoot = (props = {}) => {
+type ViewRootProps = { className?: string }
+const ViewRoot = (props: ViewRootProps = {}) => {
   const { className } = props
 
   return (

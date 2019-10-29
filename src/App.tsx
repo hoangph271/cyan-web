@@ -13,7 +13,8 @@ import ViewRoot from './views'
 
 initializeFirebase()
 
-const CombinedAppContexts = (props = {}) => (
+type CombinedAppContexts = { children?: object }
+const CombinedAppContexts = (props: CombinedAppContexts = {}) => (
   <React.StrictMode>
     <Router>
       <ThemeProvider theme={defaultTheme}>
@@ -29,7 +30,8 @@ const CombinedAppContexts = (props = {}) => (
   </React.StrictMode>
 )
 
-const App = props => {
+type AppProps = { className?: string };
+const App = (props: AppProps = {}) => {
   const { className } = props
 
   return (
