@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Switch, Route, useRouteMatch } from 'react-router-dom'
+import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom'
 
 import { useAuth } from '../../hooks/auth'
 import { MinWidths } from '../../utils/constants'
@@ -44,12 +44,12 @@ const UploaderHome = (props = {}) => {
       />
       <div className="main-content">
         <Switch>
+          <Route exact path={`${url}/`} render={_ => <Redirect to={`${url}/auth`} />} />
           <Route path={`${url}/auth`} component={UserDetails} />
           <Route path={`${url}/create-artist`} component={CreateArtist} />
           <Route path={`${url}/list-all`} component={ListAll} />
           <Route path={`${url}/upload-song`} component={UploadSong} />
           <Route
-            path={`${url}/`}
             render={_ => (
               <CenterText className="not-found" text="404 | Not Found" />
             )}
