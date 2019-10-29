@@ -1,8 +1,8 @@
-import React, { useRef, useState, useCallback, useContext } from 'react'
+import React, { useRef, useState, useCallback } from 'react'
 import styled from 'styled-components'
 
 import { validateUploadArtist } from '../utils/validators'
-import { ModalContext } from '../utils/context'
+import { useModal } from '../hooks/modal'
 import { useInput } from '../hooks/utils'
 
 import FlatButton from '../components/flat-button'
@@ -20,7 +20,7 @@ const CreateArtistForm = props => {
   const [dob, handleDoBChange, setDoB] = useInput('')
   const [pob, handlePoBChange, setPoB] = useInput('')
   const [fileKey, setFileKey] = useState(Date.now())
-  const { showToast } = useContext(ModalContext)
+  const { showToast } = useModal()
   const avatarRef = useRef()
 
   const resetForm = useCallback(_ => {

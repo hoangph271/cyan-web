@@ -4,11 +4,11 @@ import { BrowserRouter as Router } from 'react-router-dom'
 
 import { PlayerProvider } from './providers/player-provider'
 import { AuthProvider } from './providers/auth-provider'
+import { ModalProvider } from './providers/modal-provider'
 import defaultTheme from './utils/theme'
 
 import { initializeFirebase } from './utils/firebase'
 
-import Modal from './views/modal'
 import ViewRoot from './views'
 
 initializeFirebase()
@@ -19,9 +19,9 @@ const CombinedAppContexts = (props = {}) => (
       <ThemeProvider theme={defaultTheme}>
         <AuthProvider>
           <PlayerProvider>
-              <Modal>
+              <ModalProvider>
                 {props.children}
-              </Modal>
+              </ModalProvider>
           </PlayerProvider>
         </AuthProvider>
       </ThemeProvider>

@@ -1,12 +1,13 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Switch, Route, useRouteMatch } from 'react-router-dom'
 
+import { useAuth } from '../../hooks/auth'
 import { MinWidths } from '../../utils/constants'
-import { AuthContext } from '../../utils/context'
 
-import NavBar from '../../components/nav-bar'
+import CenterText from '../../components/center-text'
 import ZenCircle from '../../components/zen-circle'
+import NavBar from '../../components/nav-bar'
 
 import ListAll from './list-all'
 import UploadSong from './upload-song'
@@ -23,7 +24,7 @@ const links = [
 const UploaderHome = (props = {}) => {
   const { className } = props
 
-  const { roles } = useContext(AuthContext)
+  const { roles } = useAuth()
   const { url } = useRouteMatch()
 
   if (roles === null) {
@@ -38,15 +39,23 @@ const UploaderHome = (props = {}) => {
     <div className={className}>
       <NavBar
         links={links}
-        className={className}
+        className="nav-bar"
         selected={3}
       />
-      <Switch>
-        <Route path={`${url}/auth`} component={UserDetails} />
-        <Route path={`${url}/create-artist`} component={CreateArtist} />
-        <Route path={`${url}/upload-song`}component={UploadSong} />
-        <Route component={ListAll} />
-      </Switch>
+      <div className="main-content">
+        <Switch>
+          <Route path={`${url}/auth`} component={UserDetails} />
+          <Route path={`${url}/create-artist`} component={CreateArtist} />
+          <Route path={`${url}/list-all`} component={ListAll} />
+          <Route path={`${url}/upload-song`} component={UploadSong} />
+          <Route
+            path={`${url}/`}
+            render={_ => (
+              <CenterText className="not-found" text="404 | Not Found" />
+            )}
+          />
+        </Switch>
+      </div>
     </div>
   )
 }
@@ -54,7 +63,9 @@ const UploaderHome = (props = {}) => {
 export default styled(UploaderHome)`
   max-width: calc(100% - 1rem);
   width: calc(100% - 1rem);
+  flex-direction: column;
   margin: 0 auto;
+  display: flex;
 
   @media ${MinWidths.SMALL} {
     width: 40rem;
@@ -62,5 +73,15 @@ export default styled(UploaderHome)`
 
   @media ${MinWidths.MEDIUM} {
     width: 50rem;
+  }
+
+  .main-content {
+    flex-direction: column;
+    display: flex;
+    flex-grow: 1;
+
+    .not-found {
+      flex-grow: 1;
+    }
   }
 `

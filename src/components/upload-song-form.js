@@ -1,8 +1,8 @@
-import React, { useRef, useState, useCallback, useContext } from 'react'
+import React, { useRef, useState, useCallback } from 'react'
 import styled from 'styled-components'
 
 import { validateUploadSong } from '../utils/validators'
-import { ModalContext } from '../utils/context'
+import { useModal } from '../hooks/modal'
 import { useInput } from '../hooks/utils'
 
 import audioIcon from '../assets/png/audio.png'
@@ -18,8 +18,8 @@ const UploadSongForm = (props = {}) => {
   const { onSongSubmit } = props
 
   const audioRef = useRef(null)
+  const { showToast } = useModal()
   const [artists, setArtists] = useState([])
-  const { showToast } = useContext(ModalContext)
   const [fileKey, setFileKey] = useState(Date.now())
   const [title, handleTitleChange, setTitle] = useInput('')
 
