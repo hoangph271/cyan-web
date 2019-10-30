@@ -6,7 +6,7 @@
     "jsRules": {},
     "rules": {
         "quotemark": {
-            "options": ["single"]
+            "options": ["single", "jsx-double"]
         },
         "semicolon": false,
         "ordered-imports": false,
