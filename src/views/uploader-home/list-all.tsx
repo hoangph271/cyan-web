@@ -5,7 +5,8 @@ import { usePlayingSong, usePlayerControll } from '../../hooks/player'
 
 import SearchSongForm from '../../components/search-song-form'
 
-const ListAll = (props = {}) => {
+type ListAllProps = { className?: string }
+const ListAll = (props: ListAllProps = {}) => {
   const { className } = props
 
   const { currentSongId } = usePlayingSong()

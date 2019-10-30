@@ -1,9 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Chip = (props = {}) => {
+type ChipProps = {
+  className?: string,
+  children?: React.ReactChildren | string,
+  onClick?: () => void,
+}
+const Chip = (props: ChipProps = {}) => {
   const { className, children } = props
-  const { onClick = _ => {} } = props
+  const { onClick = () => {} } = props
 
   return (
     <div className={className} onClick={onClick}>

@@ -7,21 +7,32 @@ const maskableInputTypes = [
   'file',
 ]
 
-const IconedInput = React.forwardRef((props = {}, forwardedRef) => {
-  const { type = 'text', id = generateUUID(), onChange = _ => {} } = props
-  const { value, className, title, accept, placeholder } = props
+type IconedInputProps = {
+  className?: string,
+  value: string,
+  type?: string,
+  title?: string,
+  accept?: string,
+  iconUrl?: string,
+  placeholder?: string,
+  id?: string,
+  onChange?: (e: React.SyntheticEvent) => void,
+}
+const IconedInput = (props: IconedInputProps, forwardedRef: React.Ref<HTMLInputElement> | null) => {
+  const { value, className, title, accept, placeholder, onChange } = props
+  const { type = 'text', id = generateUUID() } = props
 
   const [maskText, setMaskText] = useState(type === 'file' ? 'No file choosen' : undefined)
-  const selfRef = useRef()
+  const selfRef = useRef<HTMLInputElement>(null)
 
   const inputClassName = `iconed-input ${maskableInputTypes.includes(type) ? 'file-mask' : ''}`
-  const ref = forwardedRef || selfRef
+  const ref = forwardedRef as React.RefObject<HTMLInputElement> || selfRef
 
-  const handleInputChange = e => {
-    onChange(e)
+  const handleInputChange = (e: React.SyntheticEvent) => {
+    onChange && onChange(e)
 
     if (maskableInputTypes.includes(type)) {
-      const maskText = ref.current && ref.current.files[0]
+      const maskText = ref.current && ref.current.files && ref.current.files[0]
         ? ref.current.files[0].name
         : 'No file choosen'
 
@@ -45,9 +56,9 @@ const IconedInput = React.forwardRef((props = {}, forwardedRef) => {
       />
     </div>
   )
-})
+}
 
-export default styled(IconedInput)`
+export default styled(React.forwardRef<HTMLInputElement, IconedInputProps>(IconedInput))`
   box-shadow: ${props => props.theme.shallowShadow};
   background-color: #2d3436;
   justify-content: center;
@@ -63,7 +74,7 @@ export default styled(IconedInput)`
   }
 
   .iconed-label {
-    background-image: url(${props => props.iconUrl});
+    background-image: url(${(props: IconedInputProps) => props.iconUrl});
     background-repeat: no-repeat;
     background-position: center;
     background-size: 70%;

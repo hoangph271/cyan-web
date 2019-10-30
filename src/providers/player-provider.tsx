@@ -5,20 +5,13 @@ const format = ['mp3']
 
 type PlayerContextProps = {
   currentSongId: string | null,
-  toggleAudio: (() => void) | null,
-  pauseAudio: (() => void) | null,
-  playAudio: (() => void) | null,
-  startSong: ((songId: string, audioURL: string) => void) | null,
-  isPlaying: boolean | null,
+  toggleAudio: (() => void),
+  pauseAudio: (() => void),
+  playAudio: (() => void),
+  startSong: ((songId: string, audioURL: string) => void),
+  isPlaying: boolean,
 }
-const PlayerContext = createContext<PlayerContextProps>({
-  currentSongId: null,
-  toggleAudio: null,
-  pauseAudio: null,
-  playAudio: null,
-  startSong: null,
-  isPlaying: null,
-})
+const PlayerContext = createContext<PlayerContextProps>({} as PlayerContextProps)
 
 type PlayerProviderProps = { children?: React.ReactNode }
 const PlayerProvider = (props: PlayerProviderProps) => {
@@ -26,7 +19,7 @@ const PlayerProvider = (props: PlayerProviderProps) => {
 
   const [audio, setAudio] = useState<Howl | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [currentSongId, setCurrentSongId] = useState(null)
+  const [currentSongId, setCurrentSongId] = useState<string | null>(null)
 
   useEffect(() => {
     audio && audio.on('play', _ => setIsPlaying(true))

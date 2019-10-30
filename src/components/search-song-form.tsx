@@ -7,9 +7,13 @@ import { songsCollection } from '../utils/firebase'
 import Chip from './chip'
 import SearchCollectionForm from './search-collection-form'
 
-const SearchSongForm = (props = {}) => {
-  const { className, resultLimit } = props
-  const { onSongClick = _ => {} } = props
+type SearchSongFormProps = {
+  className?: string,
+  resultLimit?: number,
+  onSongClick?: (song: Song) => void,
+}
+const SearchSongForm = (props: SearchSongFormProps = {}) => {
+  const { className, resultLimit, onSongClick } = props
 
   return (
     <SearchCollectionForm
@@ -31,9 +35,14 @@ export default styled(SearchSongForm)`
 `
 
 // TODO: Style this
-const SongList = styled((props = {}) => {
+type SongListProps = {
+  className?: string,
+  songs?: Array<{  }>,
+  onSongClick?: (song: Song) => void,
+}
+const SongList = styled((props: SongListProps = {}) => {
   const { className } = props
-  const { songs = [], onSongClick = _ => {} } = props
+  const { songs = [], onSongClick = () => {} } = props
 
   const { isPlaying, currentSongId } = usePlayingSong()
   const itemClassNames = useCallback(songId => {
@@ -52,11 +61,11 @@ const SongList = styled((props = {}) => {
       ) : (
         songs.map((song) => (
           <Chip
-            className={itemClassNames(song.id)}
-            key={song.id}
-            onClick={_ => onSongClick(song)}
+            className={itemClassNames((song as Song).id)}
+            key={(song as Song).id}
+            onClick={() => onSongClick(song as Song)}
           >
-            {`${song.title} - ${song.artists.map(artist => artist.title).join(', ')}`}
+            {`${(song as Song).title} - ${(song as Song).artists && (song as Song).artists.map((artist: Artist) => artist.title).join(', ')}`}
           </Chip>
       )))}
     </div>
