@@ -8,6 +8,7 @@ type PlayerContextProps = {
   toggleAudio: (() => void),
   pauseAudio: (() => void),
   playAudio: (() => void),
+  stopSong: (() => void),
   startSong: ((songId: string, audioURL: string) => void),
   isPlaying: boolean,
 }
@@ -22,10 +23,14 @@ const PlayerProvider = (props: PlayerProviderProps) => {
   const [currentSongId, setCurrentSongId] = useState<string | null>(null)
 
   useEffect(() => {
-    audio && audio.on('play', _ => setIsPlaying(true))
-    audio && audio.on('end', _ => setIsPlaying(false))
-    audio && audio.on('stop', _ => setIsPlaying(false))
-    audio && audio.on('pause', _ => setIsPlaying(false))
+    audio && audio.on('play', () => setIsPlaying(true))
+    audio && audio.on('end', () => setIsPlaying(false))
+    audio && audio.on('pause', () => setIsPlaying(false))
+    audio && audio.on('stop', () => {
+      setCurrentSongId(null)
+      setIsPlaying(false)
+      setAudio(null)
+    })
 
     return () => {
       audio && audio
@@ -39,10 +44,11 @@ const PlayerProvider = (props: PlayerProviderProps) => {
 
   const pauseAudio = useCallback(() => audio && audio.pause(), [audio])
   const playAudio = useCallback(() => audio && audio.play(), [audio])
+  const stopSong = useCallback(() => audio && audio.stop(), [audio])
   const startSong = useCallback((songId, audioURL) => {
     setAudio(new Howl({ src: [audioURL], format, html5: true, autoplay: true }))
-    setIsPlaying(false)
     setCurrentSongId(songId)
+    setIsPlaying(false)
   }, [setAudio])
   const toggleAudio = useCallback(() => {
     if (audio) {
@@ -60,6 +66,7 @@ const PlayerProvider = (props: PlayerProviderProps) => {
         playAudio,
         isPlaying,
         startSong,
+        stopSong,
       }}
       children={children}
     />

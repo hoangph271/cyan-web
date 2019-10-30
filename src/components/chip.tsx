@@ -5,13 +5,13 @@ type ChipProps = {
   className?: string,
   children?: React.ReactChildren | string,
   onClick?: () => void,
+  onDoubleClick?: () => void,
 }
 const Chip = (props: ChipProps = {}) => {
-  const { className, children } = props
-  const { onClick = () => {} } = props
+  const { className, children, onClick, onDoubleClick } = props
 
   return (
-    <div className={className} onClick={onClick}>
+    <div className={className} onClick={onClick} onDoubleClick={onDoubleClick}>
       {children}
     </div>
   )

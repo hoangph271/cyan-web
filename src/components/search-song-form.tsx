@@ -11,9 +11,10 @@ type SearchSongFormProps = {
   className?: string,
   resultLimit?: number,
   onSongClick?: (song: Song) => void,
+  onSongDoubleClick?: (song: Song) => void,
 }
 const SearchSongForm = (props: SearchSongFormProps = {}) => {
-  const { className, resultLimit, onSongClick } = props
+  const { className, resultLimit, onSongClick, onSongDoubleClick } = props
 
   return (
     <SearchCollectionForm
@@ -25,6 +26,7 @@ const SearchSongForm = (props: SearchSongFormProps = {}) => {
         <SongList
           songs={items}
           onSongClick={onSongClick}
+          onSongDoubleClick={onSongDoubleClick}
         />
       )}
     />
@@ -34,15 +36,14 @@ const SearchSongForm = (props: SearchSongFormProps = {}) => {
 export default styled(SearchSongForm)`
 `
 
-// TODO: Style this
 type SongListProps = {
   className?: string,
   songs?: Array<{  }>,
   onSongClick?: (song: Song) => void,
+  onSongDoubleClick?: (song: Song) => void,
 }
 const SongList = styled((props: SongListProps = {}) => {
-  const { className } = props
-  const { songs = [], onSongClick = () => {} } = props
+  const { className, songs = [], onSongClick, onSongDoubleClick } = props
 
   const { isPlaying, currentSongId } = usePlayingSong()
   const itemClassNames = useCallback(songId => {
@@ -62,7 +63,8 @@ const SongList = styled((props: SongListProps = {}) => {
           <Chip
             className={itemClassNames(song.id)}
             key={song.id}
-            onClick={() => onSongClick(song)}
+            onClick={() => onSongClick && onSongClick(song)}
+            onDoubleClick={() => onSongDoubleClick && onSongDoubleClick(song)}
           >
             {`${song.title} - ${song.artists && song.artists.map((artist: Artist) => artist.title).join(', ')}`}
           </Chip>
