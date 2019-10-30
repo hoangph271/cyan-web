@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, ReactNode } from 'react'
 import styled from 'styled-components'
 
 import { useInput } from '../hooks/utils'
@@ -12,7 +12,7 @@ type SearchCollectionFormProps = {
   className?: string,
   firebaseCollection: () => firebase.firestore.CollectionReference,
   sortField?: string,
-  buildItems: (items: { id: string }[]) => Array<React.ReactNode> | React.ReactNode,
+  buildItems: (items: Array<{ id: string }>) => ReactNode[] | React.ReactNode,
   resultLimit?: number,
 }
 const SearchCollectionForm = (props: SearchCollectionFormProps = {} as SearchCollectionFormProps) => {
@@ -20,10 +20,10 @@ const SearchCollectionForm = (props: SearchCollectionFormProps = {} as SearchCol
   const { resultLimit = RESULT_COUNT_LIMIT } = props
 
   const [isSearching, setIsSearching] = useState(true)
-  const [keyword, , setKeyword] = useInput('', { transformer: str => str.toLowerCase() })
-  const [founds, setFounds] = useState<{ id: string }[]>([])
+  const [keyword, , setKeyword] = useInput('', { transformer: (str) => str.toLowerCase() })
+  const [founds, setFounds] = useState<Array<{ id: string }>>([])
 
-  const handleSearch = useCallback(keyword => setKeyword(keyword), [setKeyword])
+  const handleSearch = useCallback(setKeyword, [setKeyword])
 
   useEffect(() => {
     let isMounted = true
@@ -36,9 +36,9 @@ const SearchCollectionForm = (props: SearchCollectionFormProps = {} as SearchCol
 
     firestoreQuery
       .get()
-      .then(snapshot => {
+      .then((snapshot) => {
         if (isMounted) {
-          const founds = snapshot.docs.map(doc => ({
+          const founds = snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }))
@@ -47,7 +47,7 @@ const SearchCollectionForm = (props: SearchCollectionFormProps = {} as SearchCol
           setIsSearching(false)
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error)
         setIsSearching(false)
       })

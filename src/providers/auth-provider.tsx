@@ -1,15 +1,15 @@
-import React, { useState, useEffect, createContext } from 'react'
+import React, { useState, useEffect, createContext, ReactNode } from 'react'
 import firebase from 'firebase'
 
 import { rolesCollection } from '../utils/firebase'
 
 type AuthContextProps = {
   user: firebase.User | null,
-  roles: Array<string> | null,
+  roles: string[] | null,
 }
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps)
 
-type AuthProviderProps = { children?: React.ReactNode }
+type AuthProviderProps = { children?: ReactNode }
 const AuthProvider = (props: AuthProviderProps = {}) => {
   const { children } = props
 
@@ -55,7 +55,7 @@ const AuthProvider = (props: AuthProviderProps = {}) => {
 
     firebase
       .auth()
-      .onAuthStateChanged(userInfo => isMounted && setUser(userInfo))
+      .onAuthStateChanged((userInfo) => isMounted && setUser(userInfo))
 
     return () => { isMounted = false }
   }, [])

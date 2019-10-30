@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { BrowserRouter as Router } from 'react-router-dom'
 
@@ -13,7 +13,7 @@ import ViewRoot from './views'
 
 initializeFirebase()
 
-type CombinedAppContexts = { children?: object }
+type CombinedAppContexts = { children?: ReactNode }
 const CombinedAppContexts = (props: CombinedAppContexts = {}) => (
   <React.StrictMode>
     <Router>

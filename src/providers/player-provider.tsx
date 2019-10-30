@@ -1,4 +1,4 @@
-import React, { createContext, useState, useCallback, useEffect } from 'react'
+import React, { createContext, useState, useCallback, useEffect, ReactNode } from 'react'
 import { Howl } from 'howler'
 
 const format = ['mp3']
@@ -13,7 +13,7 @@ type PlayerContextProps = {
 }
 const PlayerContext = createContext<PlayerContextProps>({} as PlayerContextProps)
 
-type PlayerProviderProps = { children?: React.ReactNode }
+type PlayerProviderProps = { children?: ReactNode }
 const PlayerProvider = (props: PlayerProviderProps) => {
   const { children } = props
 

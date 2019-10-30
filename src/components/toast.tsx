@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, ReactNode } from 'react'
 import styled from 'styled-components'
 
 const TOAST_DURATION_MS = 3 * 1000
 
 type ToastProps = {
-  children?: React.ReactNode,
+  children?: ReactNode,
   className?: string,
   onDismiss?: () => void,
 }
