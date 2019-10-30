@@ -9,7 +9,10 @@ import { artistsCollection } from '../../utils/firebase'
 
 import CreateArtistForm from '../../components/create-artist-form'
 
-const CreateArtist = (props = {}) => {
+type CreateArtistProps = {
+  className?: string,
+}
+const CreateArtist = (props: CreateArtistProps) => {
   const { className } = props
 
   const { roles } = useAuth()
@@ -44,7 +47,7 @@ const CreateArtist = (props = {}) => {
     setIsLoading(false)
   }, [isLoading])
 
-  const isUploader = roles.includes(Roles.UPLOADER)
+  const isUploader = roles ? roles.includes(Roles.UPLOADER) : false
 
   return (
     <main className={className}>

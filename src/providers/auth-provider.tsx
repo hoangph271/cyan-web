@@ -5,7 +5,7 @@ import { rolesCollection } from '../utils/firebase'
 
 type AuthContextProps = {
   userInfo: UserInfo | null,
-  roles: Array<string> | null
+  roles: Array<string> | null,
 }
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps)
 
