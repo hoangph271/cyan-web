@@ -4,6 +4,7 @@ import noimage from '../assets/png/no-image.png'
 
 type RoundedImageProps = {
   src?: string,
+  alt?: string | null,
 }
 export default styled.div`
   &::after {

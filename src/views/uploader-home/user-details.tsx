@@ -51,13 +51,15 @@ const UserDetails = (props: UserDetailsProps) => {
       return () => { isMounted = false }
   }, [userInfo])
 
-  const signOut = useCallback(_ => firebase.auth().signOut(), [])
+  const signOut = useCallback(() => { firebase.auth().signOut() }, [])
 
   return (
     <div className={className}>
       <UserInfoCard
         className="user-info"
-        userInfo={userDetail}
+        userInfo={{
+          
+        }}
         onSignOut={signOut}
       />
     </div>

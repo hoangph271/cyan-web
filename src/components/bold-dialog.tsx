@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 
-const BoldDialog = React.forwardRef((props = {}, forwardedRef) => {
-  const {
-    children,
-    className,
-    title = 'Dialog',
-    onClose = _ => {},
-    onConfirm = _ => {}, } = props
+type BoldDialogProps = {
+  className?: string,
+  children?: ReactNode,
+  title?: string,
+  onClose?: () => void,
+  onConfirm?: () => void,
+}
+
+const BoldDialog = (props: BoldDialogProps, forwardedRef: React.Ref<HTMLDialogElement> | null) => {
+  const { children, className, title = 'Dialog', onClose } = props
 
   return (
     <dialog className={className} ref={forwardedRef}>
@@ -25,9 +28,9 @@ const BoldDialog = React.forwardRef((props = {}, forwardedRef) => {
       {children}
     </dialog>
   )
-})
+}
 
-export default styled(BoldDialog)`
+export default styled(React.forwardRef<HTMLDialogElement, BoldDialogProps>(BoldDialog))`
   padding: 0.2rem;
 
   &::backdrop {

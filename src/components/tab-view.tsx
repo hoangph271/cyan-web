@@ -1,7 +1,13 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, ReactNode } from 'react'
 import styled from 'styled-components'
 
-const TabView = (props = {}) => {
+type TabViewProps = {
+  className?: string,
+  selected?: number,
+  headers: string[],
+  children: ReactNode[],
+}
+const TabView = (props: TabViewProps) => {
   const { className, selected = 0, headers = [], children = [] } = props
   const [viewIndex, setViewIndex] = useState(selected)
   const tabView = useRef(null)

@@ -10,7 +10,9 @@ interface Song extends FirestoreDocument {
   artists?: Array<Artist>,
   audio?: File | null,
 }
-type UserInfo = firebase.User
+type UserInfo = {
+  uid: string,
+}
 type UserDetail = {
   phoneNumber?: string | null,
   displayName?: string | null,

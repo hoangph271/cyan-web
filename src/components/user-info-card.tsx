@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import RoundedImage from '../components/rounded-image'
+import RoundedImage from './rounded-image'
 
 import more from '../assets/png/more.png'
 import addphoto from '../assets/png/add-photo.png'
@@ -14,11 +14,16 @@ const userInfoPlaceholder = {
   roles: [],
 }
 
-const UserInfoCard = props => {
-  const { userInfo, className, onSignOut } = props
+type UserInfoCardProps = {
+  className?: string,
+  userDetail: UserDetail,
+  onSignOut: () => void,
+}
+const UserInfoCard = (props: UserInfoCardProps) => {
+  const { userDetail, className, onSignOut } = props
 
-  const { photoURL, displayName, email, phoneNumber } = userInfo !== null
-    ? userInfo
+  const { photoURL, displayName, email, phoneNumber } = userDetail !== null
+    ? userDetail
     : userInfoPlaceholder
 
   return (
