@@ -41,17 +41,16 @@ const UploaderHome = (props: UploaderHomeProps = {}) => {
       <NavBar
         links={links}
         className="nav-bar"
-        selected={3}
       />
       <div className="main-content">
         <Switch>
-          <Route exact path={`${url}/`} render={_ => <Redirect to={`${url}/auth`} />} />
+          <Route exact path={`${url}/`} render={() => <Redirect to={`${url}/auth`} />} />
           <Route path={`${url}/auth`} component={UserDetails} />
           <Route path={`${url}/create-artist`} component={CreateArtist} />
           <Route path={`${url}/list-all`} component={ListAll} />
           <Route path={`${url}/upload-song`} component={UploadSong} />
           <Route
-            render={_ => (
+            render={() => (
               <CenterText className="not-found" text="404 | Not Found" />
             )}
           />
