@@ -16,15 +16,13 @@ const userInfoPlaceholder = {
 
 type UserInfoCardProps = {
   className?: string,
-  userDetail: UserDetail,
+  userDetail: UserDetail | null,
   onSignOut: () => void,
 }
 const UserInfoCard = (props: UserInfoCardProps) => {
   const { userDetail, className, onSignOut } = props
 
-  const { photoURL, displayName, email, phoneNumber } = userDetail !== null
-    ? userDetail
-    : userInfoPlaceholder
+  const { photoURL, displayName, email, phoneNumber } = userDetail || userInfoPlaceholder
 
   return (
     <figure className={className}>

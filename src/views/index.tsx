@@ -12,12 +12,12 @@ import Login from './login'
 
 type AuthRequiredRoute = { children?: ReactElement, path?: string, exact?: boolean }
 const AuthRequiredRoute = (props: AuthRequiredRoute = {}) => {
-  const { userInfo } = useAuth()
+  const { user } = useAuth()
   const location = useLocation()
 
   return (
     <Route {...props}>
-      {userInfo ? props.children : (
+      {user ? props.children : (
         <Redirect to={{
           pathname: '/login',
           state: { from: location },

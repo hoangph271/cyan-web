@@ -12,7 +12,7 @@ type LoginProps = { className?: string }
 const Login = (props: LoginProps = {}) => {
   const { className } = props
 
-  const { userInfo } = useAuth()
+  const { user } = useAuth()
   const isMountedRef = useRef(true)
   const [signInError, setSignInError] = useState<Error | null>(null)
   const [isAuthenticating, setIsAuthenticating] = useState(false)
@@ -32,11 +32,7 @@ const Login = (props: LoginProps = {}) => {
       .then(_ => isMountedRef.current && setIsAuthenticating(false))
   }, [])
 
-  if (userInfo) {
-    
-  }
-
-  return userInfo ? (
+  return user ? (
     <Redirect to={from.pathname} />
   ) : (
     <div className={className}>

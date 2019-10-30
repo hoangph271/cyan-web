@@ -13,18 +13,18 @@ type UserDetailsProps = {
 const UserDetails = (props: UserDetailsProps) => {
   const { className } = props
 
-  const { userInfo } = useAuth()
+  const { user } = useAuth()
   const [userDetail, setUserDetail] = useState<UserDetail | null>(null)
 
   useEffect(() => {
     let isMounted = true
 
-    if (userInfo === null) {
+    if (user === null) {
       setUserDetail(null)
       return
     }
 
-    const docRef = usersCollection().doc(userInfo.uid)
+    const docRef = usersCollection().doc(user.uid)
 
     docRef
       .get()
@@ -35,10 +35,10 @@ const UserDetails = (props: UserDetailsProps) => {
         }
 
         const userDetail: UserDetail = {
-          phoneNumber: userInfo.phoneNumber || null,
-          displayName: userInfo.displayName || null,
-          photoURL: userInfo.photoURL || null,
-          email: userInfo.email || null,
+          phoneNumber: user.phoneNumber || null,
+          displayName: user.displayName || null,
+          photoURL: user.photoURL || null,
+          email: user.email || null,
         }
 
         docRef
@@ -49,7 +49,7 @@ const UserDetails = (props: UserDetailsProps) => {
       .catch(() => isMounted && setUserDetail(null))
 
       return () => { isMounted = false }
-  }, [userInfo])
+  }, [user])
 
   const signOut = useCallback(() => { firebase.auth().signOut() }, [])
 
@@ -57,9 +57,7 @@ const UserDetails = (props: UserDetailsProps) => {
     <div className={className}>
       <UserInfoCard
         className="user-info"
-        userInfo={{
-          
-        }}
+        userDetail={userDetail}
         onSignOut={signOut}
       />
     </div>

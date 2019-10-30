@@ -4,7 +4,7 @@ import firebase from 'firebase'
 import { rolesCollection } from '../utils/firebase'
 
 type AuthContextProps = {
-  userInfo: UserInfo | null,
+  user: firebase.User | null,
   roles: Array<string> | null,
 }
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps)
@@ -14,7 +14,7 @@ const AuthProvider = (props: AuthProviderProps = {}) => {
   const { children } = props
 
   const [roles, setRoles] = useState([])
-  const [userInfo, setUserInfo] = useState(firebase.auth().currentUser)
+  const [user, setUser] = useState(firebase.auth().currentUser)
 
   useEffect(() => {
     let isMounted = true
@@ -55,14 +55,14 @@ const AuthProvider = (props: AuthProviderProps = {}) => {
 
     firebase
       .auth()
-      .onAuthStateChanged(userInfo => isMounted && setUserInfo(userInfo))
+      .onAuthStateChanged(userInfo => isMounted && setUser(userInfo))
 
     return () => { isMounted = false }
   }, [])
 
   return (
     <AuthContext.Provider
-      value={{ roles, userInfo }}
+      value={{ roles, user }}
       children={children}
     />
   )
