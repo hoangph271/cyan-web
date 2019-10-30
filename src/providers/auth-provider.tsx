@@ -3,11 +3,11 @@ import firebase from 'firebase'
 
 import { rolesCollection } from '../utils/firebase'
 
-type AuthContextProps = { userInfo: Object | null, roles: Array<string> | null}
-const AuthContext = createContext<AuthContextProps>({
-  userInfo: null,
-  roles: null,
-})
+type AuthContextProps = {
+  userInfo: UserInfo | null,
+  roles: Array<string> | null
+}
+const AuthContext = createContext<AuthContextProps>({} as AuthContextProps)
 
 type AuthProviderProps = { children?: React.ReactNode }
 const AuthProvider = (props: AuthProviderProps = {}) => {

@@ -7,13 +7,16 @@ import { usersCollection } from '../../utils/firebase'
 
 import UserInfoCard from '../../components/user-info-card'
 
-const UserDetails = (props = {}) => {
+type UserDetailsProps = {
+  className?: string,
+}
+const UserDetails = (props: UserDetailsProps) => {
   const { className } = props
 
   const { userInfo } = useAuth()
-  const [userDetail, setUserDetail] = useState(null)
+  const [userDetail, setUserDetail] = useState<UserDetail | null>(null)
 
-  useEffect(_ => {
+  useEffect(() => {
     let isMounted = true
 
     if (userInfo === null) {
@@ -27,11 +30,11 @@ const UserDetails = (props = {}) => {
       .get()
       .then(doc => {
         if (doc.exists) {
-          isMounted && setUserDetail(doc.data())
+          isMounted && setUserDetail(doc.data() || null)
           return
         }
 
-        const userDetail = {
+        const userDetail: UserDetail = {
           phoneNumber: userInfo.phoneNumber || null,
           displayName: userInfo.displayName || null,
           photoURL: userInfo.photoURL || null,
@@ -40,12 +43,12 @@ const UserDetails = (props = {}) => {
 
         docRef
           .set(userDetail)
-          .then(_ => isMounted && setUserDetail(userDetail))
-          .catch(_ => isMounted && setUserDetail(null))
+          .then(() => isMounted && setUserDetail(userDetail))
+          .catch(() => isMounted && setUserDetail(null))
       })
-      .catch(_ => isMounted && setUserDetail(null))
+      .catch(() => isMounted && setUserDetail(null))
 
-      return _ => isMounted = false
+      return () => { isMounted = false }
   }, [userInfo])
 
   const signOut = useCallback(_ => firebase.auth().signOut(), [])
