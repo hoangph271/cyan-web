@@ -13,30 +13,36 @@ import FlatButton from './flat-button'
 import IconedInput from './iconed-input'
 import SearchArtistForm from './search-artist-form'
 
-const UploadSongForm = (props = {}) => {
-  const { className, isLoading } = props
-  const { onSongSubmit } = props
+type UploadSongFormProps = {
+  className?: string,
+  isLoading?: boolean,
+  onSongSubmit?: (props: { song: Song, resetForm?: () => void }) => void
+}
+const UploadSongForm = (props: UploadSongFormProps) => {
+  const { className, isLoading, onSongSubmit } = props
 
-  const audioRef = useRef(null)
+  const audioRef = useRef<HTMLInputElement>(null)
   const { showToast } = useModal()
-  const [artists, setArtists] = useState([])
+  const [artists, setArtists] = useState<Artist[]>([])
   const [fileKey, setFileKey] = useState(Date.now())
   const [title, handleTitleChange, setTitle] = useInput('')
 
-  const resetForm = useCallback(_ => {
+  const resetForm = useCallback(() => {
     setArtists([])
     setFileKey(Date.now())
     setTitle('')
   }, [setArtists, setFileKey, setTitle])
 
   const handleAudioChange = useCallback(_ => {
-    if (title === '' && audioRef.current.files[0]) {
-      setTitle(audioRef.current.files[0].name)
+    const audioFile = audioRef.current && audioRef.current.files && audioRef.current.files[0]
+
+    if (title === '' && audioFile) {
+      setTitle(audioFile.name)
     }
   }, [title, setTitle])
 
   const handleArtistClick = useCallback(clickedArtist => {
-    if (artists.find(artist => artist.id === clickedArtist.id)) {
+    if (artists.find((artist: Artist) => artist.id === clickedArtist.id)) {
       setArtists(artists.filter(artist => artist.id !== clickedArtist.id))
     } else {
       setArtists([...artists, clickedArtist])
@@ -44,19 +50,21 @@ const UploadSongForm = (props = {}) => {
 
   }, [artists, setArtists])
 
-  const handleUploadClick = e => {
+  const handleUploadClick = (e: React.SyntheticEvent) => {
+    const audioFile = audioRef.current && audioRef.current.files && audioRef.current.files[0]
+
     e.preventDefault()
 
     const song = {
       title,
-      audio: audioRef.current.files[0],
+      audio: audioFile,
       artists,
     }
 
     const { isValid, errors } = validateUploadSong(song)
 
     if (isValid) {
-      onSongSubmit({
+      onSongSubmit && onSongSubmit({
         song,
         resetForm,
       })
@@ -86,10 +94,10 @@ const UploadSongForm = (props = {}) => {
       <div className="expand-parent-margin">
         {artists.length === 0 ? (
           <div className="no-artist-selected">{'No artist selected...! :"{'}</div>
-        ) : artists.map(artist => (
+        ) : artists.map((artist: Artist) => (
           <Chip
             key={artist.id}
-            onClick={_ => handleArtistClick(artist)}
+            onClick={() => handleArtistClick(artist)}
           >
             {artist.title}
           </Chip>

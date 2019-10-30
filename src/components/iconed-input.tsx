@@ -9,7 +9,7 @@ const maskableInputTypes = [
 
 type IconedInputProps = {
   className?: string,
-  value: string,
+  value?: string,
   type?: string,
   title?: string,
   accept?: string,

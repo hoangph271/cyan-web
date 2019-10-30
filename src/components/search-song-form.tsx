@@ -58,16 +58,15 @@ const SongList = styled((props: SongListProps = {}) => {
     <div className={className}>
       {songs.length === 0 ? (
         <div>{`No result...! :'{`}</div>
-      ) : (
-        songs.map((song) => (
+      ) : songs.map((song: Song) => (
           <Chip
-            className={itemClassNames((song as Song).id)}
-            key={(song as Song).id}
-            onClick={() => onSongClick(song as Song)}
+            className={itemClassNames(song.id)}
+            key={song.id}
+            onClick={() => onSongClick(song)}
           >
-            {`${(song as Song).title} - ${(song as Song).artists && (song as Song).artists.map((artist: Artist) => artist.title).join(', ')}`}
+            {`${song.title} - ${song.artists && song.artists.map((artist: Artist) => artist.title).join(', ')}`}
           </Chip>
-      )))}
+      ))}
     </div>
   )
 })`

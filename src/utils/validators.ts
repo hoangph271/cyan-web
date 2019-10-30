@@ -27,8 +27,8 @@ const isValidArtist = (props : { id?: string, title?: string }) => {
   return true
 }
 
-const validateUploadSong = (props : { title?: string, audio?: File, artists?: Array<Object> } = {}) => {
-  const { title, audio, artists } = props
+const validateUploadSong = (song: Song) => {
+  const { title, audio, artists } = song
 
   let isValid = true
   const errors = []

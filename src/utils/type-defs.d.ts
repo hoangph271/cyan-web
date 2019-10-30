@@ -1,9 +1,12 @@
-interface Artist {
-  id: string,
-  title: string,
+interface FirestoreDocument {
+  id?: string,
 }
-interface Song {
-  id: string,
-  title: string,
-  artists: Array<Artist>
+interface Artist extends FirestoreDocument {
+  title?: string,
+  avatarURL?: string,
+}
+interface Song extends FirestoreDocument {
+  title?: string,
+  artists?: Array<Artist>,
+  audio?: File | null,
 }

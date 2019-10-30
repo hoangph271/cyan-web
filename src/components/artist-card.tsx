@@ -3,9 +3,13 @@ import styled from 'styled-components'
 
 import RoundedImage from '../components/rounded-image'
 
-const ArtistCard = (props = {}) => {
-  const { className, artist } = props
-  const { onClick = _ => {} } = props
+type ArtistCardProps = {
+  className?: string,
+  artist: Artist,
+  onClick: () => void,
+}
+const ArtistCard = (props: ArtistCardProps) => {
+  const { className, artist, onClick } = props
   const { title, avatarURL } = artist
 
   return (

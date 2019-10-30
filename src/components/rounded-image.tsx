@@ -2,10 +2,13 @@ import styled from 'styled-components'
 
 import noimage from '../assets/png/no-image.png'
 
+type RoundedImageProps = {
+  src?: string,
+}
 export default styled.div`
   &::after {
-    background-size: ${props => props.src ? 'cover' : '70%'};
-    background-image: url(${props => props.src || noimage});
+    background-size: ${(props: RoundedImageProps) => props.src ? 'cover' : '70%'};
+    background-image: url(${(props: RoundedImageProps) => props.src || noimage});
     box-shadow: ${props => props.theme.insetShadow};
     background-repeat: no-repeat;
     background-position: center;

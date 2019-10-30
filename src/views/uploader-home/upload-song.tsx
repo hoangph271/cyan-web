@@ -9,13 +9,16 @@ import { songsCollection } from '../../utils/firebase'
 
 import UploadSongForm from '../../components/upload-song-form'
 
-const UploadSong = (props = {}) => {
+type UploadSongProps = {
+  className?: string,
+}
+const UploadSong = (props: UploadSongProps) => {
   const { className } = props
 
   const { roles } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
 
-  const isUploader = roles.includes(Roles.UPLOADER)
+  const isUploader = roles ? roles.includes(Roles.UPLOADER) : false
 
   const handleSongSubmit = useCallback(async ({ song, resetForm }) => {
     if (isLoading) return
@@ -37,7 +40,7 @@ const UploadSong = (props = {}) => {
         title,
         keywords,
         audioURL,
-        artists: artists.map(({ id, title }) => ({ id, title }))
+        artists: artists.map((artist: Artist) => ({ id: artist.id, title: artist.title }))
       })
 
       resetForm()

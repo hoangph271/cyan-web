@@ -6,9 +6,13 @@ import { artistsCollection } from '../utils/firebase'
 import ArtistCard from '../components/artist-card'
 import SearchCollectionForm from '../components/search-collection-form'
 
-const SearchArtistForm = (props = {}) => {
-  const { className, resultLimit } = props
-  const { onArtistClick = _ => {} } = props
+type SearchArtistFormProps = {
+  className?: string,
+  resultLimit: number,
+  onArtistClick: (artist: Artist) => void,
+}
+const SearchArtistForm = (props: SearchArtistFormProps) => {
+  const { className, resultLimit, onArtistClick } = props
 
   return (
     <SearchCollectionForm
@@ -16,7 +20,7 @@ const SearchArtistForm = (props = {}) => {
       className={className}
       resultLimit={resultLimit}
       firebaseCollection={artistsCollection}
-      buildItems={items => (
+      buildItems={(items: Artist[]) => (
         <ArtistList
           artists={items}
           onArtistClick={onArtistClick}
@@ -29,20 +33,24 @@ const SearchArtistForm = (props = {}) => {
 export default styled(SearchArtistForm)`
 `
 
-const ArtistList = styled((props = {}) => {
-  const { className } = props
-  const { artists = [], onArtistClick = _ => {} } = props
+type ArtistListProps = {
+  className?: string,
+  artists: Artist[],
+  onArtistClick?: (artist: Artist) => void,
+}
+const ArtistList = styled((props: ArtistListProps) => {
+  const { className, onArtistClick, artists } = props
 
   return (
     <div className={className}>
       {artists.length === 0 ? (
         <div>{`No result...! :'{`}</div>
       ) : (
-        artists.map((artist) => (
+        artists.map((artist: Artist) => (
           <ArtistCard
             key={artist.id}
             artist={artist}
-            onClick={_ => onArtistClick(artist)}
+            onClick={() => onArtistClick && onArtistClick(artist)}
           />
       )))}
     </div>

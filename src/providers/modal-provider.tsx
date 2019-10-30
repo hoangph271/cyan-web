@@ -7,11 +7,9 @@ import Toast from '../components/toast'
 const modalRoot = document.getElementById('modal-root')
 
 type ModalContextProps = {
-  showToast: ((text: string) => void) | null
+  showToast: ((text: string) => void)
 }
-const ModalContext = createContext<ModalContextProps>({
-  showToast: null,
-})
+const ModalContext = createContext<ModalContextProps>({} as ModalContextProps)
 
 const ModalProvider = styled(({ children, className }) => {
   const [toastContent, setToastContent] = useState<string | null>(null)
