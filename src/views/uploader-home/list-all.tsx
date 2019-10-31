@@ -24,14 +24,14 @@ const ListAll = (props: ListAllProps = {}) => {
     }
 
     closeDialog()
-  }, [])
+  }, [closeDialog])
   const handleSongClick = useCallback((song: SongDocumentData) => {
     currentSongId === song.id ? toggleAudio() : startSong(song)
   }, [currentSongId, startSong, toggleAudio])
   const handleSongDoubleClick = useCallback((song: SongDocumentData) => {
     stopSong()
     showDialog(<DeleteSongDialog songId={song.id} onFinish={handleSongDeleted} />)
-  }, [stopSong, closeDialog, showDialog])
+  }, [stopSong, handleSongDeleted, showDialog])
 
   return (
     <main className={className}>

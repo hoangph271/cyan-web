@@ -52,7 +52,7 @@ const DeleteSongDialog = (props: DeleteSongDialogProps) => {
           onFinish()
         }
       })
-  }, [])
+  }, [onFinish, showToast, songId])
 
   return (
     <div className={className}>
