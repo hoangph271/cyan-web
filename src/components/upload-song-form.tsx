@@ -16,14 +16,14 @@ import SearchArtistForm from './search-artist-form'
 type UploadSongFormProps = {
   className?: string,
   isLoading?: boolean,
-  onSongSubmit?: (props: { song: Song, resetForm?: () => void }) => void
+  onSongSubmit?: (props: { song: Song, resetForm?: () => void }) => void,
 }
 const UploadSongForm = (props: UploadSongFormProps) => {
   const { className, isLoading, onSongSubmit } = props
 
   const audioRef = useRef<HTMLInputElement>(null)
   const { showToast } = useModal()
-  const [artists, setArtists] = useState<Artist[]>([])
+  const [artists, setArtists] = useState<ArtistDocument[]>([])
   const [fileKey, setFileKey] = useState(Date.now())
   const [title, handleTitleChange, setTitle] = useInput('')
 
@@ -42,7 +42,7 @@ const UploadSongForm = (props: UploadSongFormProps) => {
   }, [title, setTitle])
 
   const handleArtistClick = useCallback(clickedArtist => {
-    if (artists.find((artist: Artist) => artist.id === clickedArtist.id)) {
+    if (artists.find(artist => artist.id === clickedArtist.id)) {
       setArtists(artists.filter(artist => artist.id !== clickedArtist.id))
     } else {
       setArtists([...artists, clickedArtist])
@@ -94,7 +94,7 @@ const UploadSongForm = (props: UploadSongFormProps) => {
       <div className="expand-parent-margin">
         {artists.length === 0 ? (
           <div className="no-artist-selected">{'No artist selected...! :"{'}</div>
-        ) : artists.map((artist: Artist) => (
+        ) : artists.map(artist => (
           <Chip
             key={artist.id}
             onClick={() => handleArtistClick(artist)}

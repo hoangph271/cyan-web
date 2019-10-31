@@ -21,7 +21,9 @@ const UploadSong = (props: UploadSongProps) => {
   const isUploader = roles ? roles.includes(Roles.UPLOADER) : false
 
   const handleSongSubmit = useCallback(async ({ song, resetForm }) => {
-    if (isLoading) return
+    if (isLoading) {
+      return
+    }
 
     setIsLoading(true)
 
@@ -40,7 +42,7 @@ const UploadSong = (props: UploadSongProps) => {
         title,
         keywords,
         audioURL,
-        artists: artists.map((artist: Artist) => ({ id: artist.id, title: artist.title }))
+        artists: artists.map((artist: ArtistDocument) => ({ id: artist.id, title: artist.title }))
       })
 
       resetForm()

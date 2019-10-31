@@ -28,7 +28,7 @@ const ModalProvider = styled(({ children, className }) => {
 
     setDialogContent(content)
     dialogRef.current!.showModal()
-  }, [setDialogContent])
+  }, [setDialogContent, dialogContent])
   const closeDialog = useCallback(() => {
     setDialogContent(null)
     dialogRef.current!.close()

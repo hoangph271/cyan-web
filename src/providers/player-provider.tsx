@@ -9,7 +9,7 @@ type PlayerContextProps = {
   pauseAudio: (() => void),
   playAudio: (() => void),
   stopSong: (() => void),
-  startSong: ((songId: string, audioURL: string) => void),
+  startSong: ((song: Song) => void),
   isPlaying: boolean,
 }
 const PlayerContext = createContext<PlayerContextProps>({} as PlayerContextProps)
@@ -33,21 +33,16 @@ const PlayerProvider = (props: PlayerProviderProps) => {
     })
 
     return () => {
-      audio && audio
-        .off('pause')
-        .off('play')
-        .off('stop')
-        .off('end')
-        .unload()
+      audio && audio.off('pause').off('play').off('stop').off('end').unload()
     }
   }, [audio])
 
   const pauseAudio = useCallback(() => audio && audio.pause(), [audio])
   const playAudio = useCallback(() => audio && audio.play(), [audio])
   const stopSong = useCallback(() => audio && audio.stop(), [audio])
-  const startSong = useCallback((songId, audioURL) => {
+  const startSong = useCallback(({ id, audioURL }) => {
     setAudio(new Howl({ src: [audioURL], format, html5: true, autoplay: true }))
-    setCurrentSongId(songId)
+    setCurrentSongId(id)
     setIsPlaying(false)
   }, [setAudio])
   const toggleAudio = useCallback(() => {

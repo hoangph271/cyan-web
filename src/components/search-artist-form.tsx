@@ -20,7 +20,7 @@ const SearchArtistForm = (props: SearchArtistFormProps) => {
       className={className}
       resultLimit={resultLimit}
       firebaseCollection={artistsCollection}
-      buildItems={(items: Artist[]) => (
+      buildItems={items => (
         <ArtistList
           artists={items}
           onArtistClick={onArtistClick}
@@ -35,7 +35,7 @@ export default styled(SearchArtistForm)`
 
 type ArtistListProps = {
   className?: string,
-  artists: Artist[],
+  artists: ArtistDocument[],
   onArtistClick?: (artist: Artist) => void,
 }
 const ArtistList = styled((props: ArtistListProps) => {
@@ -46,7 +46,7 @@ const ArtistList = styled((props: ArtistListProps) => {
       {artists.length === 0 ? (
         <div>{`No result...! :'{`}</div>
       ) : (
-        artists.map((artist: Artist) => (
+        artists.map((artist: ArtistDocument) => (
           <ArtistCard
             key={artist.id}
             artist={artist}

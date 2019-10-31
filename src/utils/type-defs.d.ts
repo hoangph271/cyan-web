@@ -1,14 +1,21 @@
 interface FirestoreDocument {
-  id?: string,
+  id: string,
 }
-interface Artist extends FirestoreDocument {
+interface Artist {
   title?: string,
   avatarURL?: string,
 }
-interface Song extends FirestoreDocument {
+interface ArtistDocument extends Artist {
+  id: string,
+}
+interface Song {
   title?: string,
   artists?: Array<Artist>,
   audio?: File | null,
+  audioURL?: string,
+}
+interface SongDocument extends Song {
+  id: string,
 }
 type UserInfo = {
   uid: string,
