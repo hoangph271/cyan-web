@@ -10,8 +10,8 @@ import SearchCollectionForm from './search-collection-form'
 type SearchSongFormProps = {
   className?: string,
   resultLimit?: number,
-  onSongClick?: (song: SongDocument) => void,
-  onSongDoubleClick?: (song: SongDocument) => void,
+  onSongClick?: (song: SongDocumentData) => void,
+  onSongDoubleClick?: (song: SongDocumentData) => void,
 }
 const SearchSongForm = (props: SearchSongFormProps = {}) => {
   const { className, resultLimit, onSongClick, onSongDoubleClick } = props
@@ -38,9 +38,9 @@ export default styled(SearchSongForm)`
 
 type SongListProps = {
   className?: string,
-  songs?: SongDocument[],
-  onSongClick?: (song: SongDocument) => void,
-  onSongDoubleClick?: (song: SongDocument) => void,
+  songs?: SongDocumentData[],
+  onSongClick?: (song: SongDocumentData) => void,
+  onSongDoubleClick?: (song: SongDocumentData) => void,
 }
 const SongList = styled((props: SongListProps = {}) => {
   const { className, songs = [], onSongClick, onSongDoubleClick } = props
@@ -59,7 +59,7 @@ const SongList = styled((props: SongListProps = {}) => {
     <div className={className}>
       {songs.length === 0 ? (
         <div>{`No result...! :'{`}</div>
-      ) : songs.map((song: SongDocument) => (
+      ) : songs.map((song: SongDocumentData) => (
           <Chip
             className={itemClassNames(song.id)}
             key={song.id}

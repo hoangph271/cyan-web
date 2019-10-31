@@ -1,11 +1,11 @@
-interface FirestoreDocument {
+interface FirestoreDocumentData {
   id: string,
 }
 interface Artist {
   title?: string,
   avatarURL?: string,
 }
-interface ArtistDocument extends Artist {
+interface ArtistDocumentData extends Artist {
   id: string,
 }
 interface Song {
@@ -14,7 +14,7 @@ interface Song {
   audio?: File | null,
   audioURL?: string,
 }
-interface SongDocument extends Song {
+interface SongDocumentData extends Song {
   id: string,
 }
 type UserInfo = {

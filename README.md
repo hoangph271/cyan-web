@@ -3,7 +3,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## TODO:
 * [✔] Allow uploading audios for uploaders
 * [✔] List all songs
-* [NEED] Delete songs
+* [✔] Delete songs
 * [NEED] Store songs' artist ids & titles separately, for using array-contains
 * [✔] Routing your app, but keep @reach/router away from it...!
 // Damn @reach/router with those stupid divs...! :"{

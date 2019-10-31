@@ -12,7 +12,7 @@ type SearchCollectionFormProps = {
   className?: string,
   firebaseCollection: () => firebase.firestore.CollectionReference,
   sortField?: string,
-  buildItems: (items: FirestoreDocument[]) => ReactNode[] | React.ReactNode,
+  buildItems: (items: FirestoreDocumentData[]) => ReactNode[] | React.ReactNode,
   resultLimit?: number,
 }
 const SearchCollectionForm = (props: SearchCollectionFormProps = {} as SearchCollectionFormProps) => {
@@ -21,7 +21,7 @@ const SearchCollectionForm = (props: SearchCollectionFormProps = {} as SearchCol
 
   const [isSearching, setIsSearching] = useState(true)
   const [keyword, , setKeyword] = useInput('', { transformer: str => str.toLowerCase() })
-  const [founds, setFounds] = useState<FirestoreDocument[]>([])
+  const [founds, setFounds] = useState<FirestoreDocumentData[]>([])
 
   const handleSearch = useCallback(setKeyword, [setKeyword])
 

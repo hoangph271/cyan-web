@@ -42,7 +42,7 @@ const UploadSong = (props: UploadSongProps) => {
         title,
         keywords,
         audioURL,
-        artists: artists.map((artist: ArtistDocument) => ({ id: artist.id, title: artist.title }))
+        artists,
       })
 
       resetForm()

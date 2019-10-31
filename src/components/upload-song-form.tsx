@@ -23,7 +23,7 @@ const UploadSongForm = (props: UploadSongFormProps) => {
 
   const audioRef = useRef<HTMLInputElement>(null)
   const { showToast } = useModal()
-  const [artists, setArtists] = useState<ArtistDocument[]>([])
+  const [artists, setArtists] = useState<ArtistDocumentData[]>([])
   const [fileKey, setFileKey] = useState(Date.now())
   const [title, handleTitleChange, setTitle] = useInput('')
 

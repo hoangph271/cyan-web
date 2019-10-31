@@ -6,20 +6,20 @@ const TOAST_DURATION_MS = 3 * 1000
 type ToastProps = {
   children?: ReactNode,
   className?: string,
+  type?: string,
   onDismiss?: () => void,
 }
 const Toast = (props: ToastProps = {}) => {
-  const { className, children } = props
-  const { onDismiss = () => {} } = props
+  const { className, children, type, onDismiss } = props
 
   useEffect(() => {
-    const timeout = setTimeout(onDismiss, TOAST_DURATION_MS)
+    const timeout = onDismiss && setTimeout(onDismiss, TOAST_DURATION_MS)
 
     return () => clearTimeout(timeout)
   }, [onDismiss, children])
 
   return (
-    <div className={className}>
+    <div className={`${className} type-${type || 'info'}`}>
       {children}
     </div>
   )
@@ -38,6 +38,10 @@ export default styled(Toast)`
   bottom: 30px;
   color: #fff;
   left: 50%;
+
+  &.type-error {
+    rgba(214, 48, 49, 0.7)
+  }
 
   @keyframes fadein {
     from { bottom: 0; opacity: 0; }

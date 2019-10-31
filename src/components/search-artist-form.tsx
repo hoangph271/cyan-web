@@ -35,7 +35,7 @@ export default styled(SearchArtistForm)`
 
 type ArtistListProps = {
   className?: string,
-  artists: ArtistDocument[],
+  artists: ArtistDocumentData[],
   onArtistClick?: (artist: Artist) => void,
 }
 const ArtistList = styled((props: ArtistListProps) => {
@@ -46,7 +46,7 @@ const ArtistList = styled((props: ArtistListProps) => {
       {artists.length === 0 ? (
         <div>{`No result...! :'{`}</div>
       ) : (
-        artists.map((artist: ArtistDocument) => (
+        artists.map((artist: ArtistDocumentData) => (
           <ArtistCard
             key={artist.id}
             artist={artist}

@@ -14,11 +14,15 @@ type ModalContextProps = {
 const ModalContext = createContext<ModalContextProps>({} as ModalContextProps)
 
 const ModalProvider = styled(({ children, className }) => {
+  const [toastType, setToastType] = useState<string>('info')
   const [toastContent, setToastContent] = useState<string | null>(null)
   const [dialogContent, setDialogContent] = useState<ReactNode>(null)
   const dialogRef = useRef<HTMLDialogElement>(null)
 
-  const showToast = useCallback((text: string) => { setToastContent(text) }, [setToastContent])
+  const showToast = useCallback((text: string, type?: string) => {
+    setToastContent(text)
+    setToastType(type || 'info')
+  }, [setToastContent])
   const onToastDismiss = useCallback(() => setToastContent(null), [setToastContent])
   const showDialog = useCallback((content: ReactNode) => {
     if (dialogContent !== null) {
@@ -39,7 +43,7 @@ const ModalProvider = styled(({ children, className }) => {
       <>
         {ReactDOM.createPortal((
           <div className={className}>
-            {toastContent && <Toast children={toastContent} onDismiss={onToastDismiss} />}
+            {toastContent && <Toast type={toastType} children={toastContent} onDismiss={onToastDismiss} />}
             <dialog className="dialog" ref={dialogRef}>
               {dialogContent}
             </dialog>
