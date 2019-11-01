@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
-import { usePlayingSong } from '../hooks/player'
 import { songsCollection } from '../utils/firebase'
+import { MinWidths } from '../utils/constants'
 
-import Chip from './chip'
+import SongCard from './song-card'
 import SearchCollectionForm from './search-collection-form'
 
 type SearchSongFormProps = {
@@ -45,37 +45,38 @@ type SongListProps = {
 const SongList = styled((props: SongListProps = {}) => {
   const { className, songs = [], onSongClick, onSongDoubleClick } = props
 
-  const { isPlaying, currentSongId } = usePlayingSong()
-  const itemClassNames = useCallback(songId => {
-    const isCurrentSong = currentSongId === songId
-
-    const currentSongCN = isCurrentSong ? 'current-song' : ''
-    const playingCN = isCurrentSong && isPlaying ? 'playing' : ''
-
-    return [currentSongCN, playingCN].join(' ')
-  }, [isPlaying, currentSongId])
-
   return (
     <div className={className}>
       {songs.length === 0 ? (
         <div>{`No result...! :'{`}</div>
-      ) : songs.map((song: SongDocumentData) => (
-          <Chip
-            className={itemClassNames(song.id)}
-            key={song.id}
-            onClick={() => onSongClick && onSongClick(song)}
-            onDoubleClick={() => onSongDoubleClick && onSongDoubleClick(song)}
-          >
-            {`${song.title} - ${song.artists && song.artists.map((artist: Artist) => artist.title).join(', ')}`}
-          </Chip>
-      ))}
+      ) : (
+        <div className="songs-container">
+          {songs.map(song => (
+            <SongCard
+              key={song.id}
+              song={song}
+              onClick={onSongClick}
+              onDoubleClick={onSongDoubleClick}
+            />
+          ))}
+        </div>
+      )}
     </div>
   )
 })`
-  .current-song {
-    box-shadow: ${props => props.theme.deepCurrentShadow};
-  }
-  .current-song.playing {
-    box-shadow: ${props => props.theme.deepSelectedShadow};
+  .songs-container {
+    display: grid;
+    grid-gap: ${props => props.theme.deepMargin};
+    grid-template-columns: repeat(1, 1fr);
+
+    @media ${MinWidths.MEDIUM} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media ${MinWidths.LARGE} {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media ${MinWidths.EXTRA} {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 `

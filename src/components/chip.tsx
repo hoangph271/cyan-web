@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { SyntheticEvent } from 'react'
 import styled from 'styled-components'
 
 type ChipProps = {
   className?: string,
   children?: React.ReactChildren | string,
-  onClick?: () => void,
-  onDoubleClick?: () => void,
+  onClick?: (e: SyntheticEvent) => void,
+  onDoubleClick?: (e: SyntheticEvent) => void,
 }
 const Chip = (props: ChipProps = {}) => {
   const { className, children, onClick, onDoubleClick } = props
