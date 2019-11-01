@@ -15,7 +15,8 @@
         "no-unused-expression": false,
         "no-console": false,
         "no-shadowed-variable": false,
-        "arrow-parens": [true, "ban-single-arg-parens"]
+        "arrow-parens": [true, "ban-single-arg-parens"],
+        "no-bitwise": false
     },
     "rulesDirectory": []
 }
