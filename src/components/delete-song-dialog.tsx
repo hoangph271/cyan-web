@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 import firebase from 'firebase'
 
 import { songsCollection } from '../utils/firebase'
+import { useMounted } from '../hooks/utils'
 import { useModal } from '../hooks/modal'
 
 import ZenCircle from '../components/zen-circle'
@@ -14,6 +15,7 @@ type DeleteSongDialogProps = {
 const DeleteSongDialog = (props: DeleteSongDialogProps) => {
   const { className, songId, onFinish } = props
 
+  const mounted = useMounted()
   const { showToast } = useModal()
 
   const [song, setSong] = useState<SongDocumentData | null>(null)
@@ -33,8 +35,10 @@ const DeleteSongDialog = (props: DeleteSongDialogProps) => {
       console.error(error)
     }
 
-    setIsDeletingSong(false)
-    onFinish(songId)
+    if (mounted.current) {
+      setIsDeletingSong(false)
+      onFinish(songId)
+    }
   }, [onFinish, isDeletingSong, setIsDeletingSong])
 
   useEffect(() => {

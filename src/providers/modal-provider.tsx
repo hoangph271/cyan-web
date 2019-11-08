@@ -44,7 +44,7 @@ const ModalProvider = styled(({ children, className }) => {
         {ReactDOM.createPortal((
           <div className={className}>
             {toastContent && <Toast type={toastType} children={toastContent} onDismiss={onToastDismiss} />}
-            <dialog className="dialog" ref={dialogRef}>
+            <dialog className="dialog" ref={dialogRef} onClick={closeDialog}>
               {dialogContent}
             </dialog>
           </div>
