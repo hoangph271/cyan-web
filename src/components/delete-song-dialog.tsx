@@ -39,7 +39,7 @@ const DeleteSongDialog = (props: DeleteSongDialogProps) => {
       setIsDeletingSong(false)
       onFinish(songId)
     }
-  }, [onFinish, isDeletingSong, setIsDeletingSong])
+  }, [onFinish, isDeletingSong, setIsDeletingSong, mounted])
 
   useEffect(() => {
     songsCollection()
