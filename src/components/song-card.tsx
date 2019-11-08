@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
 import { usePlayingSong } from '../hooks/player'
@@ -10,15 +10,21 @@ type SongCardProps = {
   className?: string,
   song: SongDocumentData,
   onClick?: (song: SongDocumentData) => void,
-  onDoubleClick?: (song: SongDocumentData) => void,
+  onContextMenu?: (song: SongDocumentData) => void,
 }
 const SongCard = (props: SongCardProps) => {
-  const { className = '', song, onClick, onDoubleClick } = props
+  const { className = '', song, onClick, onContextMenu } = props
 
   const { currentSongId, isPlaying } = usePlayingSong()
 
   const { artists = [] } = song
   const isCurrentSong = currentSongId === song.id
+
+  const handleContextMenu = useCallback((e) => {
+    e.preventDefault()
+
+    onContextMenu && onContextMenu(song)
+  }, [])
 
   const classNames = [
     className,
@@ -30,12 +36,14 @@ const SongCard = (props: SongCardProps) => {
     <Card
       className={classNames}
       onClick={() => onClick && onClick(song)}
-      onDoubleClick={() => onDoubleClick && onDoubleClick(song)}
+      onContextMenu={handleContextMenu}
     >
       <h4>{song.title}</h4>
       <div>
         {artists.length ? artists.map(artist => (
-          <Chip onClick={e => e.stopPropagation() /* TODO: */} className="artist-title" key={artist.avatarURL}>
+          <Chip
+            onClick={e => e.stopPropagation() /* TODO: */}
+            className="artist-title" key={artist.avatarURL}>
             {artist.title}
           </Chip>
         )) : (

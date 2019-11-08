@@ -11,10 +11,10 @@ type SearchSongFormProps = {
   className?: string,
   resultLimit?: number,
   onSongClick?: (song: SongDocumentData) => void,
-  onSongDoubleClick?: (song: SongDocumentData) => void,
+  onContextMenu?: (song: SongDocumentData) => void,
 }
 const SearchSongForm = (props: SearchSongFormProps = {}) => {
-  const { className, resultLimit, onSongClick, onSongDoubleClick } = props
+  const { className, resultLimit, onSongClick, onContextMenu } = props
 
   return (
     <SearchCollectionForm
@@ -26,7 +26,7 @@ const SearchSongForm = (props: SearchSongFormProps = {}) => {
         <SongList
           songs={items}
           onSongClick={onSongClick}
-          onSongDoubleClick={onSongDoubleClick}
+          onContextMenu={onContextMenu}
         />
       )}
     />
@@ -40,10 +40,10 @@ type SongListProps = {
   className?: string,
   songs?: SongDocumentData[],
   onSongClick?: (song: SongDocumentData) => void,
-  onSongDoubleClick?: (song: SongDocumentData) => void,
+  onContextMenu?: (song: SongDocumentData) => void,
 }
 const SongList = styled((props: SongListProps = {}) => {
-  const { className, songs = [], onSongClick, onSongDoubleClick } = props
+  const { className, songs = [], onSongClick, onContextMenu } = props
 
   return (
     <div className={className}>
@@ -56,7 +56,7 @@ const SongList = styled((props: SongListProps = {}) => {
               key={song.id}
               song={song}
               onClick={onSongClick}
-              onDoubleClick={onSongDoubleClick}
+              onContextMenu={onContextMenu}
             />
           ))}
         </div>

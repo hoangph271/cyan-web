@@ -20,7 +20,7 @@ const ListAll = (props: ListAllProps = {}) => {
 
   const handleSongDeleted = useCallback((deletedSongId?: string) => {
     if (deletedSongId) {
-       setReloadKey(generateUUID())
+      setReloadKey(generateUUID())
     }
 
     closeDialog()
@@ -28,7 +28,7 @@ const ListAll = (props: ListAllProps = {}) => {
   const handleSongClick = useCallback((song: SongDocumentData) => {
     currentSongId === song.id ? toggleAudio() : startSong(song)
   }, [currentSongId, startSong, toggleAudio])
-  const handleSongDoubleClick = useCallback((song: SongDocumentData) => {
+  const handleSongContextMenu = useCallback((song: SongDocumentData) => {
     stopSong()
     showDialog(<DeleteSongDialog songId={song.id} onFinish={handleSongDeleted} />)
   }, [stopSong, handleSongDeleted, showDialog])
@@ -38,7 +38,7 @@ const ListAll = (props: ListAllProps = {}) => {
       <SearchSongForm
         key={reloadKey}
         onSongClick={handleSongClick}
-        onSongDoubleClick={handleSongDoubleClick}
+        onContextMenu={handleSongContextMenu}
       />
     </main>
   )

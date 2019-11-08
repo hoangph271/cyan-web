@@ -6,11 +6,11 @@ type CardProps = {
   type?: string,
   children?: ReactNode,
   onClick?: (e: SyntheticEvent) => void,
-  onDoubleClick?: (e: SyntheticEvent) => void,
+  onContextMenu?: (e: SyntheticEvent) => void,
 }
 
 const Card = (props: CardProps) => {
-  const { className, type, children, onClick, onDoubleClick } = props
+  const { className, type, children, onClick, onContextMenu } = props
 
   const classNames = [className, type]
     .filter(Boolean)
@@ -20,7 +20,7 @@ const Card = (props: CardProps) => {
     <article
       className={classNames}
       onClick={onClick}
-      onDoubleClick={onDoubleClick}
+      onContextMenu={onContextMenu}
     >
       {children}
     </article>
