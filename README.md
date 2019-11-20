@@ -7,9 +7,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 * [NEED] Store songs' artist ids & titles separately, for using array-contains
 * [✔] Routing your app, but keep @reach/router away from it...!
 // Damn @reach/router with those stupid divs...! :"{
-* [1/2] Toast & Dialog components
-* Allow removing audio & artists for uploaders
-* Allow creating playlists for members
+* [✔] Toast & Dialog components
+* [1/2] Allow removing audio & artists for uploaders
+* [N/A] Allow creating playlists for members
 
 ## Available Scripts
 
